@@ -42,15 +42,18 @@ def act(self, game_state: dict) -> str:
     :param game_state: The dictionary that describes everything on the board.
     :return: The action to take as a string.
     """
-    # todo Exploration vs exploitation
-    random_prob = .1
-    if self.train and random.random() < random_prob:
-        self.logger.debug("Choosing action purely at random.")
-        # 80%: walk in any direction. 10% wait. 10% bomb.
-        return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .1, .1])
+    #Calculate Q
+    self.Q = q_function(game_state, self.weights) #Does it make sense to store Q here? -> Look at raining to figure out.
 
-    self.logger.debug("Querying model for action.")
-    return np.random.choice(ACTIONS, p=self.model)
+    # todo Exploration vs exploitation
+    if self.train and random.random() < self.epsilon:
+        self.logger.debug("Training Mode, Exploration: Choosing action purely at random.")
+        # 80%: walk in any direction. 10% wait. 10% bomb.
+        return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .1, .1]) #CHANGE THESE?
+    else:
+        self.logger.debug("Training Mode / Playing: Choosing action based on max Q.")
+        action_index = np.argmax(self.Q)
+        return ACTIONS[action_index]
 
 
 def state_to_features(game_state: dict) -> np.array:
@@ -86,9 +89,11 @@ def q_function(self, game_state: dict, weights) -> np.array:
     """
 
     features = state_to_features(game_state)
+    self.logger.info("Calculating q-function.")
     Q = [np.sum(features*weights[i]) for i in len(ACTIONS)]
 
     return np.array(Q)
+
 
 
 
