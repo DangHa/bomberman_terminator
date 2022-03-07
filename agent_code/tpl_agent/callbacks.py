@@ -42,6 +42,7 @@ def act(self, game_state: dict) -> str:
     :param game_state: The dictionary that describes everything on the board.
     :return: The action to take as a string.
     """
+    
     #Calculate Q
     self.Q = q_function(self, game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
 
@@ -55,7 +56,7 @@ def act(self, game_state: dict) -> str:
         return ACTIONS[action_index]
 
 
-def state_to_features(game_state: dict) -> np.array:
+def state_to_features(self,game_state: dict) -> np.array:
     """
     Converts the game state to the input of your model, i.e.
     a feature vector.
@@ -67,14 +68,16 @@ def state_to_features(game_state: dict) -> np.array:
     :param game_state:  A dictionary describing the current game board.
     :return: np.array
     """
+
     # This is the dict before the game begins and after it ends
     if game_state is None:
+        self.logger.debug("Game_state is None.")
         return None
-
-    features = np.zeros(len(FEATURES))
-    features[0] = 0 #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
-    features[1] = 0
-    return features
+    else: 
+        features = np.zeros(len(FEATURES))
+        features[0] = 0 #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
+        features[1] = 0
+        return features
 
 def q_function(self, game_state: dict, weights) -> np.array:
 
@@ -87,7 +90,7 @@ def q_function(self, game_state: dict, weights) -> np.array:
            
     """
 
-    features = state_to_features(game_state)
+    features = state_to_features(self,game_state)
     self.logger.info("Calculating q-function values.")
     Q = [np.sum(features*weights[i]) for i in range(len(ACTIONS))]
 

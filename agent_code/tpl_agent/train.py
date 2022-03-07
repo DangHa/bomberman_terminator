@@ -4,13 +4,13 @@ import pickle
 from typing import List
 
 import events as e
-from .callbacks import ACTIONS, FEATURES, state_to_features
+from .callbacks import ACTIONS, FEATURES, q_function, state_to_features
 
 import numpy as np
 
 # This is only an example!
 Transition = namedtuple('Transition',
-                        ('state', 'action', 'next_state', 'reward'))
+                        ('state','weights', 'action', 'next_state', 'reward'))
 
 # Hyper parameters -- DO modify
 TRANSITION_HISTORY_SIZE = 3  # keep only ... last transitions
@@ -32,7 +32,6 @@ def setup_training(self):
     self.epsilon = 0
     self.alpha = 0
     self.gamma = 0
-    self.transition_params = (np.zeros(len(FEATURES)), 0, 0, np.zeros(len(FEATURES))) #s,a,R,s'
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
     self.logger.info("Training setup.")
 
@@ -46,8 +45,6 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     settings.py to see what events are tracked. You can hand out rewards to your
     agent based on these events and your knowledge of the (new) game state.
 
-    This is *one* of the places where you could update your agent.
-
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     :param old_game_state: The state that was passed to the last call of `act`.
     :param self_action: The action that you took.
@@ -60,10 +57,21 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     if ...:
         events.append(PLACEHOLDER_EVENT)
 
-    # state_to_features is defined in callbacks.py
-    self.transitions.append(Transition(state_to_features(old_game_state), self_action, state_to_features(new_game_state), reward_from_events(self, events)))
+    action_index = action_to_index(self_action)
+    s = state_to_features(self,old_game_state)
+    R = reward_from_events(self,events)
 
-    #Update beta here!!
+    if old_game_state is None:
+        new_weight = self.weights[action_index]
+        self.logger.debug("Model was not updated, because old_game_state is None.")
+    else:
+        q_temp = q_function(self,new_game_state,self.weights)
+        new_weight = self.weights[action_index] + self.alpha * s * (R+self.gamma*np.max(q_temp)-self.q_values[action_index])
+
+    transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
+    self.transitions.append(transition)
+    self.weights[action_index] = new_weight
+    
 
 
 def end_of_round(self, last_game_state: dict, last_action: str, events: List[str]):
@@ -74,17 +82,16 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
     This is similar to game_events_occurred. self.events will contain all events that
     occurred during your agent's final step.
 
-    This is *one* of the places where you could update your agent.
     This is also a good place to store an agent that you updated.
 
     :param self: The same object that is passed to all of your callbacks.
     """
     self.logger.debug(f'Encountered event(s) {", ".join(map(repr, events))} in final step')
-    self.transitions.append(Transition(state_to_features(last_game_state), last_action, None, reward_from_events(self, events)))
+    self.transitions.append(Transition(state_to_features(self,last_game_state), self.weights, last_action, None, reward_from_events(self, events)))
 
     # Store the model
     with open("my-saved-model.pt", "wb") as file:
-        pickle.dump(self.model, file)
+        pickle.dump(self.weights, file)
 
 
 def reward_from_events(self, events: List[str]) -> int:
@@ -125,3 +132,7 @@ def reward_from_events(self, events: List[str]) -> int:
             reward_sum += game_rewards[event]
     self.logger.info(f"Awarded {reward_sum} for events {', '.join(events)}")
     return reward_sum
+
+def action_to_index(action: str):
+    return ACTIONS.index(action)
+
