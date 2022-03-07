@@ -76,6 +76,15 @@ def state_to_features(game_state: dict) -> np.array:
 
 def q_function(self, game_state: dict, weights) -> np.array:
 
+    """
+    Calculates Q-value of linear regression
+
+    :param game_state: A dictionary describing the current game board.
+    :param weights: A numpy array of weigh vectors used for the linear regression (one for each action).
+    :return: np.array 
+           
+    """
+
     features = state_to_features(game_state)
     Q = [np.sum(features*weights[i]) for i in len(ACTIONS)]
 
