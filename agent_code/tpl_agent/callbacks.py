@@ -26,7 +26,7 @@ def setup(self):
     if self.train or not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
         self.weights = np.random.rand(len(FEATURES),len(ACTIONS))
-        self.q_function = np.zeros(len(ACTIONS))
+        self.q_values = np.zeros(len(ACTIONS))
     else:
         self.logger.info("Loading model from saved state.")
         with open("my-saved-model.pt", "rb") as file:
@@ -73,4 +73,15 @@ def state_to_features(game_state: dict) -> np.array:
     features[0] = ... #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
     features[1] = ...
     return features
+
+def q_function(self, game_state: dict, weights) -> np.array:
+
+    features = state_to_features(game_state)
+    Q = []
+    for beta in weights:
+        Q.append(np.sum(features*beta))
+
+    return np.array(Q)
+
+
 
