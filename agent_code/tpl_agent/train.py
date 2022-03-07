@@ -56,12 +56,14 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     """
     self.logger.debug(f'Encountered game event(s) {", ".join(map(repr, events))} in step {new_game_state["step"]}')
 
-    # Idea: Add your own events to hand out rewards
+    # ToDO: Add your own events to hand out rewards
     if ...:
         events.append(PLACEHOLDER_EVENT)
 
     # state_to_features is defined in callbacks.py
     self.transitions.append(Transition(state_to_features(old_game_state), self_action, state_to_features(new_game_state), reward_from_events(self, events)))
+
+    #Update beta here!!
 
 
 def end_of_round(self, last_game_state: dict, last_action: str, events: List[str]):
@@ -87,15 +89,35 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
 
 def reward_from_events(self, events: List[str]) -> int:
     """
-    *This is not a required function, but an idea to structure your code.*
-
     Here you can modify the rewards your agent get so as to en/discourage
     certain behavior.
     """
+    #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.COIN_COLLECTED: 1,
-        e.KILLED_OPPONENT: 5,
-        PLACEHOLDER_EVENT: -.1  # idea: the custom event is bad
+        e.MOVED_LEFT: 0,
+        e.MOVED_RIGHT: 0,
+        e.MOVED_UP: 0,
+        e.MOVED_DOWN: 0,
+
+        e.WAITED: 0,
+        e.INVALID_ACTION: 0,
+
+        e.BOMB_DROPPED: 0,
+        e.BOMB_EXPLODED: 0,
+
+        e.CRATE_DESTROYED: 0,
+        e.COIN_FOUND: 0,
+        e.COIN_COLLECTED:0,
+
+        e.KILLED_OPPONENT: 0,
+        e.OPPONENT_ELIMINATED: 0,
+
+        e.KILLED_SELF: 0,
+        e.GOT_KILLED: 0,
+
+        e.SURVIVED_ROUND: 0,
+
+        PLACEHOLDER_EVENT: 0  # ADD CUSTOM EVENTS?
     }
     reward_sum = 0
     for event in events:

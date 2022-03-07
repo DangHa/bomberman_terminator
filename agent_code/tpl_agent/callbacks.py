@@ -88,8 +88,7 @@ def q_function(self, game_state: dict, weights) -> np.array:
     """
 
     features = state_to_features(game_state)
-    self.logger.info("Calculating q-function.")
-    print(weights)
+    self.logger.info("Calculating q-function values.")
     Q = [np.sum(features*weights[i]) for i in range(len(ACTIONS))]
 
     return np.array(Q)
