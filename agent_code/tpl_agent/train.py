@@ -34,6 +34,7 @@ def setup_training(self):
     self.gamma = 0
     self.transition_params = (np.zeros(len(FEATURES)), 0, 0, np.zeros(len(FEATURES))) #s,a,R,s'
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
+    self.logger.info("Training setup.")
 
 
 def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_state: dict, events: List[str]):

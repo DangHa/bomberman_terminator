@@ -25,7 +25,7 @@ def setup(self):
     """
     if self.train or not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
-        self.weights = np.random.rand(len(FEATURES),len(ACTIONS))
+        self.weights = np.random.rand(len(ACTIONS),len(FEATURES))
         self.q_values = np.zeros(len(ACTIONS))
     else:
         self.logger.info("Loading model from saved state.")
@@ -43,7 +43,7 @@ def act(self, game_state: dict) -> str:
     :return: The action to take as a string.
     """
     #Calculate Q
-    self.Q = q_function(game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
+    self.Q = q_function(self, game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
 
     if self.train and random.random() < self.epsilon:
         self.logger.debug("Training Mode (Exploration): Choosing action purely at random.")
@@ -72,8 +72,8 @@ def state_to_features(game_state: dict) -> np.array:
         return None
 
     features = np.zeros(len(FEATURES))
-    features[0] = ... #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
-    features[1] = ...
+    features[0] = 0 #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
+    features[1] = 0
     return features
 
 def q_function(self, game_state: dict, weights) -> np.array:
@@ -89,7 +89,8 @@ def q_function(self, game_state: dict, weights) -> np.array:
 
     features = state_to_features(game_state)
     self.logger.info("Calculating q-function.")
-    Q = [np.sum(features*weights[i]) for i in len(ACTIONS)]
+    print(weights)
+    Q = [np.sum(features*weights[i]) for i in range(len(ACTIONS))]
 
     return np.array(Q)
 
