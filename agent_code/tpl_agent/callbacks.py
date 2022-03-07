@@ -43,15 +43,14 @@ def act(self, game_state: dict) -> str:
     :return: The action to take as a string.
     """
     #Calculate Q
-    self.Q = q_function(game_state, self.weights) #Does it make sense to store Q here? -> Look at raining to figure out.
+    self.Q = q_function(game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
 
-    # todo Exploration vs exploitation
     if self.train and random.random() < self.epsilon:
-        self.logger.debug("Training Mode, Exploration: Choosing action purely at random.")
+        self.logger.debug("Training Mode (Exploration): Choosing action purely at random.")
         # 80%: walk in any direction. 10% wait. 10% bomb.
         return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .1, .1]) #CHANGE THESE?
     else:
-        self.logger.debug("Training Mode / Playing: Choosing action based on max Q.")
+        self.logger.debug("Training Mode (Exploitation) / Playing: Choosing action based on max Q.")
         action_index = np.argmax(self.Q)
         return ACTIONS[action_index]
 
