@@ -77,9 +77,7 @@ def state_to_features(game_state: dict) -> np.array:
 def q_function(self, game_state: dict, weights) -> np.array:
 
     features = state_to_features(game_state)
-    Q = []
-    for beta in weights:
-        Q.append(np.sum(features*beta))  #This should tried to be vectorized!
+    Q = [np.sum(features*weights[i]) for i in len(ACTIONS)]
 
     return np.array(Q)
 
