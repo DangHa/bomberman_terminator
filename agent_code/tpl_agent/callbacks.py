@@ -6,6 +6,7 @@ import numpy as np
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
+FEATURES = ['F1', 'F2', 'F3', 'F4'] #Replace with actual feature names
 
 
 def setup(self):
@@ -24,8 +25,8 @@ def setup(self):
     """
     if self.train or not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
-        weights = np.random.rand(len(ACTIONS))
-        self.model = weights / weights.sum()
+        self.weights = np.random.rand(len(FEATURES),len(ACTIONS))
+        self.q_function = np.zeros(len(ACTIONS))
     else:
         self.logger.info("Loading model from saved state.")
         with open("my-saved-model.pt", "rb") as file:
@@ -54,8 +55,6 @@ def act(self, game_state: dict) -> str:
 
 def state_to_features(game_state: dict) -> np.array:
     """
-    *This is not a required function, but an idea to structure your code.*
-
     Converts the game state to the input of your model, i.e.
     a feature vector.
 
@@ -70,10 +69,8 @@ def state_to_features(game_state: dict) -> np.array:
     if game_state is None:
         return None
 
-    # For example, you could construct several channels of equal shape, ...
-    channels = []
-    channels.append(...)
-    # concatenate them as a feature tensor (they must have the same shape), ...
-    stacked_channels = np.stack(channels)
-    # and return them as a vector
-    return stacked_channels.reshape(-1)
+    features = np.zeros(len(FEATURES))
+    features[0] = ... #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
+    features[1] = ...
+    return features
+

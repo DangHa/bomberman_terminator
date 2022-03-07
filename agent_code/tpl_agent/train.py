@@ -4,7 +4,9 @@ import pickle
 from typing import List
 
 import events as e
-from .callbacks import state_to_features
+from .callbacks import ACTIONS, FEATURES, state_to_features
+
+import numpy as np
 
 # This is only an example!
 Transition = namedtuple('Transition',
@@ -26,8 +28,11 @@ def setup_training(self):
 
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     """
-    # Example: Setup an array that will note transition tuples
-    # (s, a, r, s')
+    #For now I'm initializing everything to zero
+    self.epsilon = 0
+    self.alpha = 0
+    self.gamma = 0
+    self.transition_params = (np.zeros(len(FEATURES)), 0, 0, np.zeros(len(FEATURES))) #s,a,R,s'
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
 
 
