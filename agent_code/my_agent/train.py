@@ -6,6 +6,8 @@ from typing import List
 import events as e
 from .callbacks import state_to_features
 
+import numpy as np
+
 # This is only an example!
 Transition = namedtuple('Transition',
                         ('state', 'action', 'next_state', 'reward'))
@@ -25,9 +27,11 @@ def setup_training(self):
     """
     # hyper-parameter
     self.alpha = 0.01 # learning rate
+    self.gamma = 0.01 # discount rate
 
     # initial parameter
-    self.beta = 0
+    self.weights = np.random.rand(TRANSITION_HISTORY_SIZE, 6) # beta - weights for each feature (score, bombs_left, bomb_maps, coins)
+    
 
     # Example: Setup an array that will note transition tuples
     # (s, a, r, s')
@@ -53,6 +57,9 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     """
     self.logger.debug(f'Encountered game event(s) {", ".join(map(repr, events))} in step {new_game_state["step"]}')
 
+    # calclute Q at this sate
+    old_features = state_to_features(old_game_state)
+    # old_Q = old_features*self.weights
 
     # Idea: Add your own events to hand out rewards -> get reward
     reward_sum = reward_from_events(self, events)

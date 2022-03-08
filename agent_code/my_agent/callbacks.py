@@ -5,7 +5,7 @@ import random
 import numpy as np
 
 
-ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAITED']
+ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAITED', 'BOMB']
 
 def setup(self):
     """
@@ -40,12 +40,16 @@ def act(self, game_state: dict) -> str:
     :param game_state: The dictionary that describes everything on the board.
     :return: The action to take as a string.
     """
+    # print("Transitions: ", self.transitions)
+    # print("Weights: ", self.weights)
+    # calculate the Q with state_to_features from self.transition and self.weights
+
     # todo Exploration vs exploitation
     random_prob = .1
     if self.train and random.random() < random_prob:
         self.logger.debug("Choosing action purely at random.")
         # 80%: walk in any direction. 10% wait. 10% bomb.
-        return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .2])
+        return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .2, 0])
 
     self.logger.debug("Querying model for action.")
     return np.random.choice(ACTIONS, p=self.model)
@@ -72,7 +76,7 @@ def state_to_features(game_state: dict) -> np.array:
 
     # Features from s
     arena = game_state['field']
-    _, score, bombs_left, (x, y) = game_state['self']
+    _, score, bombs_left, (agent_x, agent_y) = game_state['self']
     bombs = game_state['bombs']
     bomb_xys = [xy for (xy, t) in bombs]
     others = [xy for (n, s, b, xy) in game_state['others']]
@@ -84,14 +88,34 @@ def state_to_features(game_state: dict) -> np.array:
             if (0 < i < bomb_map.shape[0]) and (0 < j < bomb_map.shape[1]):
                 bomb_map[i, j] = min(bomb_map[i, j], t)
 
-    print("bom map: ", bomb_map)
-    print("-----------------------------------------------------")
+    coin_direction = look_for_coins([agent_x, agent_y], coins)
+
     # the features can be used are score, bombs_left, bomb_maps, coins
 
-    # For example, you could construct several channels of equal shape, ...
-    channels = []
-    channels.append(...)
-    # concatenate them as a feature tensor (they must have the same shape), ...
-    stacked_channels = np.stack(channels)
-    # and return them as a vector
-    return stacked_channels.reshape(-1)
+    features = [score, bombs_left, bomb_map, coin_direction] 
+
+    features = [0, 0, 0, 0]
+    return features
+
+def look_for_coins(agent_location, coin_locations):
+    coin_direction = np.zeros(6)
+    closest_coin = None
+    closest_dist = 100
+
+    # find the closest coin
+    for coin_x, coin_y in coin_locations:
+        dist = np.linalg.norm([coin_x - agent_location[0], coin_y - agent_location[1]])
+        if dist < closest_dist:
+            closest_dist = dist 
+            closest_coin = [coin_x, coin_y]
+
+    # the next direction to be closer to the closest coin
+    if closest_coin is not None:
+        x, y = closest_coin
+        if   x - agent_location[0] > 0: coin_direction[0] = 1   # DOWN
+        elif x - agent_location[0] < 0: coin_direction[1] = 1   # UP
+
+        if   y - agent_location[1] > 0: coin_direction[2] = 1   # RIGHT
+        elif y - agent_location[1] < 0: coin_direction[3] = 1   # LEFT
+
+    return coin_direction
