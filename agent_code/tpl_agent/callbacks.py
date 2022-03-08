@@ -6,7 +6,7 @@ import numpy as np
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = ['F1', 'F2', 'F3', 'F4'] #Replace with actual feature names
+FEATURES = ['up_free', 'right_free', 'down_free', 'left_free']  #Add feature names
 
 
 def setup(self):
@@ -30,7 +30,7 @@ def setup(self):
     else:
         self.logger.info("Loading model from saved state.")
         with open("my-saved-model.pt", "rb") as file:
-            self.model = pickle.load(file)
+            self.weights = pickle.load(file)
 
 
 def act(self, game_state: dict) -> str:
@@ -49,7 +49,7 @@ def act(self, game_state: dict) -> str:
     if self.train and random.random() < self.epsilon:
         self.logger.debug("Training Mode (Exploration): Choosing action purely at random.")
         # 80%: walk in any direction. 10% wait. 10% bomb.
-        return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .1, .1]) #CHANGE THESE?
+        return np.random.choice(ACTIONS, p=[.25, .25, .25, .25, 0, 0]) #PHASE 1 (No crates yet)
     else:
         self.logger.debug("Training Mode (Exploitation) / Playing: Choosing action based on max Q.")
         action_index = np.argmax(self.Q)
@@ -73,10 +73,18 @@ def state_to_features(self,game_state: dict) -> np.array:
     if game_state is None:
         self.logger.debug("Game_state is None.")
         return None
+
     else: 
+        #Extracting relevant game_state values
+        agent_coord_x = game_state['self'][3][0]
+        agent_coord_y = game_state['self'][3][1]
+
+        #Engineering features
         features = np.zeros(len(FEATURES))
-        features[0] = 0 #E.g.: game_state['coins'][0]+game_state['self'][3][0] <- just random numbers as example
-        features[1] = 0
+        features[0] = game_state['field'][agent_coord_x][agent_coord_y+1]
+        features[1] = game_state['field'][agent_coord_x+1][agent_coord_y]
+        features[2] = game_state['field'][agent_coord_x][agent_coord_y-1]
+        features[3] = game_state['field'][agent_coord_x-1][agent_coord_y]
         return features
 
 def q_function(self, game_state: dict, weights) -> np.array:

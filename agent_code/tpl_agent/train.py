@@ -29,9 +29,9 @@ def setup_training(self):
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     """
     #For now I'm initializing everything to zero
-    self.epsilon = 0
-    self.alpha = 0
-    self.gamma = 0
+    self.epsilon = 0.1
+    self.alpha = 0.5
+    self.gamma = 0.5
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
     self.logger.info("Training setup.")
 
@@ -58,17 +58,20 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         events.append(PLACEHOLDER_EVENT)
 
     action_index = action_to_index(self_action)
-    s = state_to_features(self,old_game_state)
     R = reward_from_events(self,events)
 
     if old_game_state is None:
         new_weight = self.weights[action_index]
         self.logger.debug("Model was not updated, because old_game_state is None.")
+        transition = Transition(state_to_features(self,old_game_state), self.weights, self_action, state_to_features(self,new_game_state),R)
+
     else:
+        s = state_to_features(self,old_game_state)
         q_temp = q_function(self,new_game_state,self.weights)
         new_weight = self.weights[action_index] + self.alpha * s * (R+self.gamma*np.max(q_temp)-self.q_values[action_index])
+        self.logger.debug("Model succesfully updated.")
+        transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
 
-    transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
     self.transitions.append(transition)
     self.weights[action_index] = new_weight
     
@@ -101,13 +104,13 @@ def reward_from_events(self, events: List[str]) -> int:
     """
     #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.MOVED_LEFT: 0,
-        e.MOVED_RIGHT: 0,
-        e.MOVED_UP: 0,
-        e.MOVED_DOWN: 0,
+        e.MOVED_LEFT: 1,
+        e.MOVED_RIGHT: 1,
+        e.MOVED_UP: 1,
+        e.MOVED_DOWN: 1,
 
         e.WAITED: 0,
-        e.INVALID_ACTION: 0,
+        e.INVALID_ACTION: -2,
 
         e.BOMB_DROPPED: 0,
         e.BOMB_EXPLODED: 0,
