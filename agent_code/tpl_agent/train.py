@@ -30,7 +30,7 @@ def setup_training(self):
     """
     #For now I'm initializing everything to zero
     self.epsilon = 0.1
-    self.alpha = 0.5
+    self.alpha = 0.8
     self.gamma = 0.5
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
     self.logger.info("Training setup.")
@@ -54,8 +54,10 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     self.logger.debug(f'Encountered game event(s) {", ".join(map(repr, events))} in step {new_game_state["step"]}')
 
     # ToDO: Add your own events to hand out rewards
+    """
     if ...:
         events.append(PLACEHOLDER_EVENT)
+    """
 
     action_index = action_to_index(self_action)
     R = reward_from_events(self,events)
@@ -71,6 +73,7 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         new_weight = self.weights[action_index] + self.alpha * s * (R+self.gamma*np.max(q_temp)-self.q_values[action_index])
         self.logger.debug("Model succesfully updated.")
         transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
+        print(events)
 
     self.transitions.append(transition)
     self.weights[action_index] = new_weight
@@ -104,13 +107,13 @@ def reward_from_events(self, events: List[str]) -> int:
     """
     #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.MOVED_LEFT: 1,
-        e.MOVED_RIGHT: 1,
-        e.MOVED_UP: 1,
-        e.MOVED_DOWN: 1,
+        e.MOVED_LEFT: 5,
+        e.MOVED_RIGHT: 5,
+        e.MOVED_UP: 5,
+        e.MOVED_DOWN: 5,
 
-        e.WAITED: 0,
-        e.INVALID_ACTION: -2,
+        e.WAITED: -3,
+        e.INVALID_ACTION: -5,
 
         e.BOMB_DROPPED: 0,
         e.BOMB_EXPLODED: 0,

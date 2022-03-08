@@ -44,7 +44,7 @@ def act(self, game_state: dict) -> str:
     """
     
     #Calculate Q
-    self.Q = q_function(self, game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
+    self.q_values = q_function(self, game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
 
     if self.train and random.random() < self.epsilon:
         self.logger.debug("Training Mode (Exploration): Choosing action purely at random.")
@@ -52,7 +52,7 @@ def act(self, game_state: dict) -> str:
         return np.random.choice(ACTIONS, p=[.25, .25, .25, .25, 0, 0]) #PHASE 1 (No crates yet)
     else:
         self.logger.debug("Training Mode (Exploitation) / Playing: Choosing action based on max Q.")
-        action_index = np.argmax(self.Q)
+        action_index = np.argmax(self.q_values)
         return ACTIONS[action_index]
 
 
