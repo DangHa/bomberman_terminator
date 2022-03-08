@@ -88,7 +88,7 @@ def state_to_features(game_state: dict) -> np.array:
             if (0 < i < bomb_map.shape[0]) and (0 < j < bomb_map.shape[1]):
                 bomb_map[i, j] = min(bomb_map[i, j], t)
 
-    coin_direction = look_for_coins([agent_x, agent_y], coins)
+    coin_direction = find_coins([agent_x, agent_y], coins)
 
     # the features can be used are score, bombs_left, bomb_maps, coins
 
@@ -97,7 +97,7 @@ def state_to_features(game_state: dict) -> np.array:
     features = [0, 0, 0, 0]
     return features
 
-def look_for_coins(agent_location, coin_locations):
+def find_coins(agent_location, coin_locations):
     coin_direction = np.zeros(6)
     closest_coin = None
     closest_dist = 100
@@ -119,3 +119,15 @@ def look_for_coins(agent_location, coin_locations):
         elif y - agent_location[1] < 0: coin_direction[3] = 1   # LEFT
 
     return coin_direction
+
+def find_crates(agent_location, crate_locations):
+    ...
+
+def bomb_crates(agent_location, crate_locations):
+    ...
+
+def bomb_opponents(agent_location, opponet_locations):
+    ...
+
+def avoid_bombs(agent_location, bomb_map):
+    ...
