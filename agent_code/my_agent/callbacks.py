@@ -8,7 +8,7 @@ from events import OPPONENT_ELIMINATED
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = ['avoid_wall', 'find_coin']  #Add feature names
+FEATURES = ['avoid_wall', 'find_coin', 'find_crate', 'bomb_crate']  #Add feature names
 
 
 def setup(self):
@@ -88,7 +88,7 @@ def state_to_features(self,game_state: dict) -> np.array:
         find_crate = find_closest_crates([agent_coord_x, agent_coord_y], game_state)
         destroy_crate = bomb_crate([agent_coord_x, agent_coord_y], game_state)
 
-        return np.array([avoid_wall, find_coin])
+        return np.array([avoid_wall, find_coin, find_crate, destroy_crate])
 
 def q_function(self, game_state: dict, weights) -> np.array:
 
@@ -145,6 +145,9 @@ def find_coins(agent_location, game_state):
         elif y - agent_location[1] < 0: features[3] = 1   # UP
 
     return [features[3], features[0], features[2], features[1], 0 , 0]
+
+# avoid bomb
+
 
 def bomb_crate(agent_location, game_state):
     [x, y] = agent_location
