@@ -4,17 +4,21 @@ import pickle
 from typing import List
 
 import events as e
-from .callbacks import state_to_features
+from .callbacks import ACTIONS, FEATURES, q_function, state_to_features
 
 import numpy as np
 
 # This is only an example!
 Transition = namedtuple('Transition',
-                        ('state', 'action', 'next_state', 'reward'))
+                        ('state','weights', 'action', 'next_state', 'reward'))
 
 # Hyper parameters -- DO modify
 TRANSITION_HISTORY_SIZE = 3  # keep only ... last transitions
 RECORD_ENEMY_TRANSITIONS = 1.0  # record enemy transitions with probability ...
+
+# Events
+PLACEHOLDER_EVENT = "PLACEHOLDER"
+CLOSE_COIN_EVENT = "CLOSECOIN" # have to save the closest coin from previous state --> should we do it or not?
 
 
 def setup_training(self):
@@ -25,17 +29,12 @@ def setup_training(self):
 
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     """
-    # hyper-parameter
-    self.alpha = 0.01 # learning rate
-    self.gamma = 0.01 # discount rate
-
-    # initial parameter
-    self.weights = np.random.rand(TRANSITION_HISTORY_SIZE, 6) # beta - weights for each feature (score, bombs_left, bomb_maps, coins)
-    
-
-    # Example: Setup an array that will note transition tuples
-    # (s, a, r, s')
+    #For now I'm initializing everything to zero
+    self.epsilon = 0.1
+    self.alpha = 0.8
+    self.gamma = 0.5
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
+    self.logger.info("Training setup.")
 
 
 def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_state: dict, events: List[str]):
@@ -47,8 +46,6 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     settings.py to see what events are tracked. You can hand out rewards to your
     agent based on these events and your knowledge of the (new) game state.
 
-    This is *one* of the places where you could update your agent.
-
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     :param old_game_state: The state that was passed to the last call of `act`.
     :param self_action: The action that you took.
@@ -57,16 +54,32 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     """
     self.logger.debug(f'Encountered game event(s) {", ".join(map(repr, events))} in step {new_game_state["step"]}')
 
-    # calclute Q at this sate
-    old_features = state_to_features(old_game_state)
-    # old_Q = old_features*self.weights
+    # ToDO: Add your own events to hand out rewards
+    """
+    if ...:
+        events.append(PLACEHOLDER_EVENT)
+    """
 
-    # Idea: Add your own events to hand out rewards -> get reward
-    reward_sum = reward_from_events(self, events)
+    action_index = action_to_index(self_action)
+    R = reward_from_events(self,events)
 
+    if old_game_state is None:
+        new_weight = self.weights
+        self.logger.debug("Model was not updated, because old_game_state is None.")
+        transition = Transition(state_to_features(self,old_game_state), self.weights, self_action, state_to_features(self,new_game_state),R)
 
-    # state_to_features is defined in callbacks.py
-    self.transitions.append(Transition(state_to_features(old_game_state), self_action, state_to_features(new_game_state), reward_from_events(self, events)))
+    else:
+        s = state_to_features(self,old_game_state)
+        q_temp = q_function(self, new_game_state, self.weights)
+
+        new_weight = self.weights + self.alpha * s[:,action_index] * (R + self.gamma*np.max(q_temp) - self.q_values[action_index])
+        self.logger.debug("Model succesfully updated.")
+        transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
+        print(events)
+
+    self.transitions.append(transition)
+    self.weights = new_weight
+    
 
 
 def end_of_round(self, last_game_state: dict, last_action: str, events: List[str]):
@@ -77,34 +90,49 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
     This is similar to game_events_occurred. self.events will contain all events that
     occurred during your agent's final step.
 
-    This is *one* of the places where you could update your agent.
     This is also a good place to store an agent that you updated.
 
     :param self: The same object that is passed to all of your callbacks.
     """
     self.logger.debug(f'Encountered event(s) {", ".join(map(repr, events))} in final step')
-    self.transitions.append(Transition(state_to_features(last_game_state), last_action, None, reward_from_events(self, events)))
+    self.transitions.append(Transition(state_to_features(self,last_game_state), self.weights, last_action, None, reward_from_events(self, events)))
 
     # Store the model
     with open("my-saved-model.pt", "wb") as file:
-        pickle.dump(self.model, file)
+        pickle.dump(self.weights, file)
 
 
 def reward_from_events(self, events: List[str]) -> int:
     """
-    *This is not a required function, but an idea to structure your code.*
-
     Here you can modify the rewards your agent get so as to en/discourage
     certain behavior.
     """
+    #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.COIN_COLLECTED: 5,
-        e.KILLED_OPPONENT: 10,
+        e.MOVED_LEFT: 5,
+        e.MOVED_RIGHT: 5,
+        e.MOVED_UP: 5,
+        e.MOVED_DOWN: 5,
 
-        e.WAITED: 0,
+        e.WAITED: -3,
+        e.INVALID_ACTION: -10,
 
-        e.INVALID_ACTION: -.1,
-        e.GOT_KILLED: -5
+        e.BOMB_DROPPED: -10,
+        e.BOMB_EXPLODED: 0,
+
+        e.CRATE_DESTROYED: 3,
+        e.COIN_FOUND: 5,
+        e.COIN_COLLECTED:10,
+
+        e.KILLED_OPPONENT: 0,
+        e.OPPONENT_ELIMINATED: 0,
+
+        e.KILLED_SELF: 0,
+        e.GOT_KILLED: 0,
+
+        e.SURVIVED_ROUND: 10,
+
+        PLACEHOLDER_EVENT: 0  # ADD CUSTOM EVENTS?
     }
     reward_sum = 0
     for event in events:
@@ -112,4 +140,7 @@ def reward_from_events(self, events: List[str]) -> int:
             reward_sum += game_rewards[event]
     self.logger.info(f"Awarded {reward_sum} for events {', '.join(events)}")
     return reward_sum
+
+def action_to_index(action: str):
+    return ACTIONS.index(action)
 

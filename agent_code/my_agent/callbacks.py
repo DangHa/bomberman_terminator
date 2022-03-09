@@ -4,8 +4,12 @@ import random
 
 import numpy as np
 
+from events import OPPONENT_ELIMINATED
 
-ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAITED', 'BOMB']
+
+ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
+FEATURES = ['avoid_wall', 'find_coin']  #Add feature names
+
 
 def setup(self):
     """
@@ -23,12 +27,12 @@ def setup(self):
     """
     if self.train or not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
-        weights = np.random.rand(len(ACTIONS))
-        self.model = weights / weights.sum()
+        self.weights = np.random.rand(len(FEATURES))
+        self.q_values = np.zeros(len(ACTIONS))
     else:
         self.logger.info("Loading model from saved state.")
         with open("my-saved-model.pt", "rb") as file:
-            self.model = pickle.load(file)
+            self.weights = pickle.load(file)
 
 
 def act(self, game_state: dict) -> str:
@@ -40,25 +44,22 @@ def act(self, game_state: dict) -> str:
     :param game_state: The dictionary that describes everything on the board.
     :return: The action to take as a string.
     """
-    # print("Transitions: ", self.transitions)
-    # print("Weights: ", self.weights)
-    # calculate the Q with state_to_features from self.transition and self.weights
+    
+    #Calculate Q
+    self.q_values = q_function(self, game_state, self.weights) #Does it make sense to store Q here? -> Look at rain.game_events_occurred() to figure out.
 
-    # todo Exploration vs exploitation
-    random_prob = .1
-    if self.train and random.random() < random_prob:
-        self.logger.debug("Choosing action purely at random.")
+    if self.train and random.random() < self.epsilon:
+        self.logger.debug("Training Mode (Exploration): Choosing action purely at random.")
         # 80%: walk in any direction. 10% wait. 10% bomb.
-        return np.random.choice(ACTIONS, p=[.2, .2, .2, .2, .2, 0])
+        return np.random.choice(ACTIONS, p=[.25, .25, .25, .25, 0, 0]) #PHASE 1 (No crates yet)
+    else:
+        self.logger.debug("Training Mode (Exploitation) / Playing: Choosing action based on max Q.")
+        action_index = np.argmax(self.q_values)
+        return ACTIONS[action_index]
 
-    self.logger.debug("Querying model for action.")
-    return np.random.choice(ACTIONS, p=self.model)
 
-
-def state_to_features(game_state: dict) -> np.array:
+def state_to_features(self,game_state: dict) -> np.array:
     """
-    *This is not a required function, but an idea to structure your code.*
-
     Converts the game state to the input of your model, i.e.
     a feature vector.
 
@@ -69,36 +70,61 @@ def state_to_features(game_state: dict) -> np.array:
     :param game_state:  A dictionary describing the current game board.
     :return: np.array
     """
-    
+
     # This is the dict before the game begins and after it ends
     if game_state is None:
+        self.logger.debug("Game_state is None.")
         return None
 
-    # Features from s
-    arena = game_state['field']
-    _, score, bombs_left, (agent_x, agent_y) = game_state['self']
-    bombs = game_state['bombs']
-    bomb_xys = [xy for (xy, t) in bombs]
-    others = [xy for (n, s, b, xy) in game_state['others']]
-    coins = game_state['coins']
-    bomb_map = np.ones(arena.shape) * 5
+    else: 
+        #Extracting relevant game_state values
+        agent_coord_x = game_state['self'][3][0]
+        agent_coord_y = game_state['self'][3][1]        
 
-    for (xb, yb), t in bombs:
-        for (i, j) in [(xb + h, yb) for h in range(-3, 4)] + [(xb, yb + h) for h in range(-3, 4)]:
-            if (0 < i < bomb_map.shape[0]) and (0 < j < bomb_map.shape[1]):
-                bomb_map[i, j] = min(bomb_map[i, j], t)
+        find_coin = find_coins([agent_coord_x, agent_coord_y], game_state)
+        avoid_wall = avoid_hitting_wall(game_state)
 
-    coin_direction = find_coins([agent_x, agent_y], coins)
+        # have try yet --> need avoid bombs to test
+        find_crate = find_closest_crates([agent_coord_x, agent_coord_y], game_state)
+        destroy_crate = bomb_crate([agent_coord_x, agent_coord_y], game_state)
 
-    # the features can be used are score, bombs_left, bomb_maps, coins
+        return np.array([avoid_wall, find_coin])
 
-    features = [score, bombs_left, bomb_map, coin_direction] 
+def q_function(self, game_state: dict, weights) -> np.array:
 
-    features = [0, 0, 0, 0]
+    """
+    Calculates Q-value of linear regression
+
+    :param game_state: A dictionary describing the current game board.
+    :param weights: A numpy array of weigh vectors used for the linear regression (one for each action).
+    :return: np.array 
+           
+    """
+
+    features = state_to_features(self,game_state)
+    self.logger.info("Calculating q-function values.")
+    Q = np.sum([features[i]*self.weights[i] for i in range(len(FEATURES))], axis=0)
+
+    return np.array(Q)
+
+def avoid_hitting_wall(game_state):
+    #Extracting relevant game_state values
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    #Engineering features
+    features = np.zeros(len(ACTIONS))
+    features[0] = game_state['field'][agent_coord_x][agent_coord_y-1]
+    features[1] = game_state['field'][agent_coord_x+1][agent_coord_y]
+    features[2] = game_state['field'][agent_coord_x][agent_coord_y+1]
+    features[3] = game_state['field'][agent_coord_x-1][agent_coord_y]
+
     return features
 
-def find_coins(agent_location, coin_locations):
-    coin_direction = np.zeros(6)
+def find_coins(agent_location, game_state):
+    coin_locations = game_state['coins']
+
+    features = np.zeros(len(ACTIONS))
     closest_coin = None
     closest_dist = 100
 
@@ -106,28 +132,63 @@ def find_coins(agent_location, coin_locations):
     for coin_x, coin_y in coin_locations:
         dist = np.linalg.norm([coin_x - agent_location[0], coin_y - agent_location[1]])
         if dist < closest_dist:
-            closest_dist = dist 
+            closest_dist = dist
             closest_coin = [coin_x, coin_y]
 
     # the next direction to be closer to the closest coin
     if closest_coin is not None:
         x, y = closest_coin
-        if   x - agent_location[0] > 0: coin_direction[0] = 1   # DOWN
-        elif x - agent_location[0] < 0: coin_direction[1] = 1   # UP
+        if   x - agent_location[0] > 0: features[0] = 1   # RIGHT
+        elif x - agent_location[0] < 0: features[1] = 1   # LEFT
 
-        if   y - agent_location[1] > 0: coin_direction[2] = 1   # RIGHT
-        elif y - agent_location[1] < 0: coin_direction[3] = 1   # LEFT
+        if   y - agent_location[1] > 0: features[2] = 1   # DOWN
+        elif y - agent_location[1] < 0: features[3] = 1   # UP
 
-    return coin_direction
+    return [features[3], features[0], features[2], features[1], 0 , 0]
 
-def find_crates(agent_location, crate_locations):
-    ...
+def bomb_crate(agent_location, game_state):
+    [x, y] = agent_location
+    field = game_state['field']
 
-def bomb_crates(agent_location, crate_locations):
-    ...
+    features = np.zeros(len(ACTIONS))
 
-def bomb_opponents(agent_location, opponet_locations):
-    ...
+    if 1 in field[x-4:x+4, y] or 1 in field[x, y-4:y+4]:
+        features[5] = 1 # BOMB
+    
+    return features
 
-def avoid_bombs(agent_location, bomb_map):
-    ...
+def find_closest_crates(agent_location, game_state): 
+    crate_locations = game_state['coins']
+
+    features = np.zeros(len(ACTIONS))
+    closest_crate = None
+    closest_dist = 100
+
+    # find the closest coin
+    for crate_x, crate_y in crate_locations:
+        dist = np.linalg.norm([crate_x - agent_location[0], crate_y - agent_location[1]])
+        if dist < closest_dist:
+            closest_dist = dist
+            closest_crate = [crate_x, crate_y]
+
+    # the next direction to be closer to the closest coin
+    if closest_crate is not None:
+        x, y = closest_crate
+        if   x - agent_location[0] > 0: features[0] = 1   # RIGHT
+        elif x - agent_location[0] < 0: features[1] = 1   # LEFT
+
+        if   y - agent_location[1] > 0: features[2] = 1   # DOWN
+        elif y - agent_location[1] < 0: features[3] = 1   # UP
+
+    return [features[3], features[0], features[2], features[1], 0 , 0]
+
+def get_crate_location(game_state):
+    crate_location = []
+
+    field = game_state['field']
+    for x in range(len(field)):
+        for y in range(len(field[0])):
+            if field[x][y] == 1:
+                crate_location.append([x, y])
+
+    return crate_location
