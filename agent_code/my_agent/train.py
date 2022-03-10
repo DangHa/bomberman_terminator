@@ -64,7 +64,7 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     R = reward_from_events(self,events)
 
     if old_game_state is None:
-        new_weight = self.weights
+        new_weight = self.weights[:, action_index]
         self.logger.debug("Model was not updated, because old_game_state is None.")
         transition = Transition(state_to_features(self,old_game_state), self.weights, self_action, state_to_features(self,new_game_state),R)
 
@@ -72,14 +72,15 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         s = state_to_features(self,old_game_state)
         q_temp = q_function(self, new_game_state, self.weights)
 
-        new_weight = self.weights + self.alpha * s[:,action_index] * (R + self.gamma*np.max(q_temp) - self.q_values[action_index])
+        new_weight = self.weights[:, action_index] + self.alpha * np.dot(s, (R+self.gamma*np.max(q_temp)-self.q_values))
+
         self.logger.debug("Model succesfully updated.")
         transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
         print(events)
 
+        
     self.transitions.append(transition)
-    self.weights = new_weight
-    
+    self.weights[:, action_index] = new_weight    
 
 
 def end_of_round(self, last_game_state: dict, last_action: str, events: List[str]):
@@ -109,20 +110,20 @@ def reward_from_events(self, events: List[str]) -> int:
     """
     #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.MOVED_LEFT: 5,
-        e.MOVED_RIGHT: 5,
-        e.MOVED_UP: 5,
-        e.MOVED_DOWN: 5,
+        e.MOVED_LEFT: 1,
+        e.MOVED_RIGHT: 1,
+        e.MOVED_UP: 1,
+        e.MOVED_DOWN: 1,
 
-        e.WAITED: -3,
-        e.INVALID_ACTION: -10,
+        e.WAITED: -1,
+        e.INVALID_ACTION: -2,
 
-        e.BOMB_DROPPED: -10,
+        e.BOMB_DROPPED: -5,
         e.BOMB_EXPLODED: 0,
 
-        e.CRATE_DESTROYED: 3,
-        e.COIN_FOUND: 5,
-        e.COIN_COLLECTED:10,
+        e.CRATE_DESTROYED: 1,
+        e.COIN_FOUND: 1,
+        e.COIN_COLLECTED: 2,
 
         e.KILLED_OPPONENT: 0,
         e.OPPONENT_ELIMINATED: 0,

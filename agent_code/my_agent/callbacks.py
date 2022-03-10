@@ -3,12 +3,14 @@ import pickle
 import random
 
 import numpy as np
+import torch
+import torch.nn as nn
 
 from events import OPPONENT_ELIMINATED
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = ['avoid_wall', 'find_coin', 'find_crate', 'bomb_crate']  #Add feature names
+FEATURES = ['avoid_wall', 'find_coin']  #Add feature names
 
 
 def setup(self):
@@ -27,7 +29,7 @@ def setup(self):
     """
     if self.train or not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
-        self.weights = np.random.rand(len(FEATURES))
+        self.weights = np.random.rand(len(FEATURES), len(ACTIONS))
         self.q_values = np.zeros(len(ACTIONS))
     else:
         self.logger.info("Loading model from saved state.")
@@ -85,10 +87,10 @@ def state_to_features(self,game_state: dict) -> np.array:
         avoid_wall = avoid_hitting_wall(game_state)
 
         # have try yet --> need avoid bombs to test
-        find_crate = find_closest_crates([agent_coord_x, agent_coord_y], game_state)
-        destroy_crate = bomb_crate([agent_coord_x, agent_coord_y], game_state)
+        # find_crate = find_closest_crates([agent_coord_x, agent_coord_y], game_state)
+        # destroy_crate = bomb_crate([agent_coord_x, agent_coord_y], game_state)
 
-        return np.array([avoid_wall, find_coin, find_crate, destroy_crate])
+        return np.array([avoid_wall, find_coin])
 
 def q_function(self, game_state: dict, weights) -> np.array:
 
@@ -103,10 +105,11 @@ def q_function(self, game_state: dict, weights) -> np.array:
 
     features = state_to_features(self,game_state)
     self.logger.info("Calculating q-function values.")
-    Q = np.sum([features[i]*self.weights[i] for i in range(len(FEATURES))], axis=0)
+    Q = np.sum(weights* features, axis=0)
 
     return np.array(Q)
 
+# return array of 6 elements for 6 actions (up, down, right, left, wait, bomb)
 def avoid_hitting_wall(game_state):
     #Extracting relevant game_state values
     agent_coord_x = game_state['self'][3][0]
@@ -147,8 +150,6 @@ def find_coins(agent_location, game_state):
     return [features[3], features[0], features[2], features[1], 0 , 0]
 
 # avoid bomb
-
-
 def bomb_crate(agent_location, game_state):
     [x, y] = agent_location
     field = game_state['field']
