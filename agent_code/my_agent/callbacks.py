@@ -8,7 +8,7 @@ from events import OPPONENT_ELIMINATED
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = ['avoid_wall', 'find_coin', 'find_crate', 'bomb_crate']  #Add feature names
+FEATURES = ['avoid_wall', 'find_coin', 'find_crate ', 'bomb_crate', 'avoid_explored_bombs', 'avoid_future_bombs']  #Add feature names
 
 
 def setup(self):
@@ -55,6 +55,7 @@ def act(self, game_state: dict) -> str:
     else:
         self.logger.debug("Training Mode (Exploitation) / Playing: Choosing action based on max Q.")
         action_index = np.argmax(self.q_values)
+        print(self.q_values)
         return ACTIONS[action_index]
 
 
@@ -79,7 +80,7 @@ def state_to_features(self,game_state: dict) -> np.array:
     else: 
         #Extracting relevant game_state values
         agent_coord_x = game_state['self'][3][0]
-        agent_coord_y = game_state['self'][3][1]        
+        agent_coord_y = game_state['self'][3][1]
 
         find_coin = find_coins([agent_coord_x, agent_coord_y], game_state)
         avoid_wall = avoid_hitting_wall(game_state)
@@ -88,7 +89,15 @@ def state_to_features(self,game_state: dict) -> np.array:
         find_crate = find_closest_crates([agent_coord_x, agent_coord_y], game_state)
         destroy_crate = bomb_crate([agent_coord_x, agent_coord_y], game_state)
 
-        return np.array([avoid_wall, find_coin, find_crate, destroy_crate])
+        avoid_explored_bombs = avoid_explored_bomb([agent_coord_x, agent_coord_y], game_state)
+        avoid_future_bombs = avoid_future_bomb([agent_coord_x, agent_coord_y], game_state)
+
+        print("find coins: ", find_coin)
+        print("avoid wall: ", avoid_wall)
+        print("find crate: ", find_crate)
+        print("------------------------------------")
+
+        return np.array([avoid_wall, find_coin, find_crate, destroy_crate, avoid_explored_bombs, avoid_future_bombs])
 
 def q_function(self, game_state: dict, weights) -> np.array:
 
@@ -118,6 +127,7 @@ def avoid_hitting_wall(game_state):
     features[1] = game_state['field'][agent_coord_x+1][agent_coord_y]
     features[2] = game_state['field'][agent_coord_x][agent_coord_y+1]
     features[3] = game_state['field'][agent_coord_x-1][agent_coord_y]
+    # features[4] = 0.1
 
     return features
 
@@ -144,10 +154,48 @@ def find_coins(agent_location, game_state):
         if   y - agent_location[1] > 0: features[2] = 1   # DOWN
         elif y - agent_location[1] < 0: features[3] = 1   # UP
 
-    return [features[3], features[0], features[2], features[1], 0 , 0]
+    return [features[3], features[0], features[2], features[1], 0, 0]
 
 # avoid bomb
+def avoid_future_bomb(agent_location, game_state):
+    #Extracting relevant game_state values
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
 
+    # get away from almost exploded bombs
+    features = np.zeros(len(ACTIONS))
+    bombs = game_state['bombs']
+    for (xb, yb), t in bombs:
+        if (xb == agent_coord_x) and (abs(yb - agent_coord_y) < 4):
+            # Run away
+            if (yb > agent_coord_y): features[0] = 1
+            if (yb < agent_coord_y): features[2] = 1
+            # If possible, turn a corner
+            features[1] = features[3] = 1
+        if (yb == agent_coord_y) and (abs(xb - agent_coord_x) < 4):
+            # Run away
+            if (xb > agent_coord_x): features[3] = 1
+            if (xb < agent_coord_x): features[1] = 1
+            # If possible, turn a corner
+            features[0] = features[1] = 1
+    
+    return features
+
+def avoid_explored_bomb(agent_location, game_state):
+    #Extracting relevant game_state values
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+    
+    # get away from almost exploded bombs
+    explosion_map = game_state['explosion_map']
+
+    features = np.zeros(len(ACTIONS))
+    features[0] = explosion_map[agent_coord_x][agent_coord_y-1]*-1
+    features[1] = explosion_map[agent_coord_x+1][agent_coord_y]*-1
+    features[2] = explosion_map[agent_coord_x][agent_coord_y+1]*-1
+    features[3] = explosion_map[agent_coord_x-1][agent_coord_y]*-1
+
+    return features
 
 def bomb_crate(agent_location, game_state):
     [x, y] = agent_location
@@ -155,8 +203,8 @@ def bomb_crate(agent_location, game_state):
 
     features = np.zeros(len(ACTIONS))
 
-    if 1 in field[x-4:x+4, y] or 1 in field[x, y-4:y+4]:
-        features[5] = 1 # BOMB
+    if 1 in field[x-1:x+1, y] or 1 in field[x, y-1:y+1]:
+        features[5] = 1 # Set bomb next to the crate
     
     return features
 

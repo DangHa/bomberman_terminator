@@ -31,8 +31,8 @@ def setup_training(self):
     """
     #For now I'm initializing everything to zero
     self.epsilon = 0.1
-    self.alpha = 0.8
-    self.gamma = 0.5
+    self.alpha = 0.05
+    self.gamma = 0.05
     self.transitions = deque(maxlen=TRANSITION_HISTORY_SIZE)
     self.logger.info("Training setup.")
 
@@ -72,11 +72,12 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         s = state_to_features(self,old_game_state)
         q_temp = q_function(self, new_game_state, self.weights)
 
-        new_weight = self.weights + self.alpha * s[:,action_index] * (R + self.gamma*np.max(q_temp) - self.q_values[action_index])
+        new_weight = self.weights + self.alpha * s[:,action_index] * (R + self.gamma*np.max(q_temp) - self.q_values)
         self.logger.debug("Model succesfully updated.")
         transition = Transition(s, self.weights, self_action, state_to_features(self, new_game_state), R)
         print(events)
 
+        print("new weight: ", new_weight)
     self.transitions.append(transition)
     self.weights = new_weight
     
@@ -109,20 +110,20 @@ def reward_from_events(self, events: List[str]) -> int:
     """
     #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.MOVED_LEFT: 5,
-        e.MOVED_RIGHT: 5,
-        e.MOVED_UP: 5,
-        e.MOVED_DOWN: 5,
+        e.MOVED_LEFT: 0,
+        e.MOVED_RIGHT: 0,
+        e.MOVED_UP: 0,
+        e.MOVED_DOWN: 0,
 
-        e.WAITED: -3,
-        e.INVALID_ACTION: -10,
+        e.WAITED: -1,
+        e.INVALID_ACTION: -3,
 
-        e.BOMB_DROPPED: -10,
+        e.BOMB_DROPPED: 0,
         e.BOMB_EXPLODED: 0,
 
-        e.CRATE_DESTROYED: 3,
-        e.COIN_FOUND: 5,
-        e.COIN_COLLECTED:10,
+        e.CRATE_DESTROYED: 1,
+        e.COIN_FOUND: 1,
+        e.COIN_COLLECTED: 3,
 
         e.KILLED_OPPONENT: 0,
         e.OPPONENT_ELIMINATED: 0,
@@ -130,7 +131,7 @@ def reward_from_events(self, events: List[str]) -> int:
         e.KILLED_SELF: 0,
         e.GOT_KILLED: 0,
 
-        e.SURVIVED_ROUND: 10,
+        e.SURVIVED_ROUND: 1,
 
         PLACEHOLDER_EVENT: 0  # ADD CUSTOM EVENTS?
     }
