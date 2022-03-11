@@ -70,6 +70,17 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
     """
     self.logger.debug(f'Encountered event(s) {", ".join(map(repr, events))} in final step')
 
+    #Train Trees even if batch is not full yet
+    for i in range(len(self.batch_content)):
+        if self.batch_content[i]>0:
+            self.forests[i].n_estimators += 1
+            self.forests[i].fit(self.s_batch[i][:self.batch_content[i]],self.y_batch[i][:self.batch_content[i]])
+            self.logger.debug("Forest {} was trained.".format(i))
+            self.s_batch[i] = np.zeros([self.batch_size,len(FEATURES)])
+            self.y_batch[i] = np.zeros(self.batch_size)
+            self.batch_content[i] = 0
+
+
     # Store the model
     with open("my-saved-model.pt", "wb") as file:
         pickle.dump(self.forests, file)

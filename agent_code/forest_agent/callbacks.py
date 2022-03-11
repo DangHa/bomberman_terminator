@@ -23,11 +23,12 @@ def setup(self):
 
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     """
-    if self.train or not os.path.isfile("my-saved-model.pt"):
+    
+
+    if self.train and not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
         self.init_num = 1
         self.min_split = 100
-        self.epsilon = 0.1
 
         temp = []
         for i in range(len(ACTIONS)):
@@ -56,7 +57,7 @@ def act(self, game_state: dict) -> str:
     :param game_state: The dictionary that describes everything on the board.
     :return: The action to take as a string.
     """
-    
+    self.epsilon = 0.1
     if self.train and random.random() < self.epsilon:
         self.logger.debug("Training Mode (Exploration): Choosing action purely at random.")
         # 80%: walk in any direction. 10% wait. 10% bomb.

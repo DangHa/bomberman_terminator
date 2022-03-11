@@ -23,7 +23,7 @@ def setup(self):
 
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     """
-    if self.train or not os.path.isfile("my-saved-model.pt"):
+    if self.train and not os.path.isfile("my-saved-model.pt"):
         self.logger.info("Setting up model from scratch.")
         self.weights = np.random.rand(len(ACTIONS),len(FEATURES))
         self.q_values = np.zeros(len(ACTIONS))
