@@ -8,7 +8,7 @@ from events import OPPONENT_ELIMINATED
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = ['avoid_wall', 'find_coin', 'find_crate ', 'bomb_crate', 'avoid_explored_bombs', 'avoid_future_bombs']  #Add feature names
+FEATURES = ['avoid_wall', 'find_coin', 'find_crate ', 'drop_bombs', 'avoid_explored_bombs', 'avoid_future_bombs']  #Add feature names
 
 
 def setup(self):
@@ -87,7 +87,7 @@ def state_to_features(self,game_state: dict) -> np.array:
 
         # have try yet --> need avoid bombs to test
         find_crate = find_closest_crates([agent_coord_x, agent_coord_y], game_state)
-        destroy_crate = bomb_crate([agent_coord_x, agent_coord_y], game_state)
+        drop_bombs = drop_bomb([agent_coord_x, agent_coord_y], game_state)
 
         avoid_explored_bombs = avoid_explored_bomb([agent_coord_x, agent_coord_y], game_state)
         avoid_future_bombs = avoid_future_bomb([agent_coord_x, agent_coord_y], game_state)
@@ -97,7 +97,7 @@ def state_to_features(self,game_state: dict) -> np.array:
         print("find crate: ", find_crate)
         print("------------------------------------")
 
-        return np.array([avoid_wall, find_coin, find_crate, destroy_crate, avoid_explored_bombs, avoid_future_bombs])
+        return np.array([avoid_wall, find_coin, find_crate, drop_bombs, avoid_explored_bombs, avoid_future_bombs])
 
 def q_function(self, game_state: dict, weights) -> np.array:
 
@@ -197,7 +197,7 @@ def avoid_explored_bomb(agent_location, game_state):
 
     return features
 
-def bomb_crate(agent_location, game_state):
+def drop_bomb(agent_location, game_state):
     [x, y] = agent_location
     field = game_state['field']
 
@@ -205,7 +205,7 @@ def bomb_crate(agent_location, game_state):
 
     if 1 in field[x-1:x+1, y] or 1 in field[x, y-1:y+1]:
         features[5] = 1 # Set bomb next to the crate
-    
+
     return features
 
 def find_closest_crates(agent_location, game_state): 
