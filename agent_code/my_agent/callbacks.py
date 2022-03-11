@@ -123,11 +123,17 @@ def avoid_hitting_wall(game_state):
 
     #Engineering features
     features = np.zeros(len(ACTIONS))
-    features[0] = game_state['field'][agent_coord_x][agent_coord_y-1]
-    features[1] = game_state['field'][agent_coord_x+1][agent_coord_y]
-    features[2] = game_state['field'][agent_coord_x][agent_coord_y+1]
-    features[3] = game_state['field'][agent_coord_x-1][agent_coord_y]
-    # features[4] = 0.1
+    if game_state['field'][agent_coord_x][agent_coord_y-1] != 0:
+        features[0] = -1
+
+    if game_state['field'][agent_coord_x+1][agent_coord_y] != 0:
+        features[1] = -1
+    
+    if game_state['field'][agent_coord_x][agent_coord_y+1] != 0:
+        features[2] = -1
+
+    if game_state['field'][agent_coord_x-1][agent_coord_y] != 0:
+        features[3] = -1
 
     return features
 
@@ -136,7 +142,7 @@ def find_coins(agent_location, game_state):
 
     features = np.zeros(len(ACTIONS))
     closest_coin = None
-    closest_dist = 100
+    closest_dist = 10
 
     # find the closest coin
     for coin_x, coin_y in coin_locations:
@@ -206,6 +212,8 @@ def drop_bomb(agent_location, game_state):
     if 1 in field[x-1:x+1, y] or 1 in field[x, y-1:y+1]:
         features[5] = 1 # Set bomb next to the crate
 
+    ## drop again opponents
+
     return features
 
 def find_closest_crates(agent_location, game_state): 
@@ -225,6 +233,10 @@ def find_closest_crates(agent_location, game_state):
     # the next direction to be closer to the closest coin
     if closest_crate is not None:
         x, y = closest_crate
+        
+        if game_state['self'][2] == False or np.abs(x-agent_location[0]) == 1 or np.abs(y-agent_location[1]) == 1:
+            return [0,0,0,0,0,0]
+
         if   x - agent_location[0] > 0: features[0] = 1   # RIGHT
         elif x - agent_location[0] < 0: features[1] = 1   # LEFT
 
