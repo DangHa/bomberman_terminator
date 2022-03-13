@@ -13,7 +13,7 @@ SCENARIOS = {
     },
     # This is the tournament game mode
     "classic": {
-        "CRATE_DENSITY": 0.75,
+        "CRATE_DENSITY": 0.05,
         "COIN_COUNT": 9
     }
     # Feel free to add more game modes and properties

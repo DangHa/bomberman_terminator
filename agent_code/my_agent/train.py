@@ -16,11 +16,13 @@ WAITED = "WAITED"
 CONTINUED_ACTION_LOOP = "CONTINUED_ACTION_LOOP"
 RAN_TOWARDS_CLOSEST_COIN = "RAN_TOWARDS_CLOSEST_COIN"
 RAN_AWAY_FROM_CLOSEST_COIN = "RAN_AWAY_FROM_CLOSEST_COIN"
+DROPPED_BOMB_IN_RANGE_OF_CRATE = "DROPPED_BOMB_IN_RANGE_OF_CRATE"
+RAN_TOWARDS_CLOSEST_CRATE = "RAN_TOWARDS_CLOSEST_CRATE"
 
 #done
 def setup_training(self):
     #hyper_params
-    self.epsilon = 0.95 #0.1
+    self.epsilon = 0.1 #0.95   EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
     self.alpha = 0.2 #0.8
     self.gamma = 0.9 #0.5
 
@@ -45,24 +47,27 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         if state_to_features(old_game_state, self_action, self)[1] != 0:
             events.append(MOVED_INTO_WALL_CRATE)
 
-
-        if state_to_features(old_game_state, self_action, self)[2] != 0:
-            events.append(DROPPED_BOMB)
-
-        if state_to_features(old_game_state, self_action, self)[3] != 0:
-            events.append(WAITED)
-
         if self.a != 0:
             self.logger.info(f"Added event 'CONTINUED_ACTION_LOOP' with a= {self.a}")
             events.append(CONTINUED_ACTION_LOOP)
 
-        if state_to_features(old_game_state, self_action, self)[5] != 0:
+        if state_to_features(old_game_state, self_action, self)[3] != 0:
             events.append(RAN_TOWARDS_CLOSEST_COIN)
 
-        if state_to_features(old_game_state, self_action, self)[6] != 0:
+        if state_to_features(old_game_state, self_action, self)[4] != 0:
             events.append(RAN_AWAY_FROM_CLOSEST_COIN)
 
+        if state_to_features(old_game_state, self_action, self)[5] != 0:
+            events.append(DROPPED_BOMB_IN_RANGE_OF_CRATE)
 
+        if state_to_features(old_game_state, self_action, self)[6] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_CRATE)
+
+        # #only for coin heaven stage
+        # if state_to_features(old_game_state, self_action, self)[-2] != 0:
+        #     events.append(DROPPED_BOMB)
+        # if state_to_features(old_game_state, self_action, self)[-1] != 0:
+        #     events.append(WAITED)
 
         #clac R
         R = reward_from_events(self, events)
@@ -108,8 +113,9 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         self.epsilon = self.epsilon * 0.98
 
 
-        self.logger.info(f'Current position: \n x: {old_game_state["self"][3][0]}  y: {old_game_state["self"][3][1]}')
-        self.logger.info(f'Coin map: \n {old_game_state["coins"]}')
+        self.logger.info(f'Current position:   x: {old_game_state["self"][3][0]}  y: {old_game_state["self"][3][1]}')
+        # self.logger.info(f'Coin map: \n {old_game_state["coins"]}')
+        # self.logger.info(f'Coin map type: \n {type(old_game_state["coins"])}')
 
         self.logger.info(f'------------------------------------ Step: {new_game_state["step"]}')
 
@@ -149,12 +155,19 @@ def reward_from_events(self, events: List[str]) -> int:
         e.COIN_FOUND: 0,
         e.COIN_COLLECTED: 0,
 
-        MOVED_INTO_WALL_CRATE: -5,
-        DROPPED_BOMB: -20,
-        WAITED: -5,
+        MOVED_INTO_WALL_CRATE: -50, #has to be more penalty than 'continued action loop'
         CONTINUED_ACTION_LOOP: -15,
         RAN_TOWARDS_CLOSEST_COIN: 5,
-        RAN_AWAY_FROM_CLOSEST_COIN: -7, #has to be more penalty than 'RAN_TOWARDS_CLOSEST_COIN' has reward to avoid loop
+        RAN_AWAY_FROM_CLOSEST_COIN: -7, #has to be more penalty than 'RAN_TOWARDS_CLOSEST_COIN' has reward, to avoid loop (? unsure)
+                                        #but not so much penalty bc sometimes agent needs to go around wall
+
+        #what values should the rewards of coins vs crates have???
+        DROPPED_BOMB_IN_RANGE_OF_CRATE: 30, #higher than running towards crate
+        RAN_TOWARDS_CLOSEST_CRATE:  10, #higher than running towards coin ???? (for 2nd stage only)
+
+        # #only needed for coin heaven stage
+        # DROPPED_BOMB: -20,
+        # WAITED: -5,
 
     }
     reward_sum = 0
