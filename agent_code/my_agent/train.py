@@ -15,6 +15,7 @@ DROPPED_BOMB = "DROPPED_BOMB"
 WAITED = "WAITED"
 CONTINUED_ACTION_LOOP = "CONTINUED_ACTION_LOOP"
 RAN_TOWARDS_CLOSEST_COIN = "RAN_TOWARDS_CLOSEST_COIN"
+RAN_AWAY_FROM_CLOSEST_COIN = "RAN_AWAY_FROM_CLOSEST_COIN"
 
 #done
 def setup_training(self):
@@ -57,6 +58,9 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
 
         if state_to_features(old_game_state, self_action, self)[5] != 0:
             events.append(RAN_TOWARDS_CLOSEST_COIN)
+
+        if state_to_features(old_game_state, self_action, self)[6] != 0:
+            events.append(RAN_AWAY_FROM_CLOSEST_COIN)
 
 
 
@@ -150,6 +154,7 @@ def reward_from_events(self, events: List[str]) -> int:
         WAITED: -5,
         CONTINUED_ACTION_LOOP: -15,
         RAN_TOWARDS_CLOSEST_COIN: 5,
+        RAN_AWAY_FROM_CLOSEST_COIN: -7, #has to be more penalty than 'RAN_TOWARDS_CLOSEST_COIN' has reward to avoid loop
 
     }
     reward_sum = 0

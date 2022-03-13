@@ -7,7 +7,7 @@ from collections import deque
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 6
+FEATURES = 7
 ACTION_HISTORY_SIZE = 4
 
 #done
@@ -107,9 +107,10 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     d = waited(game_state, action, self)
     e = action_loop(game_state, action, self)
     f = runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self)
+    g = runs_away_from_closest_coin_but_not_wall_or_crate(game_state, action, self)
 
 
-    return np.array([a, b, c, d, e, f])
+    return np.array([a, b, c, d, e, f, g])
 
 
 def f0():
@@ -205,19 +206,81 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
         x, y = closest_coin
 
         if action == 'UP':
+            #check if distance along changing axis is reduced and there is no wall or crate on the field u go to
             if abs(y - (agent_coord_y - 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                return 1
+                #to prevent up-down-loop: checks if movement would bring agent into:  _|_|nearest-coin|_|_|_|agent|_|_
+                if not ( ((agent_coord_y - 1) % 2) == 0 and abs(y - (agent_coord_y - 1)) == 0 ):
+                    return 1
+                #if so only give positive none zero feedback if agent would get the coin
+                else:
+                    if abs(x - agent_coord_x) == 0:
+                        return 1
 
         if action == 'RIGHT':
             if abs(x - (agent_coord_x + 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                return 1
+                if not ( ((agent_coord_x + 1) % 2) == 0 and abs(x - (agent_coord_x + 1)) == 0 ):
+                    return 1
+                else:
+                    if abs(y - agent_coord_y) == 0:
+                        return 1
 
         if action == 'DOWN':
             if abs(y - (agent_coord_y + 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                return 1
+                if not ( ((agent_coord_y + 1) % 2) == 0 and abs(y - (agent_coord_y + 1)) == 0 ):
+                    return 1
+                else:
+                    if abs(x - agent_coord_x) == 0:
+                        return 1
 
         if action == 'LEFT':
             if abs(x - (agent_coord_x - 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
+                if not ( ((agent_coord_x + 1) % 2) == 0 and abs(x - (agent_coord_x + 1)) == 0 ):
+                    return 1
+                else:
+                    if abs(y - agent_coord_y) == 0:
+                        return 1
+
+
+    return 0
+
+
+
+def runs_away_from_closest_coin_but_not_wall_or_crate(game_state, action, self):
+
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    coin_locations = game_state['coins']
+    closest_coin = None
+    closest_dist = 100
+
+    # find the closest coin
+    for coin_x, coin_y in coin_locations:
+        dist = np.linalg.norm([coin_x - agent_coord_x, coin_y - agent_coord_y])
+        if dist < closest_dist:
+            closest_dist = dist
+            closest_coin = [coin_x, coin_y]
+
+    # the next direction to be closer to the closest coin
+    if closest_coin is not None:
+        
+        x, y = closest_coin
+
+        if action == 'UP':
+            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+                return 1
+
+        if action == 'RIGHT':
+            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
+                return 1
+
+        if action == 'DOWN':
+            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
+                return 1
+
+        if action == 'LEFT':
+            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
                 return 1
 
 
@@ -225,48 +288,3 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
 
 
 
-
-
-
-# def find_coins(game_state):
-#     agent_coord_x = game_state['self'][3][0]
-#     agent_coord_y = game_state['self'][3][1]
-#     agent_location = [agent_coord_x, agent_coord_y]
-#     coin_locations = game_state['coins']
-
-#     features = np.zeros(len(ACTIONS))
-#     closest_coin = None
-#     closest_dist = 100 #careful!
-
-#     # find the closest coin
-#     for coin_x, coin_y in coin_locations:
-#         dist = np.linalg.norm([coin_x - agent_location[0], coin_y - agent_location[1]])
-#         if dist < closest_dist:
-#             closest_dist = dist
-#             closest_coin = [coin_x, coin_y]
-
-
-#     if closest_coin is not None:
-#         x, y = closest_coin
-
-#         dist_x = abs(agent_location[0] - x)
-#         dist_y = abs(agent_location[1] - y)
-
-#         return np.array([dist_x, dist_y])
-
-
-#         if dist_x == 0:
-#             dist_y_inverse = 1/dist_y
-#             return np.array([2, dist_y_inverse])
-
-#         if dist_y == 0:
-#             dist_x_inverse = 1/dist_x
-#             return np.array([dist_x_inverse, 2])       
-        
-#         dist_x_inverse = 1/dist_x
-#         dist_y_inverse = 1/dist_y
-
-#         return np.array([dist_x_inverse, dist_y_inverse])
-
-#     else:
-#         return np.array([0, 0])
