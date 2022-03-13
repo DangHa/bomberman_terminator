@@ -43,10 +43,19 @@ def act(self, game_state: dict) -> str:
     #Exploit (choose best action)
     else:
 
+        #logger comment
         self.logger.info(f"Last 4 stored actions:  {self.former_action}")
         if len(self.former_action) == 4:
             if (self.former_action[0] == self.former_action[2]) and (self.former_action[1] == self.former_action[3]) and (self.former_action[0] != self.former_action[1]) and (self.former_action[2] != self.former_action[3]):
-                self.logger.info(f"Your are in a loop!")
+                #up-down-up-down
+                if self.former_action[0] in ['UP', 'DOWN']:
+                    if self.former_action[1] in ['UP', 'DOWN']:
+                        self.logger.info(f"Your are in a loop!")
+
+                #left-right-left-right
+                if self.former_action[0] in ['LEFT', 'RIGHT']:
+                    if self.former_action[1] in ['LEFT', 'RIGHT']:
+                        self.logger.info(f"Your are in a loop!")
 
 
         weights = self.model
@@ -78,7 +87,7 @@ def act(self, game_state: dict) -> str:
         state_to_features(game_state, action, self)
         self.logger.info(f"Value of self.action_loop_result_before_taken_action: {self.action_loop_result_before_taken_action}")
         
-        d = 0
+        
         self.former_action.append(action)
         self.logger.info(f'CHOOSEN ACTION: {action}')
 
@@ -152,12 +161,22 @@ def waited(game_state, action, self):
 
 def action_loop(game_state, action, self):
 
-    #if in action
+    #if in action loop
     if len(self.former_action) == 4:
         if (self.former_action[0] == self.former_action[2]) and (self.former_action[1] == self.former_action[3]) and (self.former_action[0] != self.former_action[1]) and (self.former_action[2] != self.former_action[3]):
-            if action == self.former_action[0]:
-                self.action_loop_result_before_taken_action = 1
-                return 1
+            #up-down-up-down
+            if self.former_action[0] in ['UP', 'DOWN']:
+                if self.former_action[1] in ['UP', 'DOWN']:
+                    if action == self.former_action[0]:
+                        self.action_loop_result_before_taken_action = 1
+                        return -1
+
+            #left-right-left-right
+            if self.former_action[0] in ['LEFT', 'RIGHT']:
+                if self.former_action[1] in ['LEFT', 'RIGHT']:
+                    if action == self.former_action[0]:
+                        self.action_loop_result_before_taken_action = 1
+                        return -1
 
     self.action_loop_result_before_taken_action = 0
     return 0
