@@ -78,7 +78,7 @@ def act(self, game_state: dict) -> str:
         state_to_features(game_state, action, self)
         self.logger.info(f"Value of self.action_loop_result_before_taken_action: {self.action_loop_result_before_taken_action}")
         
-        
+        d = 0
         self.former_action.append(action)
         self.logger.info(f'CHOOSEN ACTION: {action}')
 
