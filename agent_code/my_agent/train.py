@@ -277,8 +277,8 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
         #calc rest for updating
         features = state_to_features(old_game_state, last_action, self)
 
-        #calc Q_max_of_new_s --------------------- should we set Q_max_of_new_s to 0 in the last step?!?! 
-        Q_max_of_new_s = sum(weights * features)
+        #calc Q_max_of_new_s
+        Q_max_of_new_s = 0 #<-------------------- SHOULD BE 0 !!! (he said)
 
         #update weights
         for i in range(FEATURES):
