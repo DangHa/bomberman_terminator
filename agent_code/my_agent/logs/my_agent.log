@@ -1,140 +1,276 @@
-2022-03-13 19:12:05,660 [my_agent_code] INFO: LOADING MODEL FROM FILE
-2022-03-13 19:12:05,661 [my_agent_code] INFO: TRAINING SETUP successful
-2022-03-13 19:12:06,330 [my_agent_code] INFO: RANDOM ACTION: DOWN
-2022-03-13 19:12:06,331 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,451 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN'], maxlen=4)
-2022-03-13 19:12:06,467 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:06,468 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:06,470 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:06,473 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:06,476 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:06,477 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
-2022-03-13 19:12:06,481 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,493 [my_agent_code] INFO: Awarded 15 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:06,512 [my_agent_code] INFO: NEW MODEL: 
- [ 81.74562262 -23.60386484   0.29370953  11.14170576  -3.44022873
-  21.65077999  27.925044  ]
-2022-03-13 19:12:06,513 [my_agent_code] INFO: Current position:   x: 15  y: 2
-2022-03-13 19:12:06,513 [my_agent_code] INFO: ------------------------------------ Step: 2
-2022-03-13 19:12:06,539 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-13 19:12:06,543 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,553 [my_agent_code] INFO: Awarded -50 for events INVALID_ACTION, MOVED_INTO_WALL_CRATE
-2022-03-13 19:12:06,563 [my_agent_code] INFO: NEW MODEL: 
- [ 81.86349809 -23.50956446   0.29370953  11.14170576  -3.44022873
-  21.65077999  27.925044  ]
-2022-03-13 19:12:06,564 [my_agent_code] INFO: Current position:   x: 15  y: 3
-2022-03-13 19:12:06,564 [my_agent_code] INFO: ------------------------------------ Step: 3
-2022-03-13 19:12:06,635 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'RIGHT'], maxlen=4)
-2022-03-13 19:12:06,637 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:06,639 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:06,642 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:06,644 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:06,645 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:06,645 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
-2022-03-13 19:12:06,647 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,649 [my_agent_code] INFO: Awarded 15 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:06,654 [my_agent_code] INFO: NEW MODEL: 
- [ 82.44489313 -23.50956446   0.29370953  11.6068218   -3.44022873
-  21.65077999  28.29713682]
-2022-03-13 19:12:06,654 [my_agent_code] INFO: Current position:   x: 15  y: 3
-2022-03-13 19:12:06,654 [my_agent_code] INFO: ------------------------------------ Step: 4
-2022-03-13 19:12:06,736 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'RIGHT', 'DOWN'], maxlen=4)
-2022-03-13 19:12:06,745 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:06,746 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:06,747 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:06,748 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:06,749 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:06,749 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
-2022-03-13 19:12:06,750 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,753 [my_agent_code] INFO: Awarded 15 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:06,759 [my_agent_code] INFO: NEW MODEL: 
- [ 80.289447   -23.50956446   0.29370953   9.88246489  -3.44022873
-  21.65077999  26.9176513 ]
-2022-03-13 19:12:06,760 [my_agent_code] INFO: Current position:   x: 15  y: 4
-2022-03-13 19:12:06,760 [my_agent_code] INFO: ------------------------------------ Step: 5
-2022-03-13 19:12:06,834 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'RIGHT', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-13 19:12:06,837 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:06,840 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:06,841 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:06,843 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:06,845 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:06,846 [my_agent_code] INFO: CHOOSEN ACTION: LEFT
-2022-03-13 19:12:06,846 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,850 [my_agent_code] INFO: Awarded 3 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:06,854 [my_agent_code] INFO: NEW MODEL: 
- [ 78.81410961 -23.50956446   0.29370953   9.88246489  -4.62049865
-  21.65077999  25.97343537]
-2022-03-13 19:12:06,857 [my_agent_code] INFO: Current position:   x: 15  y: 5
-2022-03-13 19:12:06,858 [my_agent_code] INFO: ------------------------------------ Step: 6
-2022-03-13 19:12:06,935 [my_agent_code] INFO: Last 4 stored actions:  deque(['RIGHT', 'DOWN', 'DOWN', 'LEFT'], maxlen=4)
-2022-03-13 19:12:06,938 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:06,942 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:06,944 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:06,946 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:06,947 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:06,947 [my_agent_code] INFO: CHOOSEN ACTION: LEFT
-2022-03-13 19:12:06,948 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:06,950 [my_agent_code] INFO: Awarded 3 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:06,954 [my_agent_code] INFO: NEW MODEL: 
- [ 77.46438047 -23.50956446   0.29370953   9.88246489  -5.70028196
-  21.65077999  25.10960872]
-2022-03-13 19:12:06,954 [my_agent_code] INFO: Current position:   x: 14  y: 5
-2022-03-13 19:12:06,954 [my_agent_code] INFO: ------------------------------------ Step: 7
-2022-03-13 19:12:07,046 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
-2022-03-13 19:12:07,052 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:07,053 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:07,054 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:07,056 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:07,059 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:07,060 [my_agent_code] INFO: CHOOSEN ACTION: BOMB
-2022-03-13 19:12:07,062 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:07,068 [my_agent_code] INFO: Awarded 30 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-13 19:12:07,080 [my_agent_code] INFO: NEW MODEL: 
- [ 79.36378055 -23.50956446   0.29370953   9.88246489  -5.70028196
-  23.17030005  25.10960872]
-2022-03-13 19:12:07,081 [my_agent_code] INFO: Current position:   x: 13  y: 5
-2022-03-13 19:12:07,081 [my_agent_code] INFO: ------------------------------------ Step: 8
-2022-03-13 19:12:07,141 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
-2022-03-13 19:12:07,149 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:07,150 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:07,151 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:07,152 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:07,154 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:07,154 [my_agent_code] INFO: CHOOSEN ACTION: RIGHT
-2022-03-13 19:12:07,160 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:07,165 [my_agent_code] INFO: Awarded 5 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN
-2022-03-13 19:12:07,176 [my_agent_code] INFO: NEW MODEL: 
- [ 80.29369077 -23.50956446   0.29370953  10.62639307  -5.70028196
-  23.17030005  25.10960872]
-2022-03-13 19:12:07,176 [my_agent_code] INFO: Current position:   x: 13  y: 5
-2022-03-13 19:12:07,177 [my_agent_code] INFO: ------------------------------------ Step: 9
-2022-03-13 19:12:07,239 [my_agent_code] INFO: Last 4 stored actions:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
-2022-03-13 19:12:07,247 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:07,248 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:07,248 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:07,249 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:07,249 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:07,250 [my_agent_code] INFO: CHOOSEN ACTION: LEFT
-2022-03-13 19:12:07,251 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:07,254 [my_agent_code] INFO: Awarded 3 for events INVALID_ACTION, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:07,262 [my_agent_code] INFO: NEW MODEL: 
- [ 78.89963042 -23.50956446   0.29370953  10.62639307  -6.81553024
-  23.17030005  24.2174101 ]
-2022-03-13 19:12:07,263 [my_agent_code] INFO: Current position:   x: 14  y: 5
-2022-03-13 19:12:07,263 [my_agent_code] INFO: ------------------------------------ Step: 10
-2022-03-13 19:12:07,345 [my_agent_code] INFO: Last 4 stored actions:  deque(['LEFT', 'BOMB', 'RIGHT', 'LEFT'], maxlen=4)
-2022-03-13 19:12:07,352 [my_agent_code] INFO: Value for Action UP: 0
-2022-03-13 19:12:07,354 [my_agent_code] INFO: Value for Action RIGHT: 0
-2022-03-13 19:12:07,355 [my_agent_code] INFO: Value for Action DOWN: 0
-2022-03-13 19:12:07,356 [my_agent_code] INFO: Value for Action LEFT: 0
-2022-03-13 19:12:07,358 [my_agent_code] INFO: Value of self.action_loop_result_before_taken_action: 0
-2022-03-13 19:12:07,358 [my_agent_code] INFO: CHOOSEN ACTION: LEFT
-2022-03-13 19:12:07,360 [my_agent_code] INFO: Value of a: 0
-2022-03-13 19:12:07,364 [my_agent_code] INFO: Awarded 3 for events INVALID_ACTION, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-13 19:12:07,372 [my_agent_code] INFO: NEW MODEL: 
- [ 77.57360022 -23.50956446   0.29370953  10.62639307  -7.8763544
-  23.17030005  23.36875076]
-2022-03-13 19:12:07,372 [my_agent_code] INFO: Current position:   x: 14  y: 5
-2022-03-13 19:12:07,372 [my_agent_code] INFO: ------------------------------------ Step: 11
-2022-03-13 19:12:07,438 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-13 19:12:07,442 [my_agent_code] INFO: END OF GAME
+2022-03-14 11:41:13,936 [my_agent_code] INFO: LOADING MODEL FROM FILE
+2022-03-14 11:41:13,946 [my_agent_code] INFO: TRAINING SETUP successful
+2022-03-14 11:41:15,026 [my_agent_code] INFO: Last 4 stored actions:  deque([], maxlen=4)
+2022-03-14 11:41:15,033 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
+2022-03-14 11:41:15,034 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,120 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN'], maxlen=4)
+2022-03-14 11:41:15,127 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
+2022-03-14 11:41:15,128 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,140 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,140 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,141 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,141 [my_agent_code] INFO: Field value left: -1
+2022-03-14 11:41:15,143 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,144 [my_agent_code] INFO: Awarded 7 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-14 11:41:15,152 [my_agent_code] INFO: NEW MODEL: 
+ [137.41883024 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  68.12814829  20.83594238  -2.37089165  66.54282403   1.60664586
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,152 [my_agent_code] INFO: Current position:   x: 15  y: 2
+2022-03-14 11:41:15,153 [my_agent_code] INFO: ------------------------------------ Step: 2
+2022-03-14 11:41:15,225 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN'], maxlen=4)
+2022-03-14 11:41:15,230 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
+2022-03-14 11:41:15,231 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,244 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,244 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,245 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,245 [my_agent_code] INFO: Field value left: 0
+2022-03-14 11:41:15,246 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,247 [my_agent_code] INFO: Awarded 7 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-14 11:41:15,253 [my_agent_code] INFO: NEW MODEL: 
+ [135.65373479 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  68.12814829  19.42386602  -2.37089165  66.54282403   1.60664586
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,254 [my_agent_code] INFO: Current position:   x: 15  y: 3
+2022-03-14 11:41:15,254 [my_agent_code] INFO: ------------------------------------ Step: 3
+2022-03-14 11:41:15,326 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'DOWN'], maxlen=4)
+2022-03-14 11:41:15,331 [my_agent_code] INFO: CHOOSEN ACTION: DOWN
+2022-03-14 11:41:15,332 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,342 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,342 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,342 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,342 [my_agent_code] INFO: Field value left: -1
+2022-03-14 11:41:15,343 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,343 [my_agent_code] INFO: Awarded 7 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-14 11:41:15,347 [my_agent_code] INFO: NEW MODEL: 
+ [142.71895358 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  68.12814829  25.07604105  -2.37089165  66.54282403   1.60664586
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,347 [my_agent_code] INFO: Current position:   x: 15  y: 4
+2022-03-14 11:41:15,347 [my_agent_code] INFO: ------------------------------------ Step: 4
+2022-03-14 11:41:15,427 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'DOWN', 'DOWN'], maxlen=4)
+2022-03-14 11:41:15,431 [my_agent_code] INFO: CHOOSEN ACTION: BOMB
+2022-03-14 11:41:15,431 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,441 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,441 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,441 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,441 [my_agent_code] INFO: Field value left: 1
+2022-03-14 11:41:15,443 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,443 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-14 11:41:15,448 [my_agent_code] INFO: NEW MODEL: 
+ [141.78989268 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  67.38489957  25.07604105  -2.37089165  66.54282403   1.60664586
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,448 [my_agent_code] INFO: Current position:   x: 15  y: 5
+2022-03-14 11:41:15,448 [my_agent_code] INFO: ------------------------------------ Step: 5
+2022-03-14 11:41:15,529 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'DOWN', 'BOMB'], maxlen=4)
+2022-03-14 11:41:15,536 [my_agent_code] INFO: CHOOSEN ACTION: UP
+2022-03-14 11:41:15,536 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,551 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,551 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,551 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,552 [my_agent_code] INFO: Field value left: 1
+2022-03-14 11:41:15,553 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,553 [my_agent_code] INFO: Awarded 19 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-14 11:41:15,564 [my_agent_code] INFO: NEW MODEL: 
+ [141.47065618 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  67.38489957  25.07604105  -2.62628085  66.33851267   1.60664586
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,564 [my_agent_code] INFO: Current position:   x: 15  y: 5
+2022-03-14 11:41:15,564 [my_agent_code] INFO: ------------------------------------ Step: 6
+2022-03-14 11:41:15,631 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'DOWN', 'BOMB', 'UP'], maxlen=4)
+2022-03-14 11:41:15,638 [my_agent_code] INFO: CHOOSEN ACTION: UP
+2022-03-14 11:41:15,640 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,650 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,650 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,650 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,650 [my_agent_code] INFO: Field value left: -1
+2022-03-14 11:41:15,652 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,652 [my_agent_code] INFO: Awarded 19 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-14 11:41:15,662 [my_agent_code] INFO: NEW MODEL: 
+ [141.92892523 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  67.38489957  25.07604105  -2.25966561  66.63180486   1.60664586
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,663 [my_agent_code] INFO: Current position:   x: 15  y: 4
+2022-03-14 11:41:15,663 [my_agent_code] INFO: ------------------------------------ Step: 7
+2022-03-14 11:41:15,729 [my_agent_code] INFO: Last 4 stored actions:  deque(['DOWN', 'BOMB', 'UP', 'UP'], maxlen=4)
+2022-03-14 11:41:15,733 [my_agent_code] INFO: CHOOSEN ACTION: LEFT
+2022-03-14 11:41:15,734 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,746 [my_agent_code] INFO: Field value up: 0
+2022-03-14 11:41:15,746 [my_agent_code] INFO: Field value right: -1
+2022-03-14 11:41:15,746 [my_agent_code] INFO: Field value down: 0
+2022-03-14 11:41:15,746 [my_agent_code] INFO: Field value left: 0
+2022-03-14 11:41:15,747 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,747 [my_agent_code] INFO: Awarded 70 for events MOVED_LEFT, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-14 11:41:15,751 [my_agent_code] INFO: NEW MODEL: 
+ [139.03591677 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  67.38489957  25.07604105  -2.25966561  64.31739809  -0.24487956
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,751 [my_agent_code] INFO: Current position:   x: 15  y: 3
+2022-03-14 11:41:15,751 [my_agent_code] INFO: ------------------------------------ Step: 8
+2022-03-14 11:41:15,832 [my_agent_code] INFO: Last 4 stored actions:  deque(['BOMB', 'UP', 'UP', 'LEFT'], maxlen=4)
+2022-03-14 11:41:15,836 [my_agent_code] INFO: CHOOSEN ACTION: RIGHT
+2022-03-14 11:41:15,837 [my_agent_code] INFO: Value of a: 0
+2022-03-14 11:41:15,854 [my_agent_code] INFO: Field value up: -1
+2022-03-14 11:41:15,854 [my_agent_code] INFO: Field value right: 0
+2022-03-14 11:41:15,854 [my_agent_code] INFO: Field value down: -1
+2022-03-14 11:41:15,854 [my_agent_code] INFO: Field value left: 0
+2022-03-14 11:41:15,855 [my_agent_code] INFO: Field values: 
+ [[-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1  0 -1  0 -1  1 -1  0 -1  0 -1  0 -1  0 -1  0 -1]
+ [-1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 -1]
+ [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]]
+2022-03-14 11:41:15,855 [my_agent_code] INFO: Awarded -11 for events MOVED_RIGHT, BOMB_EXPLODED, CRATE_DESTROYED, KILLED_SELF, GOT_KILLED, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-14 11:41:15,857 [my_agent_code] INFO: NEW MODEL: 
+ [134.10039175 -44.08642782   0.2620715  -17.47812842 -37.91639848
+  67.38489957  25.07604105  -6.20808563  64.31739809  -0.24487956
+ -49.25946944  -5.3207879  -23.68090214 -41.50090403   5.141092
+  -7.90697912]
+2022-03-14 11:41:15,857 [my_agent_code] INFO: Current position:   x: 14  y: 3
+2022-03-14 11:41:15,857 [my_agent_code] INFO: Test stored last state, former coordinates: (15, 3)
+2022-03-14 11:41:15,858 [my_agent_code] INFO: Run into explosion UP: 0
+2022-03-14 11:41:15,858 [my_agent_code] INFO: Run into explosion RIGHT: 0
+2022-03-14 11:41:15,858 [my_agent_code] INFO: Run into explosion DOWN: 0
+2022-03-14 11:41:15,858 [my_agent_code] INFO: Run into explosion LEFT: 0
+2022-03-14 11:41:15,858 [my_agent_code] INFO: runs_into_bomb_range_without_dying: 0
+2022-03-14 11:41:15,859 [my_agent_code] INFO: runs_into_bomb_range_with_dying: 0
+2022-03-14 11:41:15,859 [my_agent_code] INFO: END OF GAME ---------------- Step: 8 

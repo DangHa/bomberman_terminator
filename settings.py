@@ -13,8 +13,8 @@ SCENARIOS = {
     },
     # This is the tournament game mode
     "classic": {
-        "CRATE_DENSITY": 0.05,
-        "COIN_COUNT": 9
+        "CRATE_DENSITY": 0.01,
+        "COIN_COUNT": 0
     }
     # Feel free to add more game modes and properties
     # game is created in environment.py -> BombeRLeWorld -> build_arena()
