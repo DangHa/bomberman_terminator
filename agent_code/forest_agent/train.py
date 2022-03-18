@@ -19,7 +19,6 @@ DROPPED_BOMB_IN_RANGE_OF_CRATE = "DROPPED_BOMB_IN_RANGE_OF_CRATE"
 RAN_TOWARDS_CLOSEST_CRATE = "RAN_TOWARDS_CLOSEST_CRATE"
 
 
-
 def setup_training(self):
     """
     Initialise self for training purpose.
@@ -185,13 +184,13 @@ def action_to_index(action: str):
 def y_function(self, R, new_game_state):
     features_for_all_actions = feature_for_all_action(new_game_state, self)
 
-    Y = np.array([self.forests[i].predict(features_for_all_actions)[0] for i in range(len(ACTIONS))])
+    Y = np.array([self.forests[i].predict(features_for_all_actions.reshape(1, -1))[0] for i in range(len(ACTIONS))])
     self.logger.debug("Training: New target value Y was calculated to {}".format(R+self.gamma*np.max(Y)))
     return R+self.gamma*np.max(Y)
 
 def add_to_batch(self, old_game_state: dict, self_action: str, new_game_state: dict, events: List[str], R):
     action_index = action_to_index(self_action)
-    s = state_to_features(old_game_state, ACTIONS[action_index], self)
+    s = feature_for_all_action(old_game_state, self)
     Y = y_function(self, R, new_game_state) 
 
     self.s_batch[action_index][self.batch_content[action_index]] = s

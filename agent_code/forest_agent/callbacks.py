@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 9  #Add feature names
+FEATURES = 9*6  #Add feature names
 ACTION_HISTORY_SIZE = 4
 
 def setup(self):
@@ -87,7 +87,9 @@ def act(self, game_state: dict) -> str:
         #get the best action
         self.logger.debug("Training Mode (Exploitation) / Playing: Choosing action based Tree.")
 
-        Y = np.array([self.forests[i].predict(features_for_all_actions)[0] for i in range(len(ACTIONS))])
+        # wrong
+        Y = np.array([self.forests[i].predict(features_for_all_actions.reshape(1, -1))[0] for i in range(len(ACTIONS))])
+
         action_index = np.argmax(Y)
         action = ACTIONS[action_index]
 
@@ -116,6 +118,7 @@ def feature_for_all_action(game_state, self):
     self.logger.info(f"Value for Action DOWN: {state_to_features(game_state, ACTIONS[2], self)[2]}")
     self.logger.info(f"Value for Action LEFT: {state_to_features(game_state, ACTIONS[3], self)[2]}")
 
+    # features to array, not matrix
     features_for_all_actions = np.array([
         features_for_action_1,
         features_for_action_2,
@@ -123,7 +126,7 @@ def feature_for_all_action(game_state, self):
         features_for_action_4,
         features_for_action_5,
         features_for_action_6
-    ])
+    ]).ravel()
 
     return features_for_all_actions
 
