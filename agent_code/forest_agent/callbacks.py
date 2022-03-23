@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 9*6  #Add feature names
+FEATURES = 6  #Add feature names
 ACTION_HISTORY_SIZE = 4
 
 def setup(self):
@@ -105,6 +105,16 @@ def act(self, game_state: dict) -> str:
 
         return action
 
+def binary_array_to_number(array):
+    number_feature = 0
+
+    binary_power = 1
+    for i in reversed(array):
+        number_feature += i*binary_power
+        binary_power *= 2
+
+    return number_feature
+
 def feature_for_all_action(game_state, self):
     features_for_action_1 = state_to_features(game_state, ACTIONS[0], self)
     features_for_action_2 = state_to_features(game_state, ACTIONS[1], self)
@@ -118,15 +128,17 @@ def feature_for_all_action(game_state, self):
     self.logger.info(f"Value for Action DOWN: {state_to_features(game_state, ACTIONS[2], self)[2]}")
     self.logger.info(f"Value for Action LEFT: {state_to_features(game_state, ACTIONS[3], self)[2]}")
 
+    print(features_for_action_1)
+    print("number: ", binary_array_to_number(features_for_action_1))
     # features to array, not matrix
     features_for_all_actions = np.array([
-        features_for_action_1,
-        features_for_action_2,
-        features_for_action_3,
-        features_for_action_4,
-        features_for_action_5,
-        features_for_action_6
-    ]).ravel()
+        binary_array_to_number(features_for_action_1),
+        binary_array_to_number(features_for_action_2),
+        binary_array_to_number(features_for_action_3),
+        binary_array_to_number(features_for_action_4),
+        binary_array_to_number(features_for_action_5),
+        binary_array_to_number(features_for_action_6)
+    ])
 
     return features_for_all_actions
 
