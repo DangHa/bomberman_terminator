@@ -4,10 +4,11 @@ import random
 
 import numpy as np
 from collections import deque
+from itertools import compress #for 'find_planted_bombs_in_dangerous_range' function
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 16
+FEATURES = 13
 ACTION_HISTORY_SIZE = 4
 STATE_HISTORY_SIZE = 2
 
@@ -18,16 +19,32 @@ def setup(self):
     if not os.path.isfile("my-saved-model.pt"):
         self.logger.info("SETTING UP MODEL FROM SCRATCH")
         weights = np.random.rand(FEATURES)
+
+
         self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
         self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
         self.action_loop_result_before_taken_action = 0
         self.a = 0 #for action loop
+        self.random_or_choosen = 0 #only for logger (can be deleted at end)
+        self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
+        self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
+        self.count_crate_trap = 0 #only for logger (can be deleted at end)
+        self.taken_action = None 
+
+
         self.model = weights
     else:
         self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
         self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
         self.action_loop_result_before_taken_action = 0
         self.a = 0 #for action loop
+        self.random_or_choosen = 0 #only for logger (can be deleted at end)
+        self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
+        self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
+        self.count_crate_trap = 0 #only for logger (can be deleted at end)
+        self.taken_action = None 
+
+
         self.logger.info("LOADING MODEL FROM FILE")
         with open("my-saved-model.pt", "rb") as file:
             self.model = pickle.load(file)
@@ -36,30 +53,22 @@ def setup(self):
 #done
 def act(self, game_state: dict) -> str:
 
+    #for logger
+    self.logger.info(f'\n------------------------------------ Step: {game_state["step"]}')
+    
+
+
     #Explore
     if self.train and random.random() < self.epsilon:
         action = np.random.choice(ACTIONS, p=[.25, .25, .25, .25, 0, 0]) #PHASE 1 (No crates yet)
-        self.former_action.append(action)
-        self.logger.info(f'RANDOM ACTION: {action}')
-        return action
+        
+        self.random_or_choosen = 1 #only for logger (can be deleted at end)
+
+      
+        
     
     #Exploit (choose best action)
     else:
-
-        #logger comment
-        self.logger.info(f"Last 4 stored actions:  {self.former_action}")
-        if len(self.former_action) == 4:
-            if (self.former_action[0] == self.former_action[2]) and (self.former_action[1] == self.former_action[3]) and (self.former_action[0] != self.former_action[1]) and (self.former_action[2] != self.former_action[3]):
-                #up-down-up-down
-                if self.former_action[0] in ['UP', 'DOWN']:
-                    if self.former_action[1] in ['UP', 'DOWN']:
-                        self.logger.info(f"Your are in a loop!")
-
-                #left-right-left-right
-                if self.former_action[0] in ['LEFT', 'RIGHT']:
-                    if self.former_action[1] in ['LEFT', 'RIGHT']:
-                        self.logger.info(f"Your are in a loop!")
-
 
         weights = self.model
         features_for_action_1 = state_to_features(game_state, ACTIONS[0], self)
@@ -69,10 +78,6 @@ def act(self, game_state: dict) -> str:
         features_for_action_5 = state_to_features(game_state, ACTIONS[4], self)
         features_for_action_6 = state_to_features(game_state, ACTIONS[5], self)
 
-        # self.logger.info(f"Value for Action UP: {state_to_features(game_state, ACTIONS[0], self)[2]}")
-        # self.logger.info(f"Value for Action RIGHT: {state_to_features(game_state, ACTIONS[1], self)[2]}")
-        # self.logger.info(f"Value for Action DOWN: {state_to_features(game_state, ACTIONS[2], self)[2]}")
-        # self.logger.info(f"Value for Action LEFT: {state_to_features(game_state, ACTIONS[3], self)[2]}")
 
         features_for_all_actions = np.array([
             features_for_action_1,
@@ -84,18 +89,69 @@ def act(self, game_state: dict) -> str:
         ])
 
         index_of_best_action = ((weights * features_for_all_actions).sum(axis=1)).argmax(axis=0)
-        action = ACTIONS[index_of_best_action]
-
-
-        #to store self.action_loop_result_before_taken_action
-        state_to_features(game_state, action, self)
-        # self.logger.info(f"Value of self.action_loop_result_before_taken_action: {self.action_loop_result_before_taken_action}")
+        action = ACTIONS[index_of_best_action]        
         
-        
-        self.former_action.append(action)
-        self.logger.info(f'CHOOSEN ACTION: {action}')
+        self.random_or_choosen = 2 #only for logger (can be deleted at end)
 
-        return action
+       
+
+    #to store taken action
+    self.taken_action = action
+
+
+    #for logger
+    if len(self.former_action) == 4:
+        self.logger.info(f"Last 4 actions without current action:  {self.former_action}") #deactivate if u dont wanna see
+        self.logger.info(f"UP: {state_to_features(game_state, ACTIONS[0], self)[2]}, RIGHT: {state_to_features(game_state, ACTIONS[1], self)[2]}, DOWN: {state_to_features(game_state, ACTIONS[2], self)[2]}, LEFT: {state_to_features(game_state, ACTIONS[3], self)[2]}")
+
+    #for logger
+    if self.random_or_choosen == 2:
+        self.logger.info(f"CHOSEN ACTION: {self.taken_action}")
+    elif self.random_or_choosen == 1:
+        self.logger.info(f"RANDOM ACTION: {self.taken_action}")
+
+
+    self.former_action.append(self.taken_action) #CHANGING POINT FOR ACTION LOOP FUNCTION - FUTURE
+
+
+    #for logger 
+    if len(self.former_action) == 4:
+        self.logger.info(f"Last 4 actions with current action:  {self.former_action}") #deactivate if u dont wanna see
+
+
+        if (self.former_action[0] == self.former_action[2]) and (self.former_action[1] == self.former_action[3]) and (self.former_action[0] != self.former_action[1]) and (self.former_action[2] != self.former_action[3]):
+            #up-down-up-down
+            if self.former_action[0] in ['UP', 'DOWN']:
+                if self.former_action[1] in ['UP', 'DOWN']:
+                    if self.former_action[3] == self.former_action[1]:
+                        self.logger.info(f"You are in a loop!")
+                    #in case you want to disable 'up-down-up-wait' loop
+                    # if action == 'WAIT':
+                    #     self.action_loop_result_before_taken_action = 1
+                    #     return -1                   
+
+            #left-right-left-right
+            if self.former_action[0] in ['LEFT', 'RIGHT']:
+                if self.former_action[1] in ['LEFT', 'RIGHT']:
+                    if self.former_action[3] == self.former_action[1]:
+                        self.logger.info(f"You are in a loop!")
+                    # if action == 'WAIT':
+                    #     self.action_loop_result_before_taken_action = 1
+                    #     return -1  
+
+
+
+    self.former_action.appendleft(0) #CHANGING POINT FOR ACTION LOOP FUNCTION - NORMAL
+
+    #to store self.action_loop_result_before_taken_action
+    state_to_features(game_state, self.taken_action, self)
+
+    self.logger.info(f"Var is_loop in func: {self.action_loop_result_before_taken_action}")
+
+
+    self.former_action.append(self.taken_action) #CHANGING POINT FOR ACTION LOOP FUNCTION - FUTURE
+
+    return action
 
 
 
@@ -113,14 +169,14 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     f = drop_bomb_if_in_range_of_crate(  find_closest_crates(game_state, action, self)  , game_state, action, self)
     g = runs_towards_closest_crate_but_not_wall_or_crate(  find_closest_crates(game_state, action, self)  , game_state, action, self)
     h = runs_away_from_closest_crate_but_not_wall_or_crate(  find_closest_crates(game_state, action, self)  , game_state, action, self)
-    i = get_away_from_bomb(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,   find_closest_crates(game_state, action, self),   game_state, action, self)
-    j = get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,   find_closest_crates(game_state, action, self),   game_state, action, self)
-    k = goes_towards_crate_trap(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,   find_closest_crates(game_state, action, self),   game_state, action, self)
+    i = get_away_from_bomb(   find_planted_bombs_in_dangerous_range(game_state, action, self)  ,   game_state, action, self)
+    j = get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
+    k = goes_towards_crate_trap(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
     l = bomb_dropped_although_not_possible(game_state, action, self)
-    m = runs_into_explosion(game_state, action, self)
-
-    n = runs_into_bomb_range_without_dying(game_state, action, self)
-    o = runs_into_bomb_range_with_dying(game_state, action, self)
+    
+    # m = runs_into_explosion(game_state, action, self)
+    # n = runs_into_bomb_range_without_dying(game_state, action, self)
+    # o = runs_into_bomb_range_with_dying(game_state, action, self)
 
     at_end2 = waited(game_state, action, self)
 
@@ -132,22 +188,24 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     # at_end2 = waited(game_state, action, self)
 
 
-    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, at_end2])
+    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, at_end2]) #, m, n, o, at_end2])
 
 
+#done
 def f0():
     return 1
 
 
+#done
 def runs_into_wall_crate(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
     agent_coord_y = game_state['self'][3][1]
 
-    #CAUTION x and y are switched in 'field' variable
-    moved_up = game_state['field'][agent_coord_x][agent_coord_y-1] #Up
+    #CAUTION x and y are have to be accessed as follows in the 'field' variable
+    moved_up = game_state['field'][agent_coord_x][agent_coord_y-1] #Up    (definitly correct)
     moved_ri = game_state['field'][agent_coord_x+1][agent_coord_y] #Right (definitly correct)
-    moved_do = game_state['field'][agent_coord_x][agent_coord_y+1] #Down
+    moved_do = game_state['field'][agent_coord_x][agent_coord_y+1] #Down  (definitly correct)
     moved_le = game_state['field'][agent_coord_x-1][agent_coord_y] #Left  (definitly correct)
 
     # self.logger.info(f"Field: {game_state['field']}") 
@@ -167,15 +225,16 @@ def runs_into_wall_crate(game_state, action, self):
     return 0
 
 
+#done
 def action_loop(game_state, action, self):
 
     #if in action loop
     if len(self.former_action) == 4:
-        if (self.former_action[0] == self.former_action[2]) and (self.former_action[1] == self.former_action[3]) and (self.former_action[0] != self.former_action[1]) and (self.former_action[2] != self.former_action[3]):
+        if (self.former_action[1] == self.former_action[3]) and (self.former_action[2] == action) and (self.former_action[1] != self.former_action[2]) and (self.former_action[3] != action):
             #up-down-up-down
-            if self.former_action[0] in ['UP', 'DOWN']:
-                if self.former_action[1] in ['UP', 'DOWN']:
-                    if action == self.former_action[0]:
+            if self.former_action[1] in ['UP', 'DOWN']:
+                if self.former_action[2] in ['UP', 'DOWN']:
+                    if action == self.former_action[2]:
                         self.action_loop_result_before_taken_action = 1
                         return -1
                     #in case you want to disable 'up-down-up-wait' loop
@@ -184,9 +243,9 @@ def action_loop(game_state, action, self):
                     #     return -1                   
 
             #left-right-left-right
-            if self.former_action[0] in ['LEFT', 'RIGHT']:
-                if self.former_action[1] in ['LEFT', 'RIGHT']:
-                    if action == self.former_action[0]:
+            if self.former_action[1] in ['LEFT', 'RIGHT']:
+                if self.former_action[2] in ['LEFT', 'RIGHT']:
+                    if action == self.former_action[2]:
                         self.action_loop_result_before_taken_action = 1
                         return -1
                     # if action == 'WAIT':
@@ -204,6 +263,7 @@ def action_loop(game_state, action, self):
 # code now if it works just fine ... though a bit harder for you to understand it maybe
 
 
+#done (fixed x - y coord)
 def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -220,6 +280,11 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
             closest_dist = dist
             closest_coin = [coin_x, coin_y]
 
+
+    # self.logger.info(f"Coordinates of coins: \n {coin_locations}")
+    # self.logger.info(f"Coordinates of closest coin: {closest_coin}")
+
+
     # the next direction to be closer to the closest coin
     if closest_coin is not None:
         
@@ -227,7 +292,7 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
 
         if action == 'UP':
             #check if distance along changing axis is reduced and there is no wall or crate on the field u go to
-            if abs(y - (agent_coord_y - 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y - 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 #to prevent up-down-loop: checks if movement would bring agent into:  _|_|nearest-coin|_|_|_|agent|_|_
                 if ((agent_coord_y - 1) % 2) != 0: 
                     return 1
@@ -240,7 +305,7 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
                             return 1
 
         if action == 'RIGHT':
-            if abs(x - (agent_coord_x + 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
+            if abs(x - (agent_coord_x + 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                 if ((agent_coord_x + 1) % 2) != 0: 
                     return 1
                 else:
@@ -252,7 +317,7 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
                             return 1
 
         if action == 'DOWN':
-            if abs(y - (agent_coord_y + 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y + 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                 if ((agent_coord_y + 1) % 2) != 0: 
                     return 1
                 else:
@@ -264,7 +329,7 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
                             return 1
 
         if action == 'LEFT':
-            if abs(x - (agent_coord_x - 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
+            if abs(x - (agent_coord_x - 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                 if ((agent_coord_x - 1) % 2) != 0: 
                     return 1
                 else:
@@ -278,7 +343,7 @@ def runs_towards_closest_coin_but_not_wall_or_crate(game_state, action, self):
 
     return 0
 
-
+#done (fixed x - y coord)
 def runs_away_from_closest_coin_but_not_wall_or_crate(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -301,19 +366,19 @@ def runs_away_from_closest_coin_but_not_wall_or_crate(game_state, action, self):
         x, y = closest_coin
 
         if action == 'UP':
-            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 return 1
 
         if action == 'RIGHT':
-            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
+            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                 return 1
 
         if action == 'DOWN':
-            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                 return 1
 
         if action == 'LEFT':
-            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
+            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                 return 1
 
 
@@ -321,7 +386,7 @@ def runs_away_from_closest_coin_but_not_wall_or_crate(game_state, action, self):
 
 
 
-# helper function
+# helper function    done (x and y correct)
 def find_closest_crates(game_state, action, self): 
     
     agent_coord_x = game_state['self'][3][0]
@@ -348,7 +413,7 @@ def find_closest_crates(game_state, action, self):
 
     return closest_crate
 
-
+#done (x and y correct)
 def drop_bomb_if_in_range_of_crate(closest_crate, game_state, action, self): # closest_crate = return of 'find_closest_crates(game_state, action, self)'
 
     agent_coord_x = game_state['self'][3][0]
@@ -378,7 +443,7 @@ def drop_bomb_if_in_range_of_crate(closest_crate, game_state, action, self): # c
 
     return 0
 
-
+#hopefully done (x and y fixed?)
 def runs_towards_closest_crate_but_not_wall_or_crate(closest_crate, game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -392,7 +457,7 @@ def runs_towards_closest_crate_but_not_wall_or_crate(closest_crate, game_state, 
 
         if action == 'UP':
             #check if distance along changing axis is reduced and there is no wall or crate on the field u go to
-            if abs(y - (agent_coord_y - 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y - 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 #if agent would move into crate dont give reward
                 if abs(y - (agent_coord_y - 1)) == 0 and abs(x - agent_coord_x) == 0:
                     return 0
@@ -405,7 +470,7 @@ def runs_towards_closest_crate_but_not_wall_or_crate(closest_crate, game_state, 
 
 
         if action == 'RIGHT':
-            if abs(x - (agent_coord_x + 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
+            if abs(x - (agent_coord_x + 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                 if abs(x - (agent_coord_x + 1)) == 0 and abs(y - agent_coord_y) == 0:
                     return 0
                 if ((agent_coord_x + 1) % 2) != 0: 
@@ -416,7 +481,7 @@ def runs_towards_closest_crate_but_not_wall_or_crate(closest_crate, game_state, 
       
 
         if action == 'DOWN':
-            if abs(y - (agent_coord_y + 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y + 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                 if abs(y - (agent_coord_y + 1)) == 0 and abs(x - agent_coord_x) == 0:
                     return 0                
                 if ((agent_coord_y + 1) % 2) != 0: 
@@ -427,7 +492,7 @@ def runs_towards_closest_crate_but_not_wall_or_crate(closest_crate, game_state, 
               
 
         if action == 'LEFT':
-            if abs(x - (agent_coord_x - 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
+            if abs(x - (agent_coord_x - 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                 if abs(x - (agent_coord_x - 1)) == 0 and abs(y - agent_coord_y) == 0:
                     return 0                
                 if ((agent_coord_x - 1) % 2) != 0: 
@@ -439,7 +504,7 @@ def runs_towards_closest_crate_but_not_wall_or_crate(closest_crate, game_state, 
 
     return 0
 
-
+#hopefully done (x and y fixed?)
 def runs_away_from_closest_crate_but_not_wall_or_crate(closest_crate, game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -453,7 +518,7 @@ def runs_away_from_closest_crate_but_not_wall_or_crate(closest_crate, game_state
 
         if action == 'UP':
             #check if distance along changing axis is reduced and there is no wall or crate on the field u go to
-            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 #if agent would move into crate dont give reward
                 if abs(y - (agent_coord_y - 1)) == 0 and abs(x - agent_coord_x) == 0:
                     return 0
@@ -462,7 +527,7 @@ def runs_away_from_closest_crate_but_not_wall_or_crate(closest_crate, game_state
 
 
         if action == 'RIGHT':
-            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
+            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                 if abs(x - (agent_coord_x + 1)) == 0 and abs(y - agent_coord_y) == 0:
                     return 0
                 else:
@@ -470,7 +535,7 @@ def runs_away_from_closest_crate_but_not_wall_or_crate(closest_crate, game_state
       
 
         if action == 'DOWN':
-            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                 if abs(y - (agent_coord_y + 1)) == 0 and abs(x - agent_coord_x) == 0:
                     return 0                
                 else:
@@ -478,7 +543,7 @@ def runs_away_from_closest_crate_but_not_wall_or_crate(closest_crate, game_state
               
 
         if action == 'LEFT':
-            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
+            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                 if abs(x - (agent_coord_x - 1)) == 0 and abs(y - agent_coord_y) == 0:
                     return 0                
                 else:
@@ -488,36 +553,46 @@ def runs_away_from_closest_crate_but_not_wall_or_crate(closest_crate, game_state
     return 0
 
 
+#done (x and y fixed)
 #helper helper function
 def is_bomb_dangerous(bomb, agent_coord_x, agent_coord_y):
 
-    if bomb is not None:
+    if bomb[0] is not None:
 
         #agent in y range of explosion
-        if abs(bomb[1] - agent_coord_y) <= 3 and abs(bomb[0] - agent_coord_x) == 0:
+        if abs(bomb[0][1] - agent_coord_y) <= 3 and abs(bomb[0][0] - agent_coord_x) == 0:
             #no wall in between
             if (agent_coord_x % 2) != 0 :
                 return True
         
-        #range bomb in x range of explosion
-        if abs(bomb[0] - agent_coord_x) <= 3 and abs(bomb[1] - agent_coord_y) == 0:
+        #agent in x range of explosion
+        if abs(bomb[0][0] - agent_coord_x) <= 3 and abs(bomb[0][1] - agent_coord_y) == 0:
             #no wall in between
             if (agent_coord_y % 2) != 0 :
                 return True
 
+        #agent directly on bomb
+        if abs(bomb[0][0] - agent_coord_x) == 0 and abs(bomb[0][1] - agent_coord_y) == 0:
+            return True       
+
     return False
 
 
+
+
+#hopefully done (x and y fixed)
 #helper function
 def find_planted_bombs_in_dangerous_range(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
     agent_coord_y = game_state['self'][3][1]
 
-    #generate a 'bomb_locations' list like the coin_locations, so like:  [(x,y), (x,y), (x,y)]
-    bomb_locations = [item[0] for item in game_state['bombs']]
-    
-    bomb_infos = game_state['bombs']
+    #generate a 'bomb_infos' list similar to the coin_locations, but like:  [((x,y),t), ((x,y),t), ((x,y),t)]
+    bomb_infos = game_state["bombs"]
+
+    #only keep bombs for which agent is in explosion range
+    filter_criteria = [is_bomb_dangerous(x, agent_coord_x, agent_coord_y) for x in game_state["bombs"]]
+    bomb_infos = list(compress(bomb_infos, filter_criteria))
 
     closest_bomb1 = (None, 0)
     closest_bomb2 = (None, 0)
@@ -525,10 +600,8 @@ def find_planted_bombs_in_dangerous_range(game_state, action, self):
     closest_dist = 100
 
     # find the 3 closest bombs
-    if len(bomb_locations) != 0:
-        #sort 'bomb_locations' list according to cartesian distance to agent
-        bomb_locations_sorted = sorted( bomb_locations, key = lambda coord: np.linalg.norm([coord[0] - agent_coord_x, coord[1] - agent_coord_y] ) )
-
+    if len(bomb_infos) != 0:
+        
         bomb_infos_sorted = sorted( bomb_infos, key = lambda coord: np.linalg.norm([coord[0][0] - agent_coord_x, coord[0][1] - agent_coord_y] ) )
 
         if len(bomb_infos) == 1:
@@ -550,19 +623,19 @@ def find_planted_bombs_in_dangerous_range(game_state, action, self):
     number_of_dangerous_bombs = 0
 
     if closest_bombs[0][0] is not None:
-        if is_bomb_dangerous(closest_bombs[0][0], agent_coord_x, agent_coord_y):
+        if is_bomb_dangerous(closest_bombs[0], agent_coord_x, agent_coord_y):
             number_of_dangerous_bombs += 1
         else:
             closest_bomb1 = (None, 0)
 
     if closest_bombs[1][0] is not None:
-        if is_bomb_dangerous(closest_bombs[1][0], agent_coord_x, agent_coord_y):
+        if is_bomb_dangerous(closest_bombs[1], agent_coord_x, agent_coord_y):
             number_of_dangerous_bombs += 1
         else:
             closest_bomb2 = (None, 0)
-    
+
     if closest_bombs[2][0] is not None:
-        if is_bomb_dangerous(closest_bombs[2][0], agent_coord_x, agent_coord_y):
+        if is_bomb_dangerous(closest_bombs[2], agent_coord_x, agent_coord_y):
             number_of_dangerous_bombs += 1
         else:
             closest_bomb3 = (None, 0)
@@ -579,11 +652,12 @@ def find_planted_bombs_in_dangerous_range(game_state, action, self):
     return [dangerous_bombs, number_of_dangerous_bombs]
 
 
+#hopefully done (x and y ficed)
 #here we would still need to solve crate trap problem for 2 crates (only solved for one)
 # arg: 'dangerous_bombs, number_of_dangerous_bombs'  is  'find_planted_bombs_in_dangerous_range(game_state, action, self)'
 # arg: 'closest_crate' is 'find_closest_crates(game_state, action, self)'
-def get_away_from_bomb(dangerous_bombs_and_number_of_dangerous_bombs, closest_crate, game_state, action, self):
-    
+def get_away_from_bomb(dangerous_bombs_and_number_of_dangerous_bombs, game_state, action, self):
+
     dangerous_bombs = [item[0] for item in dangerous_bombs_and_number_of_dangerous_bombs[0]] 
     number_of_dangerous_bombs = dangerous_bombs_and_number_of_dangerous_bombs[1]
 
@@ -591,23 +665,6 @@ def get_away_from_bomb(dangerous_bombs_and_number_of_dangerous_bombs, closest_cr
     agent_coord_y = game_state['self'][3][1]
 
 
-    if closest_crate is not None:
-        crate_x, crate_y = closest_crate
-        crate_in_expl_range = False
-
-        #check if crate in explosion range of bomb
-        #range bomb in y range of explosion
-        if abs(crate_y - agent_coord_y) <= 3 and abs(crate_x - agent_coord_x) == 0:
-            #no wall in between
-            if (agent_coord_x % 2) != 0 :
-                crate_in_expl_range = True
-        #range bomb in x range of explosion
-        if abs(crate_x - agent_coord_x) <= 3 and abs(crate_y - agent_coord_y) == 0:
-            #no wall in between
-            if (agent_coord_y % 2) != 0 :
-                crate_in_expl_range = True
-
-    crate_in_expl_range = False
 
 
     #case 1:  one bomb-------------------------------------------------------
@@ -619,43 +676,59 @@ def get_away_from_bomb(dangerous_bombs_and_number_of_dangerous_bombs, closest_cr
         bomb_coord_x = bomb_coord[0]
         bomb_coord_y = bomb_coord[1]
 
-        x, y = bomb_coord_x, bomb_coord_y
+        x, y = bomb_coord_x, bomb_coord_y 
 
 
         # the next direction to be farther from the bomb
         if action == 'UP':
-            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 #avoid crate trap
                 """
                 ____W_
                 _B__xC  (moved right in this case)
                 ____W_
                 """
-                if crate_in_expl_range:
-                    if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
+                #if agent moved to free lane, crate problem cant occure
+                if ((agent_coord_y - 1) % 2) != 0:
+                    return 1
+                #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+                elif ((agent_coord_y - 1) % 2) == 0 and ((agent_coord_y - 1) != 0) :
+                    if game_state['field'][agent_coord_x][agent_coord_y-2] != 0:
                         return 0
+
                 return 1
 
         if action == 'RIGHT':
-            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
+            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                if ((agent_coord_x + 1) % 2) != 0:
+                    return 1
+                elif ((agent_coord_x + 1) % 2) == 0 and ((agent_coord_x + 1) != len(game_state['field'])-1):
+                    if game_state['field'][agent_coord_x+2][agent_coord_y] != 0:
                         return 0
+                        
                 return 1
 
         if action == 'DOWN':
-            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
+            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                if ((agent_coord_y + 1) % 2) != 0:
+                    return 1
+                elif ((agent_coord_y + 1) % 2) == 0 and ((agent_coord_y + 1) != len(game_state['field'][:][0])-1) :
+                    if game_state['field'][agent_coord_x][agent_coord_y+2] != 0:
                         return 0
+                        
                 return 1
 
         if action == 'LEFT':
-            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
+            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                if ((agent_coord_x - 1) % 2) != 0:
+                    return 1
+                elif ((agent_coord_x - 1) % 2) == 0 and ((agent_coord_x - 1) != 0):
+                    if game_state['field'][agent_coord_x-2][agent_coord_y] != 0:
                         return 0
+                        
                 return 1
+
+
 
 
     #case 2:  two bombs-------------------------------------------------------
@@ -675,140 +748,165 @@ def get_away_from_bomb(dangerous_bombs_and_number_of_dangerous_bombs, closest_cr
 
         # the next direction to be farther from both bombs
         if action == 'UP':
-            #1st: gets farther from at least ONE bomb,  2nd: doesnt get closer to other bomb
-            #gets away from bomb 1
-            if abs(y1 - (agent_coord_y - 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y2 - (agent_coord_y - 1)) < abs(y2 - agent_coord_y)):
-                    #dont run into crate trap 
-                    """
-                    ____W_
-                    _B__xC (moved right in this case)
-                    ____W_
-                    """
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
+
+            #if agent IS in free lane 
+            if ((agent_coord_y) % 2) != 0:
+
+                #1st: gets farther from at least ONE bomb,  2nd: doesnt get closer to other bomb
+                #gets away from bomb 1
+                if abs(y1 - (agent_coord_y - 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                    #doesnt get closer to bomb2
+                    if abs(y2 - (agent_coord_y - 1)) >= abs(y2 - agent_coord_y):
+                        #avoid crate trap
+                        """
+                        ____W_
+                        _B__xC  (moved right in this case)
+                        ____W_
+                        """
+                        #if agent MOVED to free lane (cannot be true if he already was in free lane and moved)
+                        if ((agent_coord_y - 1) % 2) != 0:
+                            return 1
+                        #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+                        elif ((agent_coord_y - 1) % 2) == 0 and ((agent_coord_y - 1) != 0) :
+                            if game_state['field'][agent_coord_x][agent_coord_y-2] != 0:
+                                return 0
+
+                        return 1
+                    
+
+                #gets away from bomb 2
+                if abs(y2 - (agent_coord_y - 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                    #doesnt get closer to bomb1
+                    if abs(y1 - (agent_coord_y - 1)) >= abs(y1 - agent_coord_y):
+                        #avoid crate trap
+                        """
+                        ____W_
+                        _B__xC  (moved right in this case)
+                        ____W_
+                        """
+                        #if agent MOVED to free lane (cannot be true if he already was in free lane and moved)
+                        if ((agent_coord_y - 1) % 2) != 0:
+                            return 1
+                        #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+                        elif ((agent_coord_y - 1) % 2) == 0 and ((agent_coord_y - 1) != 0) :
+                            if game_state['field'][agent_coord_x][agent_coord_y-2] != 0:
+                                return 0
+
+                        return 1
+
+
+            #if agent IS in problem lane  |_|_|x|_|_|
+            if ((agent_coord_y) % 2) == 0:
+                #if both bombs are above agent return 0, else return 1
+                if y1 <= agent_coord_y and y2 <= agent_coord_y:
+                    return 0
+                else:
                     return 1
-            #gets away from bomb 2
-            if abs(y2 - (agent_coord_y - 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y1 - (agent_coord_y - 1)) < abs(y1 - agent_coord_y)):
-                    #dont run into crate trap 
-                    """
-                    ____W_
-                    _B__xC (moved right in this case)
-                    ____W_
-                    """
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
-                    return 1
+
+
 
 
         if action == 'RIGHT':
-            #gets away from bomb 1
-            if abs(x1 - (agent_coord_x + 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(x2 - (agent_coord_x + 1)) < abs(x2 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
+
+            if ((agent_coord_x) % 2) != 0:
+
+                if abs(x1 - (agent_coord_x + 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                    if abs(x2 - (agent_coord_x + 1)) >= abs(x2 - agent_coord_x):
+                        if ((agent_coord_x + 1) % 2) != 0:
+                            return 1
+                        elif ((agent_coord_x + 1) % 2) == 0 and ((agent_coord_x + 1) != len(game_state['field'])-1):
+                            if game_state['field'][agent_coord_x+2][agent_coord_y] != 0:
+                                return 0
+
+                        return 1
+                    
+
+                if abs(x2 - (agent_coord_x + 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                    if abs(x1 - (agent_coord_x + 1)) >= abs(x1 - agent_coord_x):
+                        if ((agent_coord_x + 1) % 2) != 0:
+                            return 1
+                        elif ((agent_coord_x + 1) % 2) == 0 and ((agent_coord_x + 1) != len(game_state['field'])-1):
+                            if game_state['field'][agent_coord_x+2][agent_coord_y] != 0:
+                                return 0
+
+                        return 1
+
+
+            if ((agent_coord_x) % 2) == 0:
+                if x1 >= agent_coord_x and x2 >= agent_coord_x:
+                    return 0
+                else:
                     return 1
-            #gets away from bomb 2
-            if abs(x2 - (agent_coord_x + 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                #doesnt get closer to bomb1
-                if not (abs(x1 - (agent_coord_x + 1)) < abs(x1 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
-                    return 1
+
+
 
 
         if action == 'DOWN':
-            #gets away from bomb 1
-            if abs(y1 - (agent_coord_y + 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y2 - (agent_coord_y + 1)) < abs(y2 - agent_coord_y)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 0
+
+            if ((agent_coord_y) % 2) != 0:
+
+                if abs(y1 - (agent_coord_y + 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                    if abs(y2 - (agent_coord_y + 1)) >= abs(y2 - agent_coord_y):
+                        if ((agent_coord_y + 1) % 2) != 0:
+                            return 1
+                        elif ((agent_coord_y + 1) % 2) == 0 and ((agent_coord_y + 1) != len(game_state['field'][:][0])-1) :
+                            if game_state['field'][agent_coord_x][agent_coord_y+2] != 0:
+                                return 0
+
+                        return 1
+                    
+
+                if abs(y2 - (agent_coord_y + 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                    if abs(y1 - (agent_coord_y + 1)) >= abs(y1 - agent_coord_y):
+                        if ((agent_coord_y + 1) % 2) != 0:
+                            return 1
+                        elif ((agent_coord_y + 1) % 2) == 0 and ((agent_coord_y + 1) != len(game_state['field'][:][0])-1) :
+                            if game_state['field'][agent_coord_x][agent_coord_y+2] != 0:
+                                return 0
+
+                        return 1
+
+
+            if ((agent_coord_y) % 2) == 0:
+                if y1 >= agent_coord_y and y2 >= agent_coord_y:
+                    return 0
+                else:
                     return 1
-            #gets away from bomb 2
-            if abs(y2 - (agent_coord_y + 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y1 - (agent_coord_y + 1)) < abs(y1 - agent_coord_y)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 0
-                    return 1
+
+
+
 
 
         if action == 'LEFT':
-            #gets away from bomb 1
-            if abs(x1 - (agent_coord_x - 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(x2 - (agent_coord_x - 1)) < abs(x2 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 0
-                    return 1
-            #gets away from bomb 2
-            if abs(x2 - (agent_coord_x - 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                #doesnt get closer to bomb1
-                if not (abs(x1 - (agent_coord_x - 1)) < abs(x1 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 0
-                    return 1
+
+            if ((agent_coord_x) % 2) != 0:
+
+                if abs(x1 - (agent_coord_x - 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                    if abs(x2 - (agent_coord_x - 1)) >= abs(x2 - agent_coord_x):
+                        if ((agent_coord_x - 1) % 2) != 0:
+                            return 1
+                        elif ((agent_coord_x - 1) % 2) == 0 and ((agent_coord_x - 1) != 0):
+                            if game_state['field'][agent_coord_x-2][agent_coord_y] != 0:
+                                return 0
+
+                        return 1
+                    
+
+                if abs(x2 - (agent_coord_x - 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                    if abs(x1 - (agent_coord_x - 1)) >= abs(x1 - agent_coord_x):
+                        if ((agent_coord_x - 1) % 2) != 0:
+                            return 1
+                        elif ((agent_coord_x - 1) % 2) == 0 and ((agent_coord_x - 1) != 0):
+                            if game_state['field'][agent_coord_x-2][agent_coord_y] != 0:
+                                return 0
+
+                        return 1
 
 
-        #if there is no way to move away from one bomb without getting closer to the other, we have the following situation:
-        """
-        W_W_W_W_W_W_W
-        ___B__x__B___
-        W_W_W_W_W_W_W
-
-        """
-        #sketched case
-        if abs(y1 - agent_coord_y) == 0 and abs(y2 - agent_coord_y) == 0:
-            if action == 'RIGHT':
-                #only go right if you dont run directly on the field where a bomb is
-                if abs(x1 - (agent_coord_x + 1)) != 0 and abs(x2 - (agent_coord_x + 1)) != 0 and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
-                    return 1
-            if action == 'LEFT':
-                if abs(x1 - (agent_coord_x - 1)) != 0 and abs(x2 - (agent_coord_x - 1)) != 0 and  ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 0
-                    return 1
-
-        #90 degree rotated case
-        if abs(x1 - agent_coord_x) == 0 and abs(x2 - agent_coord_x) == 0:
-            if action == 'UP':
-                if abs(y1 - (agent_coord_y - 1)) != 0 and abs(y2 - (agent_coord_y - 1)) != 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
-                    return 1
-            if action == 'DOWN':
-                if abs(y1 - (agent_coord_y + 1)) != 0 and abs(y2 - (agent_coord_y + 1)) != 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 0
+            if ((agent_coord_x) % 2) == 0:
+                if x1 <= agent_coord_x and x2 <= agent_coord_x:
+                    return 0
+                else:
                     return 1
 
 
@@ -820,33 +918,21 @@ def get_away_from_bomb(dangerous_bombs_and_number_of_dangerous_bombs, closest_cr
     return 0
 
 
+
+
+#hopefully done (x and y ficed)
 #here we would still need to solve crate trap problem for 2 crates (only solved for one)
 #exactly the same as 'get_away_from_bomb' only switch all return 0 and 1 values (except the final one)
-def goes_towards_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, closest_crate, game_state, action, self):
-    
+def goes_towards_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, game_state, action, self):
+
     dangerous_bombs = [item[0] for item in dangerous_bombs_and_number_of_dangerous_bombs[0]] 
     number_of_dangerous_bombs = dangerous_bombs_and_number_of_dangerous_bombs[1]
 
     agent_coord_x = game_state['self'][3][0]
     agent_coord_y = game_state['self'][3][1]
 
-    if closest_crate is not None:
-        crate_x, crate_y = closest_crate
-        crate_in_expl_range = False
 
-        #check if crate in explosion range of bomb
-        #range bomb in y range of explosion
-        if abs(crate_y - agent_coord_y) <= 3 and abs(crate_x - agent_coord_x) == 0:
-            #no wall in between
-            if (agent_coord_x % 2) != 0 :
-                crate_in_expl_range = True
-        #range bomb in x range of explosion
-        if abs(crate_x - agent_coord_x) <= 3 and abs(crate_y - agent_coord_y) == 0:
-            #no wall in between
-            if (agent_coord_y % 2) != 0 :
-                crate_in_expl_range = True
 
-    crate_in_expl_range = False
 
     #case 1:  one bomb-------------------------------------------------------
     if number_of_dangerous_bombs == 1:
@@ -857,43 +943,59 @@ def goes_towards_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, close
         bomb_coord_x = bomb_coord[0]
         bomb_coord_y = bomb_coord[1]
 
-        x, y = bomb_coord_x, bomb_coord_y
+        x, y = bomb_coord_x, bomb_coord_y 
 
 
         # the next direction to be farther from the bomb
         if action == 'UP':
-            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+            if abs(y - (agent_coord_y - 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 #avoid crate trap
                 """
                 ____W_
                 _B__xC  (moved right in this case)
                 ____W_
                 """
-                if crate_in_expl_range:
-                    if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
+                #if agent moved to free lane crate problem cant occure
+                if ((agent_coord_y - 1) % 2) != 0:
+                    return 0
+                #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+                elif ((agent_coord_y - 1) % 2) == 0 and ((agent_coord_y - 1) != 0) :
+                    if game_state['field'][agent_coord_x][agent_coord_y-2] != 0:
                         return 1
+
                 return 0
 
         if action == 'RIGHT':
-            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
+            if abs(x - (agent_coord_x + 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                if ((agent_coord_x + 1) % 2) != 0:
+                    return 0
+                elif ((agent_coord_x + 1) % 2) == 0 and ((agent_coord_x + 1) != len(game_state['field'])-1):
+                    if game_state['field'][agent_coord_x+2][agent_coord_y] != 0:
                         return 1
+                        
                 return 0
 
         if action == 'DOWN':
-            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
+            if abs(y - (agent_coord_y + 1)) > abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                if ((agent_coord_y + 1) % 2) != 0:
+                    return 0
+                elif ((agent_coord_y + 1) % 2) == 0 and ((agent_coord_y + 1) != len(game_state['field'][:][0])-1) :
+                    if game_state['field'][agent_coord_x][agent_coord_y+2] != 0:
                         return 1
+                        
                 return 0
 
         if action == 'LEFT':
-            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
+            if abs(x - (agent_coord_x - 1)) > abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                if ((agent_coord_x - 1) % 2) != 0:
+                    return 0
+                elif ((agent_coord_x - 1) % 2) == 0 and ((agent_coord_x - 1) != 0):
+                    if game_state['field'][agent_coord_x-2][agent_coord_y] != 0:
                         return 1
+                        
                 return 0
+
+
 
 
     #case 2:  two bombs-------------------------------------------------------
@@ -913,141 +1015,153 @@ def goes_towards_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, close
 
         # the next direction to be farther from both bombs
         if action == 'UP':
-            #1st: gets farther from at least ONE bomb,  2nd: doesnt get closer to other bomb
-            #gets away from bomb 1
-            if abs(y1 - (agent_coord_y - 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y2 - (agent_coord_y - 1)) < abs(y2 - agent_coord_y)):
-                    #dont run into crate trap 
-                    """
-                    ____W_
-                    _B__xC (moved right in this case)
-                    ____W_
-                    """
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
-            #gets away from bomb 2
-            if abs(y2 - (agent_coord_y - 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y1 - (agent_coord_y - 1)) < abs(y1 - agent_coord_y)):
-                    #dont run into crate trap 
-                    """
-                    ____W_
-                    _B__xC (moved right in this case)
-                    ____W_
-                    """
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
+
+            #if agent IS in free lane 
+            if ((agent_coord_y) % 2) != 0:
+
+                #1st: gets farther from at least ONE bomb,  2nd: doesnt get closer to other bomb
+                #gets away from bomb 1
+                if abs(y1 - (agent_coord_y - 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                    #doesnt get closer to bomb2
+                    if abs(y2 - (agent_coord_y - 1)) >= abs(y2 - agent_coord_y):
+                        #avoid crate trap
+                        """
+                        ____W_
+                        _B__xC  (moved right in this case)
+                        ____W_
+                        """
+                        #if agent MOVED to free lane (cannot be true if he already was in free lane and moved)
+                        if ((agent_coord_y - 1) % 2) != 0:
+                            return 0
+                        #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+                        elif ((agent_coord_y - 1) % 2) == 0 and ((agent_coord_y - 1) != 0) :
+                            if game_state['field'][agent_coord_x][agent_coord_y-2] != 0:
+                                return 1
+
+                        return 0
+                    
+
+                #gets away from bomb 2
+                if abs(y2 - (agent_coord_y - 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                    #doesnt get closer to bomb1
+                    if abs(y1 - (agent_coord_y - 1)) >= abs(y1 - agent_coord_y):
+                        #avoid crate trap
+                        """
+                        ____W_
+                        _B__xC  (moved right in this case)
+                        ____W_
+                        """
+                        #if agent MOVED to free lane (cannot be true if he already was in free lane and moved)
+                        if ((agent_coord_y - 1) % 2) != 0:
+                            return 0
+                        #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+                        elif ((agent_coord_y - 1) % 2) == 0 and ((agent_coord_y - 1) != 0) :
+                            if game_state['field'][agent_coord_x][agent_coord_y-2] != 0:
+                                return 1
+
+                        return 0
+
+
+            #if agent IS in problem lane  |_|_|x|_|_| -------> there CANT be a crate trap!!!
+            if ((agent_coord_y) % 2) == 0:
+                return 0
+
+
 
 
         if action == 'RIGHT':
-            #gets away from bomb 1
-            if abs(x1 - (agent_coord_x + 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(x2 - (agent_coord_x + 1)) < abs(x2 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
-            #gets away from bomb 2
-            if abs(x2 - (agent_coord_x + 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                #doesnt get closer to bomb1
-                if not (abs(x1 - (agent_coord_x + 1)) < abs(x1 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
+
+            if ((agent_coord_x) % 2) != 0:
+
+                if abs(x1 - (agent_coord_x + 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                    if abs(x2 - (agent_coord_x + 1)) >= abs(x2 - agent_coord_x):
+                        if ((agent_coord_x + 1) % 2) != 0:
+                            return 0
+                        elif ((agent_coord_x + 1) % 2) == 0 and ((agent_coord_x + 1) != len(game_state['field'])-1):
+                            if game_state['field'][agent_coord_x+2][agent_coord_y] != 0:
+                                return 1
+
+                        return 0
+                    
+
+                if abs(x2 - (agent_coord_x + 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                    if abs(x1 - (agent_coord_x + 1)) >= abs(x1 - agent_coord_x):
+                        if ((agent_coord_x + 1) % 2) != 0:
+                            return 0
+                        elif ((agent_coord_x + 1) % 2) == 0 and ((agent_coord_x + 1) != len(game_state['field'])-1):
+                            if game_state['field'][agent_coord_x+2][agent_coord_y] != 0:
+                                return 1
+
+                        return 0
+
+
+            if ((agent_coord_x) % 2) == 0:
+                return 0
+
+
 
 
         if action == 'DOWN':
-            #gets away from bomb 1
-            if abs(y1 - (agent_coord_y + 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y2 - (agent_coord_y + 1)) < abs(y2 - agent_coord_y)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
-            #gets away from bomb 2
-            if abs(y2 - (agent_coord_y + 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y1 - (agent_coord_y + 1)) < abs(y1 - agent_coord_y)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
+
+            if ((agent_coord_y) % 2) != 0:
+
+                if abs(y1 - (agent_coord_y + 1)) > abs(y1 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                    if abs(y2 - (agent_coord_y + 1)) >= abs(y2 - agent_coord_y):
+                        if ((agent_coord_y + 1) % 2) != 0:
+                            return 0
+                        elif ((agent_coord_y + 1) % 2) == 0 and ((agent_coord_y + 1) != len(game_state['field'][:][0])-1) :
+                            if game_state['field'][agent_coord_x][agent_coord_y+2] != 0:
+                                return 1
+
+                        return 0
+                    
+
+                if abs(y2 - (agent_coord_y + 1)) > abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                    if abs(y1 - (agent_coord_y + 1)) >= abs(y1 - agent_coord_y):
+                        if ((agent_coord_y + 1) % 2) != 0:
+                            return 0
+                        elif ((agent_coord_y + 1) % 2) == 0 and ((agent_coord_y + 1) != len(game_state['field'][:][0])-1) :
+                            if game_state['field'][agent_coord_x][agent_coord_y+2] != 0:
+                                return 1
+
+                        return 0
+
+
+            if ((agent_coord_y) % 2) == 0:
+                return 0
+
+
+
 
 
         if action == 'LEFT':
-            #gets away from bomb 1
-            if abs(x1 - (agent_coord_x - 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(x2 - (agent_coord_x - 1)) < abs(x2 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 1
-                    return 0
-            #gets away from bomb 2
-            if abs(x2 - (agent_coord_x - 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                #doesnt get closer to bomb1
-                if not (abs(x1 - (agent_coord_x - 1)) < abs(x1 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 1
-                    return 0
+
+            if ((agent_coord_x) % 2) != 0:
+
+                if abs(x1 - (agent_coord_x - 1)) > abs(x1 - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                    if abs(x2 - (agent_coord_x - 1)) >= abs(x2 - agent_coord_x):
+                        if ((agent_coord_x - 1) % 2) != 0:
+                            return 0
+                        elif ((agent_coord_x - 1) % 2) == 0 and ((agent_coord_x - 1) != 0):
+                            if game_state['field'][agent_coord_x-2][agent_coord_y] != 0:
+                                return 1
+
+                        return 0
+                    
+
+                if abs(x2 - (agent_coord_x - 1)) > abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                    if abs(x1 - (agent_coord_x - 1)) >= abs(x1 - agent_coord_x):
+                        if ((agent_coord_x - 1) % 2) != 0:
+                            return 0
+                        elif ((agent_coord_x - 1) % 2) == 0 and ((agent_coord_x - 1) != 0):
+                            if game_state['field'][agent_coord_x-2][agent_coord_y] != 0:
+                                return 1
+
+                        return 0
 
 
-        #if there is no way to move away from one bomb without getting closer to the other, we have the following situation:
-        """
-        W_W_W_W_W_W_W
-        ___B__x__B___
-        W_W_W_W_W_W_W
-
-        """
-        #sketched case
-        if abs(y1 - agent_coord_y) == 0 and abs(y2 - agent_coord_y) == 0:
-            if action == 'RIGHT':
-                #only go right if you dont run directly on the field where a bomb is
-                if abs(x1 - (agent_coord_x + 1)) != 0 and abs(x2 - (agent_coord_x + 1)) != 0 and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
-            if action == 'LEFT':
-                if abs(x1 - (agent_coord_x - 1)) != 0 and abs(x2 - (agent_coord_x - 1)) != 0 and  ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 1
-                    return 0
-
-        #90 degree rotated case
-        if abs(x1 - agent_coord_x) == 0 and abs(x2 - agent_coord_x) == 0:
-            if action == 'UP':
-                if abs(y1 - (agent_coord_y - 1)) != 0 and abs(y2 - (agent_coord_y - 1)) != 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
-            if action == 'DOWN':
-                if abs(y1 - (agent_coord_y + 1)) != 0 and abs(y2 - (agent_coord_y + 1)) != 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 1
-                    return 0
+            if ((agent_coord_x) % 2) == 0:
+                return 0
 
 
 
@@ -1058,91 +1172,102 @@ def goes_towards_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, close
     return 0
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+#hopefully done (x and y ficed)
 #here we would still need to solve crate trap problem for 2 crates (only solved for one)
 # arg: 'dangerous_bombs, number_of_dangerous_bombs'  is  'find_planted_bombs_in_dangerous_range(game_state, action, self)'
-# arg: 'closest_crate' is 'find_closest_crates(game_state, action, self)'
-def get_out_of_bomb_range(dangerous_bombs_and_number_of_dangerous_bombs, closest_crate, game_state, action, self):
+def get_out_of_bomb_range(dangerous_bombs_and_number_of_dangerous_bombs, game_state, action, self):
     
-    dangerous_bombs = [item[0] for item in dangerous_bombs_and_number_of_dangerous_bombs[0]] 
+    #only coordinates [(x,y), (x,y)]
+    dangerous_bombs = [item[0] for item in dangerous_bombs_and_number_of_dangerous_bombs[0]]
+    #all info [((x,y),t), ((x,y),t)]
+    dangerous_bombs_info = [item for item in dangerous_bombs_and_number_of_dangerous_bombs[0]] 
+
     number_of_dangerous_bombs = dangerous_bombs_and_number_of_dangerous_bombs[1]
 
     agent_coord_x = game_state['self'][3][0]
     agent_coord_y = game_state['self'][3][1]
 
-    if closest_crate is not None:
-        crate_x, crate_y = closest_crate
-        crate_in_expl_range = False
 
-        #check if crate in explosion range of bomb
-        #range bomb in y range of explosion
-        if abs(crate_y - agent_coord_y) <= 3 and abs(crate_x - agent_coord_x) == 0:
-            #no wall in between
-            if (agent_coord_x % 2) != 0 :
-                crate_in_expl_range = True
-        #range bomb in x range of explosion
-        if abs(crate_x - agent_coord_x) <= 3 and abs(crate_y - agent_coord_y) == 0:
-            #no wall in between
-            if (agent_coord_y % 2) != 0 :
-                crate_in_expl_range = True
-    else:
-        crate_in_expl_range = False
+
 
     #case 1:  one bomb-------------------------------------------------------
     if number_of_dangerous_bombs == 1:
 
         #get the bomb which is not 'None'
+        #get only coordinates (x,y) (no brackets)
         bomb_coord = dangerous_bombs[ [i for i in range(len(dangerous_bombs)) if dangerous_bombs[i] != None][0] ]
+        #get all info [((x,y),t)]   (w/ brackets)
+        bomb_info = [dangerous_bombs_info[i] for i in [i for i in range(len(dangerous_bombs_info)) if dangerous_bombs_info[i][0] != None]]
 
+        #get the only existing bomb ((x,y),t)  (no brackets)
+        bomb_arg = bomb_info[0]
+        
         bomb_coord_x = bomb_coord[0]
         bomb_coord_y = bomb_coord[1]
 
-        x, y = bomb_coord_x, bomb_coord_y
+        x, y = bomb_coord_x, bomb_coord_y 
+
 
 
         # the direction which would move agent out of explosion range (if there is no wall or crate)
-        # (and not into crate trap (only one crate considered))
+        # (moving out of range but into a crate trap has no special consideration in this func BUT through 'goes_towards_crate_trap' 
+        # func. agent will still be more likely to move out of range AND not into crate trap)
         if action == 'UP':
-            if not ( is_bomb_dangerous(bomb_coord, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_coord, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #avoid crate trap
-                """
-                ____W_
-                _B__xC  (moved right in this case)
-                ____W_
-                """
-                if crate_in_expl_range:
-                    if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                        return 0
+            if not ( is_bomb_dangerous(bomb_arg, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                 return 1
 
         if action == 'RIGHT':
-            if not ( is_bomb_dangerous(bomb_coord, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_coord, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                        return 0
+            if not ( is_bomb_dangerous(bomb_arg, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                 return 1
 
         if action == 'DOWN':
-            if not ( is_bomb_dangerous(bomb_coord, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_coord, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                        return 0
+            if not ( is_bomb_dangerous(bomb_arg, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                 return 1
 
         if action == 'LEFT':
-            if not ( is_bomb_dangerous(bomb_coord, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_coord, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                if crate_in_expl_range:
-                    if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                        return 0
+            if not ( is_bomb_dangerous(bomb_arg, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                 return 1
+
+    
+
+
 
 
     #case 2:  two bombs-------------------------------------------------------
     if number_of_dangerous_bombs == 2:
 
         #get the bombs which are not 'None'
+        #get the indices [0,1] of not 'None' bombs in 'dangerous_bombs' list
         bomb_index = [i for i in range(len(dangerous_bombs)) if dangerous_bombs[i] != None]
-        bomb_coord1 = dangerous_bombs[ bomb_index[0] ]
-        bomb_coord2 = dangerous_bombs[ bomb_index[1] ]
+        #get the indices [0,1] of not 'None' bombs in 'dangerous_bombs_info' list
+        bomb_index_info = [i for i in range(len(dangerous_bombs_info)) if dangerous_bombs_info[i] != None]
+
+        #get list of coordinates [(x,y), (x,y)] of bombs w/out 'None'
+        bomb_coords = [dangerous_bombs[i] for i in bomb_index]
+        #get list of all infos [((x,y),t), ((x,y),t)] of bombs w/out 'None'
+        bomb_info = [dangerous_bombs_info[i] for i in bomb_index_info]
+
+        #choose the 2 existing bombs coords (x,y)
+        bomb_coord1 = bomb_coords[0]
+        bomb_coord2 = bomb_coords[1]
+
+        #choose the existing bombs infos ((x,y),t)
+        bomb_arg1 = bomb_info[0]
+        bomb_arg2 = bomb_info[1]
+        
+
 
         x1 = bomb_coord1[0]
         y1 = bomb_coord1[1]
@@ -1151,100 +1276,242 @@ def get_out_of_bomb_range(dangerous_bombs_and_number_of_dangerous_bombs, closest
         y2 = bomb_coord2[1]
 
 
+
         # the next direction to be farther from both bombs
         if action == 'UP':
-            #1st: gets farther from at least ONE bomb,  2nd: doesnt get closer to other bomb
-            #gets out of range from bomb 1
-            if not ( is_bomb_dangerous(bomb_coord1, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_coord1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y2 - (agent_coord_y - 1)) < abs(y2 - agent_coord_y)):
-                    #dont run into crate trap 
-                    """
-                    ____W_
-                    _B__xC (moved right in this case)
-                    ____W_
-                    """
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
+
+            #if agent moved to free lane, crate problem cant occure
+            if ((agent_coord_y - 1) % 2) != 0:
+                #check if agent can exit at least one bomb range
+                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                     return 1
-            #gets away from bomb 2
-            if not ( is_bomb_dangerous(bomb_coord2, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_coord2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y1 - (agent_coord_y - 1)) < abs(y1 - agent_coord_y)):
-                    #dont run into crate trap 
-                    """
-                    ____W_
-                    _B__xC (moved right in this case)
-                    ____W_
-                    """
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y - 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
+                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
                     return 1
+
+            #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate above
+            else:
+                #move perpendicular to both bomb lines
+                if y1 == y2 :
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                        return 1
+                    if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                        return 1
+                #move parallel to both bomb lines
+                elif x1 == x2:
+                    #only move up if both bombs are below you, you exit one range and dont run into trap
+                    #both below you
+                    if y1 >= agent_coord_y and y2 >= agent_coord_y: ########################
+                        #you dont run into trap
+                        if game_state['field'][agent_coord_x][agent_coord_y-1] != -1:
+                            if game_state['field'][agent_coord_x][agent_coord_y-2] == 0:
+                                #you exist one of the bombs
+                                #exit bomb 1
+                                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                                    return 1
+                                #exit bomb 2
+                                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                                    return 1
+
+                #moves parallel to one bomb and perpendicular to other
+                else:
+                    #agent exits both bombs
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                        if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                            return 1
+                    #agent exits one bomb, doesnt run into trap and doesnt get closer to second bomb
+                    #you dont run into trap
+                    if game_state['field'][agent_coord_x][agent_coord_y-1] != -1:
+                        if game_state['field'][agent_coord_x][agent_coord_y-2] == 0: 
+                            #exit bomb1
+                            if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                                #doesnt get closer to bomb2
+                                if abs(y2 - (agent_coord_y - 1)) >= abs(y2 - agent_coord_y): 
+                                    return 1
+                            #exit bomb2
+                            if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y - 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                                #doesnt get closer to bomb1
+                                if abs(y1 - (agent_coord_y - 1)) >= abs(y1 - agent_coord_y): 
+                                    return 1
+
+
+
+
 
 
         if action == 'RIGHT':
-            #gets out of range from bomb 1
-            if not ( is_bomb_dangerous(bomb_coord1, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_coord1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(x2 - (agent_coord_x + 1)) < abs(x2 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
+            #if agent moved to free lane, crate problem cant occure
+            if ((agent_coord_x + 1) % 2) != 0:
+                #check if agent can exit at least one bomb range
+                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                     return 1
-            #gets out of range from bomb 2
-            if not ( is_bomb_dangerous(bomb_coord2, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_coord2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y][agent_coord_x+1] == 0 ):
-                #doesnt get closer to bomb1
-                if not (abs(x1 - (agent_coord_x + 1)) < abs(x1 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x + 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x+1] != 0 ):
-                            return 0
+                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
                     return 1
+
+            #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate to the right
+            else:
+                #move perpendicular to both bomb lines
+                if x1 == x2 :
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                        return 1
+                    if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                        return 1
+                #move parallel to both bomb lines
+                elif y1 == y2:
+                    #only move up if both bombs are left of you, you exit one range and dont run into trap
+                    #both below you
+                    if x1 <= agent_coord_x and x2 <= agent_coord_x: ####################
+                        #you dont run into trap
+                        if game_state['field'][agent_coord_x+1][agent_coord_y] != -1:
+                            if game_state['field'][agent_coord_x+2][agent_coord_y] == 0:
+                                #you exist one of the bombs
+                                #exit bomb 1
+                                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                                    return 1
+                                #exit bomb 2
+                                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                                    return 1
+
+                #moves parallel to one bomb and perpendicular to other
+                else:
+                    #agent exits both bombs
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                        if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                            return 1
+                    #agent exits one bomb, doesnt run into trap and doesnt get closer to second bomb
+                    #you dont run into trap
+                    if game_state['field'][agent_coord_x+1][agent_coord_y] != -1:
+                        if game_state['field'][agent_coord_x+2][agent_coord_y] == 0: 
+                            #exit bomb1
+                            if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                                #doesnt get closer to bomb2
+                                if abs(x2 - (agent_coord_x + 1)) >= abs(x2 - agent_coord_x): 
+                                    return 1
+                            #exit bomb2
+                            if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x + 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                                #doesnt get closer to bomb1
+                                if abs(x1 - (agent_coord_x + 1)) >= abs(x1 - agent_coord_x): 
+                                    return 1
+
+
+
+
 
 
         if action == 'DOWN':
-            #gets out of range from bomb 1
-            if not ( is_bomb_dangerous(bomb_coord1, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_coord1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y2 - (agent_coord_y + 1)) < abs(y2 - agent_coord_y)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 0
+            #if agent IS in problematic lane  |_|_|x|_|_| ------> no crate trap possible
+            if ((agent_coord_y) % 2) == 0:
+                #check if agent can exit at least one bomb range
+                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                     return 1
-            #gets out of range from bomb 2
-            if not ( is_bomb_dangerous(bomb_coord2, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_coord2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y+1][agent_coord_x] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(y1 - (agent_coord_y + 1)) < abs(y1 - agent_coord_y)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_y - (agent_coord_y + 1)) and abs(crate_x - agent_coord_x) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y+1][agent_coord_x+1] != 0 ):
-                            return 0
+                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
                     return 1
+
+            #if agent IS in free lane
+            if ((agent_coord_y) % 2) != 0:
+                #move perpendicular to both bomb lines
+                if y1 == y2 :
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                        return 1
+                    if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                        return 1
+                #move parallel to both bomb lines
+                elif x1 == x2:
+                    #only move up if both bombs are above you, you exit one range and dont run into trap
+                    #both above you
+                    if y1 <= agent_coord_y and y2 <= agent_coord_y: ########################
+                        #you dont run into trap
+                        if game_state['field'][agent_coord_x][agent_coord_y+1] != -1:
+                            if game_state['field'][agent_coord_x][agent_coord_y+2] == 0:
+                                #you exist one of the bombs
+                                #exit bomb 1
+                                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                                    return 1
+                                #exit bomb 2
+                                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                                    return 1
+
+                #moves parallel to one bomb and perpendicular to other
+                else:
+                    #agent exits both bombs
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                        if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                            return 1
+                    #agent exits one bomb, doesnt run into trap and doesnt get closer to second bomb
+                    #you dont run into trap
+                    if game_state['field'][agent_coord_x][agent_coord_y+1] != -1:
+                        if game_state['field'][agent_coord_x][agent_coord_y+2] == 0: 
+                            #exit bomb1
+                            if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                                #doesnt get closer to bomb2
+                                if abs(y2 - (agent_coord_y + 1)) >= abs(y2 - agent_coord_y): 
+                                    return 1
+                            #exit bomb2
+                            if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y + 1) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                                #doesnt get closer to bomb1
+                                if abs(y1 - (agent_coord_y + 1)) >= abs(y1 - agent_coord_y): 
+                                    return 1
+
+
+            
+
 
 
         if action == 'LEFT':
-            #gets out of range from bomb 1
-            if not ( is_bomb_dangerous(bomb_coord1, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_coord1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                #doesnt get closer to bomb2
-                if not (abs(x2 - (agent_coord_x - 1)) < abs(x2 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 0
+            #if agent moved to free lane, crate problem cant occure
+            if ((agent_coord_x - 1) % 2) != 0:
+                #check if agent can exit at least one bomb range
+                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                     return 1
-            #gets out of range from bomb 2
-            if not ( is_bomb_dangerous(bomb_coord2, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_coord2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_y][agent_coord_x-1] == 0 ):
-                #doesnt get closer to bomb1
-                if not (abs(x1 - (agent_coord_x - 1)) < abs(x1 - agent_coord_x)):
-                    #avoid crate trap
-                    if crate_in_expl_range:
-                        if abs(crate_x - (agent_coord_x - 1)) and abs(crate_y - agent_coord_y) == 0 and ( game_state['field'][agent_coord_y+1][agent_coord_x-1] != 0 ) and ( game_state['field'][agent_coord_y-1][agent_coord_x-1] != 0 ):
-                            return 0
+                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
                     return 1
+
+            #if moved to |_|_|x|_|_| lane, check if agent would be trapped by crate to the right
+            else:
+                #move perpendicular to both bomb lines
+                if x1 == x2 :
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                        return 1
+                    if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                        return 1
+                #move parallel to both bomb lines
+                elif y1 == y2:
+                    #only move up if both bombs are right of you, you exit one range and dont run into trap
+                    #both right to you
+                    if x1 >= agent_coord_x and x2 >= agent_coord_x: ####################
+                        #you dont run into trap
+                        if game_state['field'][agent_coord_x-1][agent_coord_y] != -1:
+                            if game_state['field'][agent_coord_x-2][agent_coord_y] == 0:
+                                #you exist one of the bombs
+                                #exit bomb 1
+                                if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                                    return 1
+                                #exit bomb 2
+                                if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                                    return 1
+
+                #moves parallel to one bomb and perpendicular to other
+                else:
+                    #agent exits both bombs
+                    if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                        if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                            return 1
+                    #agent exits one bomb, doesnt run into trap and doesnt get closer to second bomb
+                    #you dont run into trap
+                    if game_state['field'][agent_coord_x-1][agent_coord_y] != -1:
+                        if game_state['field'][agent_coord_x-2][agent_coord_y] == 0: 
+                            #exit bomb1
+                            if not ( is_bomb_dangerous(bomb_arg1, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg1, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                                #doesnt get closer to bomb2
+                                if abs(x2 - (agent_coord_x - 1)) >= abs(x2 - agent_coord_x): 
+                                    return 1
+                            #exit bomb2
+                            if not ( is_bomb_dangerous(bomb_arg2, agent_coord_x - 1, agent_coord_y) ) and is_bomb_dangerous(bomb_arg2, agent_coord_x, agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                                #doesnt get closer to bomb1
+                                if abs(x1 - (agent_coord_x - 1)) >= abs(x1 - agent_coord_x): 
+                                    return 1
+
+
+
 
 
 
@@ -1253,6 +1520,23 @@ def get_out_of_bomb_range(dangerous_bombs_and_number_of_dangerous_bombs, closest
 
 
     return 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
