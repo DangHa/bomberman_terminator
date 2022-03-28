@@ -127,7 +127,7 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         # self.logger.info(f"NEW MODEL: \n {self.model}")
 
         self.logger.info(f'Epsilon: {self.epsilon}')
-        self.epsilon = self.epsilon * 0.999
+        self.epsilon = self.epsilon * 1.003 #0.999
         self.former_state.append(new_game_state)
 
 
@@ -309,7 +309,7 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         #self.logger.info(f"NEW MODEL: \n {self.model}")
 
         
-        self.epsilon = self.epsilon * 0.999
+        self.epsilon = self.epsilon * 1.003 #0.999
         self.former_state.append(new_game_state)
 
         
@@ -491,7 +491,7 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
         #self.logger.info(f"NEW MODEL: \n {self.model}")
 
         
-        self.epsilon = self.epsilon * 0.999
+        self.epsilon = self.epsilon * 1.003 #0.999
         
 
         
@@ -551,7 +551,7 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
 
 
     #hyper_params
-    self.epsilon = 0.1 #0.95   EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
+    self.epsilon = 0.00 #0.02 #0.95   EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
     self.alpha = 0.2 #0.8
     self.gamma = 0.9 #0.5
     #--------------------------------------------------------------------------
@@ -601,7 +601,7 @@ def reward_from_events(self, events: List[str]) -> int:
         RAN_INTO_BOMB_RANGE_WITHOUT_DYING: -50, #higher than reward for moving out of bomb range
         RAN_INTO_BOMB_RANGE_WITH_DYING: -90, #same as 'RAN_INTO_EXPLOSION' --> instant death
 
-        GOES_TOWARDS_DANGEROUS_BOMBS: -25, #higher than running towards coin or crate and higher than their sum
+        GOES_TOWARDS_DANGEROUS_BOMBS: -36, #higher than running towards coin or crate and higher than their sum
         MOVED_INTO_ADVANCED_CRATE_TRAP: -46, #maybe the same as moving into std crate trap (could be a tiny bit worse)
         DROP_BOMB_WITHOUT_REASON: -60, #equal to moving into wall (just dont do it)
         COULD_HAVE_ESCAPED_BUT_DIDNT: -40, #maybe the same as moving into std crate trap
@@ -610,8 +610,8 @@ def reward_from_events(self, events: List[str]) -> int:
         DROPPED_BOMB_IN_RANGE_OF_AGENT: 20, #maybe a bit higher than DROPPED_BOMB_IN_RANGE_OF_CRATE (or the same)
         RAN_TOWARDS_CLOSEST_AGENT: 3, #small reward (smaller than going towards coin or crate)
 
-        COLLECT_CLOSEST_COIN: 16, #together with 'RAN_TOWARDS_CLOSEST_COIN' must be higher than punishment for moving away from crate
-        RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN: 13, #not sure, also like 'COLLECT_CLOSEST_COIN' but maybe bit less bc more uncertainty
+        COLLECT_CLOSEST_COIN: 22, #together with 'RAN_TOWARDS_CLOSEST_COIN' must be higher than punishment for moving away from crate
+        RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN: 19, #not sure, also like 'COLLECT_CLOSEST_COIN' but maybe bit less bc more uncertainty
         BOMB_FOR_OPPONENT_NOW_DONT_GET_CLOSER: -35, #more than moving towards: coin, crate, opponent, getting coin  together
         #                                           #but must be smaller than reward for planting bomb?
         WAITED: -2, #less punishment than running into bomb

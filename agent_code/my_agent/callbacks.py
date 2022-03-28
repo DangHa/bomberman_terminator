@@ -74,6 +74,8 @@ def act(self, game_state: dict) -> str:
     #for logger
     self.logger.info(f'\n------------------------------------ Step: {game_state["step"]}')
     # self.logger.info(f'\n------------------------------------ Others: {game_state["others"]}')
+    self.logger.info(f'Agent cant drop bomb: {game_state["self"][2] == False}')
+    
 
     #include_agents_in_field
     #field automatically reset before 'act' is called (nice)
