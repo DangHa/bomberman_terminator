@@ -8,7 +8,7 @@ from itertools import compress #for 'find_planted_bombs_in_dangerous_range' func
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 21
+FEATURES = 26
 ACTION_HISTORY_SIZE = 4
 STATE_HISTORY_SIZE = 2
 
@@ -20,7 +20,7 @@ def setup(self):
         self.logger.info("SETTING UP MODEL FROM SCRATCH")
         weights = np.random.rand(FEATURES)
 
-
+    
         self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
         self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
         self.action_loop_result_before_taken_action = 0
@@ -62,12 +62,25 @@ def setup(self):
             self.model = pickle.load(file)
 
 
+    #hyper params
+    self.epsilon = 0.00 #0.02  #0.1 EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
+    #                   #set to 0 for tournament
+
+
+
 #done
 def act(self, game_state: dict) -> str:
 
     #for logger
     self.logger.info(f'\n------------------------------------ Step: {game_state["step"]}')
-    
+    # self.logger.info(f'\n------------------------------------ Others: {game_state["others"]}')
+
+    #include_agents_in_field
+    #field automatically reset before 'act' is called (nice)
+    # self.logger.info(f'Field before func call: \n {game_state["field"]}')
+    include_agents_in_field(game_state)
+    # self.logger.info(f'Field after func call: \n {game_state["field"]}')
+
 
 
     #Explore
@@ -198,6 +211,14 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     s = could_have_escaped_but_didnt(game_state, action, self)
     t = survive_start(game_state, action, self)
 
+    u = drop_bomb_if_in_range_of_agent(  find_closest_agent(game_state, action, self)  , game_state, action, self)
+    v = runs_towards_closest_agent_but_not_wall_or_crate(  find_closest_agent(game_state, action, self)  , game_state, action, self)
+
+    w = collect_closest_coin_no_wall_or_crate(game_state, action, self)
+    xxx = runs_towards_very_close_collectable_coin_no_wall_or_crate(game_state, action, self)
+    yyy = bomb_for_opponent_now_dont_get_closer(  find_closest_agent(game_state, action, self)  , game_state, action, self)
+
+
     at_end2 = waited(game_state, action, self)
 
 
@@ -208,7 +229,7 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     # at_end2 = waited(game_state, action, self)
 
 
-    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, at_end2]) 
+    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, xxx, yyy, at_end2]) 
 
 
 #done
@@ -2010,7 +2031,7 @@ def move_into_advanced_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs,
 def drop_bomb_without_reason(game_state, action, self): # closest_crate = return of 'find_closest_crates(game_state, action, self)'
 
     if action == "BOMB":
-        if drop_bomb_if_in_range_of_crate(  find_closest_crates(game_state, action, self)  , game_state, action, self) == 0:
+        if (drop_bomb_if_in_range_of_crate(  find_closest_crates(game_state, action, self)  , game_state, action, self) == 0) and (drop_bomb_if_in_range_of_agent(  find_closest_agent(game_state, action, self)  , game_state, action, self) == 0) :
             return 1
 
     return 0
@@ -2283,6 +2304,319 @@ def runs_into_bomb_range_with_dying(game_state, action, self):
 
 
     return 0
+
+
+
+
+#done (fixed x - y coord)
+def collect_closest_coin_no_wall_or_crate(game_state, action, self):
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    coin_locations = game_state['coins']
+    closest_coin = None
+    closest_dist = 100
+
+    # find the closest coin
+    for coin_x, coin_y in coin_locations:
+        dist = np.linalg.norm([coin_x - agent_coord_x, coin_y - agent_coord_y])
+        if dist < closest_dist:
+            closest_dist = dist
+            closest_coin = [coin_x, coin_y]
+
+
+    # self.logger.info(f"Coordinates of coins: \n {coin_locations}")
+    # self.logger.info(f"Coordinates of closest coin: {closest_coin}")
+
+
+    # the next direction to be closer to the closest coin
+    if closest_coin is not None:
+        
+        x, y = closest_coin
+
+        if action == 'UP':
+            if (x == agent_coord_x) and (y == (agent_coord_y - 1)) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                return 1
+
+        if action == 'RIGHT':
+            if (x == (agent_coord_x + 1)) and (y == agent_coord_y) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                return 1
+
+        if action == 'DOWN':
+            if (x == agent_coord_x) and (y == (agent_coord_y + 1)) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                return 1
+
+        if action == 'LEFT':
+            if (x == (agent_coord_x - 1)) and (y == agent_coord_y) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                return 1
+
+
+    return 0
+
+
+
+#done (fixed x - y coord)
+def runs_towards_very_close_collectable_coin_no_wall_or_crate(game_state, action, self):
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    coin_locations = game_state['coins']
+    closest_coin = None
+    closest_dist = 100
+
+    # find the closest coin
+    for coin_x, coin_y in coin_locations:
+        dist = np.linalg.norm([coin_x - agent_coord_x, coin_y - agent_coord_y])
+        if dist < closest_dist:
+            closest_dist = dist
+            closest_coin = [coin_x, coin_y]
+
+
+    # self.logger.info(f"Coordinates of coins: \n {coin_locations}")
+    # self.logger.info(f"Coordinates of closest coin: {closest_coin}")
+
+
+    # the next direction to be closer to the closest coin
+    if closest_coin is not None:
+        
+        x, y = closest_coin
+
+        if action == 'UP':
+            #no wall, crate or opponent between agent and coin
+            if game_state['field'][agent_coord_x][agent_coord_y-1] == 0:
+                #check if coin is 2 fields above agent (no need to check boundaries)
+                if (x == agent_coord_x) and (y == (agent_coord_y-2)):
+                    #check if no other opponent could get coin first
+                    if (game_state['field'][agent_coord_x + 1][agent_coord_y-2] != 2) and (game_state['field'][agent_coord_x - 1][agent_coord_y-2] != 2) and (game_state['field'][agent_coord_x][agent_coord_y-3] != 2):
+                        return 1
+
+
+
+        if action == 'RIGHT':
+            #no wall, crate or opponent between agent and coin
+            if game_state['field'][agent_coord_x+1][agent_coord_y] == 0:
+                #check if coin is 2 fields to the right of agent (no need to check boundaries)
+                if (x == (agent_coord_x+2)) and (y == agent_coord_y):
+                    #check if no other opponent could get coin first (no need to check boundaries)
+                    if (game_state['field'][agent_coord_x+2][agent_coord_y + 1] != 2) and (game_state['field'][agent_coord_x+2][agent_coord_y - 1] != 2) and (game_state['field'][agent_coord_x+3][agent_coord_y] != 2):
+                        return 1
+
+
+                        
+
+        if action == 'DOWN':
+            #no wall, crate or opponent between agent and coin
+            if game_state['field'][agent_coord_x][agent_coord_y+1] == 0:
+                #check if coin is 2 fields below agent (no need to check boundaries)
+                if (x == agent_coord_x) and (y == (agent_coord_y+2)):
+                    #check if no other opponent could get coin first
+                    if (game_state['field'][agent_coord_x + 1][agent_coord_y+2] != 2) and (game_state['field'][agent_coord_x - 1][agent_coord_y+2] != 2) and (game_state['field'][agent_coord_x][agent_coord_y+3] != 2):
+                        return 1
+                        
+
+
+
+        if action == 'LEFT':
+            #no wall, crate or opponent between agent and coin
+            if game_state['field'][agent_coord_x-1][agent_coord_y] == 0:
+                #check if coin is 2 fields to the left of agent (no need to check boundaries)
+                if (x == (agent_coord_x-2)) and (y == agent_coord_y):
+                    #check if no other opponent could get coin first (no need to check boundaries)
+                    if (game_state['field'][agent_coord_x-2][agent_coord_y + 1] != 2) and (game_state['field'][agent_coord_x-2][agent_coord_y - 1] != 2) and (game_state['field'][agent_coord_x-3][agent_coord_y] != 2):
+                        return 1
+
+
+    return 0
+
+
+
+#done (added)
+def bomb_for_opponent_now_dont_get_closer(closest_agent, game_state, action, self): # closest_agent = return of 'find_closest_agent(game_state, action, self)'
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    # the next direction to be closer to the closest crate
+    if closest_agent is not None:
+        
+        x, y = closest_agent
+
+
+        #get action that was taken in the last step (not in this one)
+        #!!!so list 'self.former_action' must not have been appended before in this round!!!
+        if len(self.former_action) == 4:
+            last_action = self.former_action[-1]
+
+            if last_action == "BOMB" and ( game_state["self"][2] == False ):
+
+                if action == "UP":
+                    #opponent above
+                    if (y < agent_coord_y) and abs(y - agent_coord_y) <= 3 and abs(x - agent_coord_x) == 0:
+                        #no wall in between
+                        if (agent_coord_x % 2) != 0 :
+                            return 1
+                
+                if action == "RIGHT":
+                    #opponent to right
+                    if (x > agent_coord_x) and abs(x - agent_coord_x) <= 3 and abs(y - agent_coord_y) == 0:
+                        #no wall in between
+                        if (agent_coord_y % 2) != 0 :
+                            return 1
+
+                if action == "DOWN":
+                    #opponent below
+                    if (y > agent_coord_y) and abs(y - agent_coord_y) <= 3 and abs(x - agent_coord_x) == 0:
+                        #no wall in between
+                        if (agent_coord_x % 2) != 0 :
+                            return 1
+
+                if action == "LEFT":
+                    #opponent to left
+                    if (x < agent_coord_x) and abs(x - agent_coord_x) <= 3 and abs(y - agent_coord_y) == 0:
+                        #no wall in between
+                        if (agent_coord_y % 2) != 0 :
+                            return 1
+
+
+    return 0
+
+
+
+
+
+#agent hunt
+
+# helper function    done (x and y correct)
+def find_closest_agent(game_state, action, self): 
+    
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+
+    #generate a 'agent_locations' list like the coin_locations, so like:  [(x,y), (x,y), (x,y)]
+    agent_locations = [item[3] for item in game_state["others"]]
+
+
+    closest_agent = None
+    closest_dist = 100
+
+    # find the closest crate
+    for agent_x, agent_y in agent_locations:
+        dist = np.linalg.norm([agent_x - agent_coord_x, agent_y - agent_coord_y])
+        if dist < closest_dist:
+            closest_dist = dist
+            closest_agent = [agent_x, agent_y]
+    
+    # self.logger.info(f"Coordinates of crates: \n {agent_locations}")
+    # self.logger.info(f"Coordinates of closest crates: \n {closest_agent}")
+
+    return closest_agent
+
+#done (x and y correct)
+def drop_bomb_if_in_range_of_agent(closest_agent, game_state, action, self): # closest_agent = return of 'find_closest_agent(game_state, action, self)'
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    # the next direction to be closer to the closest crate
+    if closest_agent is not None:
+        
+        x, y = closest_agent
+
+        #if in range give points for dropping bomb if possible and 0 else
+
+        if action == 'BOMB':
+            #possible to drop a bomb
+            if game_state['self'][2]:
+                #range bomb in y range of explosion
+                if abs(y - agent_coord_y) <= 3 and abs(x - agent_coord_x) == 0:
+                    #no wall in between
+                    if (agent_coord_x % 2) != 0 :
+                        return 1
+
+                #range bomb in x range of explosion
+                if abs(x - agent_coord_x) <= 3 and abs(y - agent_coord_y) == 0:
+                    #no wall in between
+                    if (agent_coord_y % 2) != 0 :
+                        return 1
+
+    return 0
+
+
+#done
+def runs_towards_closest_agent_but_not_wall_or_crate(closest_agent, game_state, action, self): # closest_agent = return of 'find_closest_agent(game_state, action, self)'
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+
+    # self.logger.info(f"Coordinates of coins: \n {coin_locations}")
+    # self.logger.info(f"Coordinates of closest coin: {closest_coin}")
+
+
+    # the next direction to be closer to the closest coin
+    if closest_agent is not None:
+        
+        x, y = closest_agent
+
+        if action == 'UP':
+            #check if distance along changing axis is reduced and there is no wall or crate on the field u go to
+            if abs(y - (agent_coord_y - 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                #to prevent up-down-loop: checks if movement would bring agent into:  _|_|nearest-coin|_|_|_|agent|_|_
+                if ((agent_coord_y - 1) % 2) != 0: 
+                    return 1
+                else:
+                    if abs(y - (agent_coord_y - 1)) != 0 :
+                        return 1
+                    
+
+        if action == 'RIGHT':
+            if abs(x - (agent_coord_x + 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                if ((agent_coord_x + 1) % 2) != 0: 
+                    return 1
+                else:
+                    if abs(x - (agent_coord_x + 1)) != 0 :
+                        return 1
+                    
+
+        if action == 'DOWN':
+            if abs(y - (agent_coord_y + 1)) < abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                if ((agent_coord_y + 1) % 2) != 0: 
+                    return 1
+                else:
+                    if abs(y - (agent_coord_y + 1)) != 0 :
+                        return 1
+                    
+
+        if action == 'LEFT':
+            if abs(x - (agent_coord_x - 1)) < abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                if ((agent_coord_x - 1) % 2) != 0: 
+                    return 1
+                else:
+                    if abs(x - (agent_coord_x - 1)) != 0 :
+                        return 1
+                    
+
+
+    return 0
+
+
+
+#helper for field
+#done
+def include_agents_in_field(game_state):
+
+    #generate a 'agent_locations' list like the coin_locations, so like:  [(x,y), (x,y), (x,y)]
+    agent_locations = [item[3] for item in game_state["others"]]
+
+    x_vals = [x for x, y in agent_locations]
+    y_vals = [y for x, y in agent_locations]
+
+
+    for i in range(len(x_vals)):
+        game_state["field"][x_vals[i]][y_vals[i]] = 2
 
 
 

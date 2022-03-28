@@ -5,6 +5,7 @@ from typing import List
 
 import events as e
 from .callbacks import state_to_features, runs_into_bomb_range_without_dying, runs_into_explosion
+from .callbacks import include_agents_in_field
 from .callbacks import ACTIONS, FEATURES
 from itertools import compress #for 'find_planted_bombs_in_dangerous_range' function
 
@@ -35,12 +36,16 @@ DROP_BOMB_WITHOUT_REASON = "DROP_BOMB_WITHOUT_REASON"
 COULD_HAVE_ESCAPED_BUT_DIDNT = "COULD_HAVE_ESCAPED_BUT_DIDNT"
 SURVIVED_START = "SURVIVED_START"
 
+DROPPED_BOMB_IN_RANGE_OF_AGENT = "DROPPED_BOMB_IN_RANGE_OF_AGENT"
+RAN_TOWARDS_CLOSEST_AGENT = "RAN_TOWARDS_CLOSEST_AGENT"
+COLLECT_CLOSEST_COIN = "COLLECT_CLOSEST_COIN"
+RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN = "RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN"
+BOMB_FOR_OPPONENT_NOW_DONT_GET_CLOSER = "BOMB_FOR_OPPONENT_NOW_DONT_GET_CLOSER"
 
 
 #done
 def setup_training(self):
     #hyper_params
-    self.epsilon = 0.1 #0.95   EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
     self.alpha = 0.2 #0.8
     self.gamma = 0.9 #0.5
 
@@ -121,8 +126,8 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         self.model = weights
         # self.logger.info(f"NEW MODEL: \n {self.model}")
 
-        
-        self.epsilon = self.epsilon * 0.998
+        self.logger.info(f'Epsilon: {self.epsilon}')
+        self.epsilon = self.epsilon * 0.999
         self.former_state.append(new_game_state)
 
 
@@ -133,6 +138,18 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
 
 
     if state_to_features(old_game_state, self_action, self) is not None:
+
+        #include_agents_in_field
+        #field automatically reset before 'act' is called (nice)
+        # self.logger.info(f'Field before func call in training: \n {old_game_state["field"]}')
+        include_agents_in_field(old_game_state)
+        # self.logger.info(f'Field after func call in training: \n {old_game_state["field"]}')
+
+        # self.logger.info(f'Field before func call in training (new_game_state): \n {new_game_state["field"]}')
+        include_agents_in_field(new_game_state)
+        # self.logger.info(f'Field after func call in training (new_game_state): \n {new_game_state["field"]}')
+
+
 
         self.former_action.appendleft(0) #CHANGING POINT FOR ACTION LOOP FUNCTION - NORMAL
         event_checker_list = state_to_features(old_game_state, self_action, self)
@@ -200,7 +217,24 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         # MUST NOT BE in here (only in upper part)
         # if event_checker_list[19] != 0:
         #     events.append(SURVIVED_START)
+
+        if event_checker_list[20] != 0:
+            events.append(DROPPED_BOMB_IN_RANGE_OF_AGENT)
+
+
+        if event_checker_list[21] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_AGENT)
+
+        if event_checker_list[22] != 0:
+            events.append(COLLECT_CLOSEST_COIN)
         
+        if event_checker_list[23] != 0:
+            events.append(RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN)
+        
+        if event_checker_list[24] != 0:
+            events.append(BOMB_FOR_OPPONENT_NOW_DONT_GET_CLOSER)
+
+
         
         if event_checker_list[-1] != 0:
             events.append(WAITED)    
@@ -275,7 +309,7 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         #self.logger.info(f"NEW MODEL: \n {self.model}")
 
         
-        self.epsilon = self.epsilon * 0.998
+        self.epsilon = self.epsilon * 0.999
         self.former_state.append(new_game_state)
 
         
@@ -297,6 +331,15 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
     # #this is true e.g.: 'last_game_state' corresponds to 'old_game_state' in  'game_events_occured' etc.
     old_game_state = last_game_state
     self_action = last_action
+
+
+
+    #include_agents_in_field
+    #field automatically reset before 'act' is called (nice)
+    # self.logger.info(f'Field before func call in training: \n {old_game_state["field"]}')
+    include_agents_in_field(old_game_state)
+    # self.logger.info(f'Field after func call in training: \n {old_game_state["field"]}')
+
 
 
     if self.action_loop_result_before_taken_action != 0:
@@ -377,8 +420,23 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
         # if event_checker_list[19] != 0:
         #     events.append(SURVIVED_START)
 
+        if event_checker_list[20] != 0:
+            events.append(DROPPED_BOMB_IN_RANGE_OF_AGENT)
+
+        if event_checker_list[21] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_AGENT)
+
+        if event_checker_list[22] != 0:
+            events.append(COLLECT_CLOSEST_COIN)
+
+        if event_checker_list[23] != 0:
+            events.append(RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN)
+
+        if event_checker_list[24] != 0:
+            events.append(BOMB_FOR_OPPONENT_NOW_DONT_GET_CLOSER)
         
 
+        
         if event_checker_list[-1] != 0:
             events.append(WAITED)    
 
@@ -433,7 +491,7 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
         #self.logger.info(f"NEW MODEL: \n {self.model}")
 
         
-        self.epsilon = self.epsilon * 0.998
+        self.epsilon = self.epsilon * 0.999
         
 
         
@@ -519,36 +577,43 @@ def reward_from_events(self, events: List[str]) -> int:
         e.COIN_FOUND: 0,
         e.COIN_COLLECTED: 0,
 
-        MOVED_INTO_WALL_CRATE: -60, #has to be more penalty than 'continued action loop'
+        MOVED_INTO_WALL_CRATE: -120, #has to be more penalty than 'continued action loop'
         CONTINUED_ACTION_LOOP: -15,
         RAN_TOWARDS_CLOSEST_COIN: 5,
         RAN_AWAY_FROM_CLOSEST_COIN: -7, #has to be more penalty than 'RAN_TOWARDS_CLOSEST_COIN' has reward, to avoid loop (? unsure)
         #                                 #but not so much penalty bc sometimes agent needs to go around wall
 
         # #what values should the rewards of coins vs crates have???
-        DROPPED_BOMB_IN_RANGE_OF_CRATE: 20, #higher than running towards crate
+        DROPPED_BOMB_IN_RANGE_OF_CRATE: 16, #higher than running towards crate
         RAN_TOWARDS_CLOSEST_CRATE: 7, #higher than running towards coin ???? (for 2nd stage only)
         RAN_AWAY_FROM_CLOSEST_CRATE: -11, #hihger than reward to avoid loop (? unsure) 
 
         MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB: 30, #higher than running towards coin or crate and higher than their sum
                                                                 #hihger than reward for 'planting bomb' action of any kind
                                                                 #higher than the punishment of moving away from crate (coin doesnt matter)
-        GOT_OUT_OF_BOMB_RANGE: 45,  #higher than GET_AWAY_FROM_BOMB (how much ?)
-        GOES_INTO_CRATE_TRAP: -35,  #higher than award for running towards crate or coin (higher than their sum)  
+        GOT_OUT_OF_BOMB_RANGE: 50,  #higher than GET_AWAY_FROM_BOMB (how much ?)
+        GOES_INTO_CRATE_TRAP: -46, # -35,  #higher than award for running towards crate or coin (higher than their sum)  
                                     #higher than running away from crate   
                                     #higher than reward for moving away from bomb (higher than sum of all)                                                 
         TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE: -20, #higher than running away from coin but not higher than 'MOVED_INTO_WALL_CRATE'
         
-        RAN_INTO_EXPLOSION: -60, #VERY HIGH (this is equivalent to dying)
+        RAN_INTO_EXPLOSION: -90, #VERY HIGH (this is equivalent to dying)
         RAN_INTO_BOMB_RANGE_WITHOUT_DYING: -50, #higher than reward for moving out of bomb range
-        RAN_INTO_BOMB_RANGE_WITH_DYING: -60, #same as 'RAN_INTO_EXPLOSION' --> instant death
+        RAN_INTO_BOMB_RANGE_WITH_DYING: -90, #same as 'RAN_INTO_EXPLOSION' --> instant death
 
-        GOES_TOWARDS_DANGEROUS_BOMBS: -15, #higher than running towards coin or crate and higher than their sum
-        MOVED_INTO_ADVANCED_CRATE_TRAP: -35, #maybe the same as moving into std crate trap (could be a tiny bit worse)
+        GOES_TOWARDS_DANGEROUS_BOMBS: -25, #higher than running towards coin or crate and higher than their sum
+        MOVED_INTO_ADVANCED_CRATE_TRAP: -46, #maybe the same as moving into std crate trap (could be a tiny bit worse)
         DROP_BOMB_WITHOUT_REASON: -60, #equal to moving into wall (just dont do it)
-        COULD_HAVE_ESCAPED_BUT_DIDNT: -35, #maybe the same as moving into std crate trap
-        SURVIVED_START: 60, #highest reward (if agent doesnt do this he will die)
+        COULD_HAVE_ESCAPED_BUT_DIDNT: -40, #maybe the same as moving into std crate trap
+        SURVIVED_START: 70, #highest reward (if agent doesnt do this he will die)
 
+        DROPPED_BOMB_IN_RANGE_OF_AGENT: 20, #maybe a bit higher than DROPPED_BOMB_IN_RANGE_OF_CRATE (or the same)
+        RAN_TOWARDS_CLOSEST_AGENT: 3, #small reward (smaller than going towards coin or crate)
+
+        COLLECT_CLOSEST_COIN: 16, #together with 'RAN_TOWARDS_CLOSEST_COIN' must be higher than punishment for moving away from crate
+        RAN_TOWARDS_VERY_CLOSE_COLLECTABLE_COIN: 13, #not sure, also like 'COLLECT_CLOSEST_COIN' but maybe bit less bc more uncertainty
+        BOMB_FOR_OPPONENT_NOW_DONT_GET_CLOSER: -35, #more than moving towards: coin, crate, opponent, getting coin  together
+        #                                           #but must be smaller than reward for planting bomb?
         WAITED: -2, #less punishment than running into bomb
 
 
