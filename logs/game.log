@@ -1,69 +1,241 @@
-2022-03-27 21:09:34,215 [BombeRLeWorld] INFO: Initializing game world
-2022-03-27 21:09:34,749 [BombeRLeWorld] INFO: STARTING ROUND #1
-2022-03-27 21:09:34,763 [BombeRLeWorld] INFO: STARTING STEP 1
-2022-03-27 21:09:34,770 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:34,770 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:34,771 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (1, 2) and receives 1 point
-2022-03-27 21:09:34,864 [BombeRLeWorld] INFO: STARTING STEP 2
-2022-03-27 21:09:34,869 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.00s.
-2022-03-27 21:09:34,869 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:34,962 [BombeRLeWorld] INFO: STARTING STEP 3
-2022-03-27 21:09:34,968 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
-2022-03-27 21:09:34,968 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:34,968 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (2, 3) and receives 1 point
-2022-03-27 21:09:35,069 [BombeRLeWorld] INFO: STARTING STEP 4
-2022-03-27 21:09:35,093 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
-2022-03-27 21:09:35,094 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,095 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (3, 3) and receives 1 point
-2022-03-27 21:09:35,160 [BombeRLeWorld] INFO: STARTING STEP 5
-2022-03-27 21:09:35,167 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
-2022-03-27 21:09:35,167 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,266 [BombeRLeWorld] INFO: STARTING STEP 6
-2022-03-27 21:09:35,285 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
-2022-03-27 21:09:35,285 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,368 [BombeRLeWorld] INFO: STARTING STEP 7
-2022-03-27 21:09:35,385 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
-2022-03-27 21:09:35,386 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,469 [BombeRLeWorld] INFO: STARTING STEP 8
-2022-03-27 21:09:35,483 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
-2022-03-27 21:09:35,483 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,569 [BombeRLeWorld] INFO: STARTING STEP 9
-2022-03-27 21:09:35,579 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
-2022-03-27 21:09:35,579 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,668 [BombeRLeWorld] INFO: STARTING STEP 10
-2022-03-27 21:09:35,677 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
-2022-03-27 21:09:35,677 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,781 [BombeRLeWorld] INFO: STARTING STEP 11
-2022-03-27 21:09:35,803 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.02s.
-2022-03-27 21:09:35,803 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,872 [BombeRLeWorld] INFO: STARTING STEP 12
-2022-03-27 21:09:35,882 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:35,882 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,976 [BombeRLeWorld] INFO: STARTING STEP 13
-2022-03-27 21:09:35,984 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:35,984 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:35,985 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (9, 6) and receives 1 point
-2022-03-27 21:09:36,079 [BombeRLeWorld] INFO: STARTING STEP 14
-2022-03-27 21:09:36,086 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.01s.
-2022-03-27 21:09:36,086 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:36,086 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (9, 6)
-2022-03-27 21:09:36,178 [BombeRLeWorld] INFO: STARTING STEP 15
-2022-03-27 21:09:36,187 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:36,187 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:36,278 [BombeRLeWorld] INFO: STARTING STEP 16
-2022-03-27 21:09:36,285 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:36,285 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:36,286 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (9, 8) and receives 1 point
-2022-03-27 21:09:36,379 [BombeRLeWorld] INFO: STARTING STEP 17
-2022-03-27 21:09:36,394 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:36,395 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:36,481 [BombeRLeWorld] INFO: STARTING STEP 18
-2022-03-27 21:09:36,492 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
-2022-03-27 21:09:36,492 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:36,492 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (9, 6) explodes
-2022-03-27 21:09:36,579 [BombeRLeWorld] INFO: STARTING STEP 19
-2022-03-27 21:09:36,587 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.01s.
-2022-03-27 21:09:36,587 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
-2022-03-27 21:09:36,587 [BombeRLeWorld] INFO: Agent <my_agent> blown up by own bomb
-2022-03-27 21:09:36,587 [BombeRLeWorld] INFO: No agent left alive, wrap up round
-2022-03-27 21:09:36,587 [BombeRLeWorld] INFO: WRAPPING UP ROUND #1
+2022-03-28 02:15:56,930 [BombeRLeWorld] INFO: Initializing game world
+2022-03-28 02:15:57,630 [BombeRLeWorld] INFO: STARTING ROUND #1
+2022-03-28 02:15:57,647 [BombeRLeWorld] INFO: STARTING STEP 1
+2022-03-28 02:15:57,668 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:15:57,668 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:57,668 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (1, 15)
+2022-03-28 02:15:57,745 [BombeRLeWorld] INFO: STARTING STEP 2
+2022-03-28 02:15:57,750 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.00s.
+2022-03-28 02:15:57,750 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:57,847 [BombeRLeWorld] INFO: STARTING STEP 3
+2022-03-28 02:15:57,873 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.03s.
+2022-03-28 02:15:57,874 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:57,941 [BombeRLeWorld] INFO: STARTING STEP 4
+2022-03-28 02:15:57,971 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.03s.
+2022-03-28 02:15:57,971 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,047 [BombeRLeWorld] INFO: STARTING STEP 5
+2022-03-28 02:15:58,083 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.04s.
+2022-03-28 02:15:58,084 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,084 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (1, 15) explodes
+2022-03-28 02:15:58,084 [BombeRLeWorld] INFO: Coin found at (4, 15)
+2022-03-28 02:15:58,149 [BombeRLeWorld] INFO: STARTING STEP 6
+2022-03-28 02:15:58,173 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:15:58,173 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,250 [BombeRLeWorld] INFO: STARTING STEP 7
+2022-03-28 02:15:58,277 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.03s.
+2022-03-28 02:15:58,277 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,354 [BombeRLeWorld] INFO: STARTING STEP 8
+2022-03-28 02:15:58,378 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:15:58,378 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,378 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (3, 14)
+2022-03-28 02:15:58,451 [BombeRLeWorld] INFO: STARTING STEP 9
+2022-03-28 02:15:58,473 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.02s.
+2022-03-28 02:15:58,473 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,549 [BombeRLeWorld] INFO: STARTING STEP 10
+2022-03-28 02:15:58,580 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.03s.
+2022-03-28 02:15:58,580 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,580 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (4, 15) and receives 1 point
+2022-03-28 02:15:58,659 [BombeRLeWorld] INFO: STARTING STEP 11
+2022-03-28 02:15:58,670 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.01s.
+2022-03-28 02:15:58,670 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,753 [BombeRLeWorld] INFO: STARTING STEP 12
+2022-03-28 02:15:58,795 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.04s.
+2022-03-28 02:15:58,795 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,795 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (3, 14) explodes
+2022-03-28 02:15:58,795 [BombeRLeWorld] INFO: Coin found at (3, 12)
+2022-03-28 02:15:58,861 [BombeRLeWorld] INFO: STARTING STEP 13
+2022-03-28 02:15:58,891 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.03s.
+2022-03-28 02:15:58,891 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:58,961 [BombeRLeWorld] INFO: STARTING STEP 14
+2022-03-28 02:15:58,980 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:15:58,980 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,058 [BombeRLeWorld] INFO: STARTING STEP 15
+2022-03-28 02:15:59,079 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:15:59,079 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,079 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (5, 14)
+2022-03-28 02:15:59,160 [BombeRLeWorld] INFO: STARTING STEP 16
+2022-03-28 02:15:59,187 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.03s.
+2022-03-28 02:15:59,187 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,267 [BombeRLeWorld] INFO: STARTING STEP 17
+2022-03-28 02:15:59,292 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:15:59,292 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,368 [BombeRLeWorld] INFO: STARTING STEP 18
+2022-03-28 02:15:59,390 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:15:59,391 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,465 [BombeRLeWorld] INFO: STARTING STEP 19
+2022-03-28 02:15:59,475 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
+2022-03-28 02:15:59,475 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,476 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (5, 14) explodes
+2022-03-28 02:15:59,566 [BombeRLeWorld] INFO: STARTING STEP 20
+2022-03-28 02:15:59,586 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:15:59,586 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,675 [BombeRLeWorld] INFO: STARTING STEP 21
+2022-03-28 02:15:59,696 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:15:59,696 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,770 [BombeRLeWorld] INFO: STARTING STEP 22
+2022-03-28 02:15:59,791 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:15:59,791 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,791 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (3, 15)
+2022-03-28 02:15:59,874 [BombeRLeWorld] INFO: STARTING STEP 23
+2022-03-28 02:15:59,901 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.03s.
+2022-03-28 02:15:59,901 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:15:59,975 [BombeRLeWorld] INFO: STARTING STEP 24
+2022-03-28 02:15:59,999 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:15:59,999 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,076 [BombeRLeWorld] INFO: STARTING STEP 25
+2022-03-28 02:16:00,096 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:00,096 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,096 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (3, 12) and receives 1 point
+2022-03-28 02:16:00,183 [BombeRLeWorld] INFO: STARTING STEP 26
+2022-03-28 02:16:00,205 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:00,205 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,206 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (3, 15) explodes
+2022-03-28 02:16:00,206 [BombeRLeWorld] INFO: Coin found at (6, 15)
+2022-03-28 02:16:00,279 [BombeRLeWorld] INFO: STARTING STEP 27
+2022-03-28 02:16:00,298 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:00,298 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,386 [BombeRLeWorld] INFO: STARTING STEP 28
+2022-03-28 02:16:00,405 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
+2022-03-28 02:16:00,405 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,482 [BombeRLeWorld] INFO: STARTING STEP 29
+2022-03-28 02:16:00,500 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
+2022-03-28 02:16:00,500 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,590 [BombeRLeWorld] INFO: STARTING STEP 30
+2022-03-28 02:16:00,613 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:16:00,613 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,613 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (5, 11)
+2022-03-28 02:16:00,685 [BombeRLeWorld] INFO: STARTING STEP 31
+2022-03-28 02:16:00,711 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.03s.
+2022-03-28 02:16:00,711 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,784 [BombeRLeWorld] INFO: STARTING STEP 32
+2022-03-28 02:16:00,804 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.02s.
+2022-03-28 02:16:00,804 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,894 [BombeRLeWorld] INFO: STARTING STEP 33
+2022-03-28 02:16:00,920 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.03s.
+2022-03-28 02:16:00,920 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:00,991 [BombeRLeWorld] INFO: STARTING STEP 34
+2022-03-28 02:16:01,013 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.02s.
+2022-03-28 02:16:01,013 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,013 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (5, 11) explodes
+2022-03-28 02:16:01,013 [BombeRLeWorld] INFO: Coin found at (2, 11)
+2022-03-28 02:16:01,093 [BombeRLeWorld] INFO: STARTING STEP 35
+2022-03-28 02:16:01,126 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.03s.
+2022-03-28 02:16:01,126 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,126 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (6, 15) and receives 1 point
+2022-03-28 02:16:01,196 [BombeRLeWorld] INFO: STARTING STEP 36
+2022-03-28 02:16:01,214 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:16:01,214 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,293 [BombeRLeWorld] INFO: STARTING STEP 37
+2022-03-28 02:16:01,308 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.01s.
+2022-03-28 02:16:01,308 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,395 [BombeRLeWorld] INFO: STARTING STEP 38
+2022-03-28 02:16:01,413 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:01,413 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,496 [BombeRLeWorld] INFO: STARTING STEP 39
+2022-03-28 02:16:01,517 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:01,517 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,603 [BombeRLeWorld] INFO: STARTING STEP 40
+2022-03-28 02:16:01,620 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:16:01,620 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,700 [BombeRLeWorld] INFO: STARTING STEP 41
+2022-03-28 02:16:01,726 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.03s.
+2022-03-28 02:16:01,726 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,802 [BombeRLeWorld] INFO: STARTING STEP 42
+2022-03-28 02:16:01,821 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:01,822 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:01,903 [BombeRLeWorld] INFO: STARTING STEP 43
+2022-03-28 02:16:01,921 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:16:01,921 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,006 [BombeRLeWorld] INFO: STARTING STEP 44
+2022-03-28 02:16:02,026 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:02,027 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,112 [BombeRLeWorld] INFO: STARTING STEP 45
+2022-03-28 02:16:02,137 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:16:02,137 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,138 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (3, 12)
+2022-03-28 02:16:02,212 [BombeRLeWorld] INFO: STARTING STEP 46
+2022-03-28 02:16:02,231 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:02,231 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,315 [BombeRLeWorld] INFO: STARTING STEP 47
+2022-03-28 02:16:02,335 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:16:02,335 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,335 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (2, 11) and receives 1 point
+2022-03-28 02:16:02,410 [BombeRLeWorld] INFO: STARTING STEP 48
+2022-03-28 02:16:02,430 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
+2022-03-28 02:16:02,430 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,516 [BombeRLeWorld] INFO: STARTING STEP 49
+2022-03-28 02:16:02,538 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.02s.
+2022-03-28 02:16:02,538 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,538 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (3, 12) explodes
+2022-03-28 02:16:02,539 [BombeRLeWorld] INFO: Coin found at (3, 9)
+2022-03-28 02:16:02,614 [BombeRLeWorld] INFO: STARTING STEP 50
+2022-03-28 02:16:02,628 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.01s.
+2022-03-28 02:16:02,628 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,720 [BombeRLeWorld] INFO: STARTING STEP 51
+2022-03-28 02:16:02,741 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.02s.
+2022-03-28 02:16:02,741 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,818 [BombeRLeWorld] INFO: STARTING STEP 52
+2022-03-28 02:16:02,834 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.01s.
+2022-03-28 02:16:02,834 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,917 [BombeRLeWorld] INFO: STARTING STEP 53
+2022-03-28 02:16:02,924 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.01s.
+2022-03-28 02:16:02,924 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:02,924 [BombeRLeWorld] INFO: Agent <my_agent> picked up coin at (3, 9) and receives 1 point
+2022-03-28 02:16:03,018 [BombeRLeWorld] INFO: STARTING STEP 54
+2022-03-28 02:16:03,035 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:03,035 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,124 [BombeRLeWorld] INFO: STARTING STEP 55
+2022-03-28 02:16:03,144 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:03,144 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,220 [BombeRLeWorld] INFO: STARTING STEP 56
+2022-03-28 02:16:03,232 [BombeRLeWorld] INFO: Agent <my_agent> chose action LEFT in 0.01s.
+2022-03-28 02:16:03,232 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,323 [BombeRLeWorld] INFO: STARTING STEP 57
+2022-03-28 02:16:03,343 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:03,343 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,429 [BombeRLeWorld] INFO: STARTING STEP 58
+2022-03-28 02:16:03,448 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:03,448 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,528 [BombeRLeWorld] INFO: STARTING STEP 59
+2022-03-28 02:16:03,547 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:03,547 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,633 [BombeRLeWorld] INFO: STARTING STEP 60
+2022-03-28 02:16:03,653 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:03,653 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,735 [BombeRLeWorld] INFO: STARTING STEP 61
+2022-03-28 02:16:03,752 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:03,752 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,834 [BombeRLeWorld] INFO: STARTING STEP 62
+2022-03-28 02:16:03,852 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:03,852 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:03,938 [BombeRLeWorld] INFO: STARTING STEP 63
+2022-03-28 02:16:03,949 [BombeRLeWorld] INFO: Agent <my_agent> chose action DOWN in 0.01s.
+2022-03-28 02:16:03,949 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,034 [BombeRLeWorld] INFO: STARTING STEP 64
+2022-03-28 02:16:04,054 [BombeRLeWorld] INFO: Agent <my_agent> chose action WAIT in 0.02s.
+2022-03-28 02:16:04,054 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,138 [BombeRLeWorld] INFO: STARTING STEP 65
+2022-03-28 02:16:04,152 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
+2022-03-28 02:16:04,152 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,238 [BombeRLeWorld] INFO: STARTING STEP 66
+2022-03-28 02:16:04,254 [BombeRLeWorld] INFO: Agent <my_agent> chose action BOMB in 0.02s.
+2022-03-28 02:16:04,254 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,255 [BombeRLeWorld] INFO: Agent <my_agent> drops bomb at (3, 7)
+2022-03-28 02:16:04,340 [BombeRLeWorld] INFO: STARTING STEP 67
+2022-03-28 02:16:04,351 [BombeRLeWorld] INFO: Agent <my_agent> chose action RIGHT in 0.01s.
+2022-03-28 02:16:04,351 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,442 [BombeRLeWorld] INFO: STARTING STEP 68
+2022-03-28 02:16:04,464 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:04,464 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,546 [BombeRLeWorld] INFO: STARTING STEP 69
+2022-03-28 02:16:04,563 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:04,563 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,645 [BombeRLeWorld] INFO: STARTING STEP 70
+2022-03-28 02:16:04,666 [BombeRLeWorld] INFO: Agent <my_agent> chose action UP in 0.02s.
+2022-03-28 02:16:04,666 [BombeRLeWorld] INFO: Agent <my_agent> stayed within acceptable think time.
+2022-03-28 02:16:04,666 [BombeRLeWorld] INFO: Agent <my_agent>'s bomb at (3, 7) explodes
+2022-03-28 02:16:04,666 [BombeRLeWorld] INFO: Coin found at (4, 7)
+2022-03-28 02:16:04,666 [BombeRLeWorld] INFO: Coin found at (5, 7)
+2022-03-28 02:16:04,667 [BombeRLeWorld] INFO: Agent <my_agent> blown up by own bomb
+2022-03-28 02:16:04,667 [BombeRLeWorld] INFO: No agent left alive, wrap up round
+2022-03-28 02:16:04,667 [BombeRLeWorld] INFO: WRAPPING UP ROUND #1

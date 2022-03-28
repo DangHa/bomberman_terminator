@@ -8,7 +8,7 @@ from itertools import compress #for 'find_planted_bombs_in_dangerous_range' func
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 13
+FEATURES = 18
 ACTION_HISTORY_SIZE = 4
 STATE_HISTORY_SIZE = 2
 
@@ -29,6 +29,12 @@ def setup(self):
         self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
         self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
         self.count_crate_trap = 0 #only for logger (can be deleted at end)
+        self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
+        self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
+        self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
+        self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
+
+
         self.taken_action = None 
 
 
@@ -42,6 +48,12 @@ def setup(self):
         self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
         self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
         self.count_crate_trap = 0 #only for logger (can be deleted at end)
+        self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
+        self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
+        self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
+        self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
+
+        
         self.taken_action = None 
 
 
@@ -173,10 +185,13 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     j = get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
     k = goes_towards_crate_trap(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
     l = bomb_dropped_although_not_possible(game_state, action, self)
-    
-    # m = runs_into_explosion(game_state, action, self)
-    # n = runs_into_bomb_range_without_dying(game_state, action, self)
-    # o = runs_into_bomb_range_with_dying(game_state, action, self)
+
+    m = runs_into_explosion(game_state, action, self)
+    n = runs_into_bomb_range_without_dying(game_state, action, self)
+    o = runs_into_bomb_range_with_dying(game_state, action, self)
+
+    p = goes_towards_dangerous_bomb(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
+    q = move_into_advanced_crate_trap(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
 
     at_end2 = waited(game_state, action, self)
 
@@ -188,7 +203,7 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     # at_end2 = waited(game_state, action, self)
 
 
-    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, at_end2]) #, m, n, o, at_end2])
+    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, at_end2]) 
 
 
 #done
@@ -1179,11 +1194,6 @@ def goes_towards_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, game_
 
 
 
-
-
-
-
-
 #hopefully done (x and y ficed)
 #here we would still need to solve crate trap problem for 2 crates (only solved for one)
 # arg: 'dangerous_bombs, number_of_dangerous_bombs'  is  'find_planted_bombs_in_dangerous_range(game_state, action, self)'
@@ -1528,20 +1538,460 @@ def get_out_of_bomb_range(dangerous_bombs_and_number_of_dangerous_bombs, game_st
 
 
 
+#done (added)
+# arg: 'dangerous_bombs_and_number_of_dangerous_bombs'  is  'find_planted_bombs_in_dangerous_range(game_state, action, self)'
+def goes_towards_dangerous_bomb(dangerous_bombs_and_number_of_dangerous_bombs, game_state, action, self):
+
+    dangerous_bombs = [item[0] for item in dangerous_bombs_and_number_of_dangerous_bombs[0]] 
+    number_of_dangerous_bombs = dangerous_bombs_and_number_of_dangerous_bombs[1]
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+
+
+
+    #case 1:  one bomb-------------------------------------------------------
+    if number_of_dangerous_bombs == 1:
+
+        #get the bomb which is not 'None'
+        bomb_coord = dangerous_bombs[ [i for i in range(len(dangerous_bombs)) if dangerous_bombs[i] != None][0] ]
+
+        bomb_coord_x = bomb_coord[0]
+        bomb_coord_y = bomb_coord[1]
+
+        x, y = bomb_coord_x, bomb_coord_y 
+
+
+        # the next direction to be closer to the dangerous bomb
+        if action == 'UP':
+            if abs(y - (agent_coord_y - 1)) <= abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                return 1
+
+        if action == 'RIGHT':
+            if abs(x - (agent_coord_x + 1)) <= abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):         
+                return 1
+
+        if action == 'DOWN':
+            if abs(y - (agent_coord_y + 1)) <= abs(y - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):                       
+                return 1
+
+        if action == 'LEFT':
+            if abs(x - (agent_coord_x - 1)) <= abs(x - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):                        
+                return 1
+
+        if action == 'WAIT':
+            return 1
+
+
+
+    #case 2:  two bombs-------------------------------------------------------
+    if number_of_dangerous_bombs == 2:
+
+        #get the bombs which are not 'None'
+        bomb_index = [i for i in range(len(dangerous_bombs)) if dangerous_bombs[i] != None]
+        bomb_coord1 = dangerous_bombs[ bomb_index[0] ]
+        bomb_coord2 = dangerous_bombs[ bomb_index[1] ]
+
+        x1 = bomb_coord1[0]
+        y1 = bomb_coord1[1]
+
+        x2 = bomb_coord2[0]
+        y2 = bomb_coord2[1]
+
+
+        if action == 'WAIT':
+            return 1
+
+
+        #if agent IS at |_|_|x|_|_| lane
+        if ((agent_coord_y) % 2) == 0:
+            if action == 'WAIT':
+                return 1
+        
+        #if agent IS at |_|_|x|_|_| lane
+        elif ((agent_coord_x) % 2) == 0:
+            if action == 'WAIT':
+                return 1
+
+        #if agent in free cross
+        else:
+            if action == 'UP':
+                #both bombs above you
+                if abs(y1 - (agent_coord_y - 1)) <= abs(y1 - agent_coord_y) and abs(y2 - (agent_coord_y - 1)) <= abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                    return 1
+                #one above, one below you
+                if x1 == x2:
+                    if (y1 < (agent_coord_y - 1)) and (y2 > agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                        return 1
+                    if (y2 < (agent_coord_y - 1)) and (y1 > agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                        return 1
+                #one left, one right
+                elif y1 == y2:
+                    return 0
+
+                #one parallel, one perpendicular
+                else:
+                    #if you get closer to any of the 2 bombs agent is dumb
+                    if abs(y1 - (agent_coord_y - 1)) <= abs(y1 - agent_coord_y) or abs(y2 - (agent_coord_y - 1)) <= abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
+                        return 1
+                
+            
+            if action == 'RIGHT':
+                #both bombs above you
+                if abs(x1 - (agent_coord_x + 1)) <= abs(x1 - agent_coord_x) and abs(x2 - (agent_coord_x + 1)) <= abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                    return 1
+                #one above, one below you
+                if x1 == x2:
+                    return 0
+                #one left, one right
+                elif y1 == y2:
+                    if (x1 < (agent_coord_x + 1)) and (x2 > agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                        return 1
+                    if (x2 < (agent_coord_x + 1)) and (x1 > agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                        return 1
+
+                #one parallel, one perpendicular
+                else:
+                    #if you get closer to any of the 2 bombs agent is dumb
+                    if abs(x1 - (agent_coord_x + 1)) <= abs(x1 - agent_coord_x) or abs(x2 - (agent_coord_x + 1)) <= abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
+                        return 1
+            
+
+            if action == 'DOWN':
+                #both bombs above you
+                if abs(y1 - (agent_coord_y + 1)) <= abs(y1 - agent_coord_y) and abs(y2 - (agent_coord_y + 1)) <= abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                    return 1
+                #one above, one below you
+                if x1 == x2:
+                    if (y1 < (agent_coord_y + 1)) and (y2 > agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                        return 1
+                    if (y2 < (agent_coord_y + 1)) and (y1 > agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                        return 1
+                #one left, one right
+                elif y1 == y2:
+                    return 0
+
+                #one parallel, one perpendicular
+                else:
+                    #if you get closer to any of the 2 bombs agent is dumb
+                    if abs(y1 - (agent_coord_y + 1)) <= abs(y1 - agent_coord_y) or abs(y2 - (agent_coord_y + 1)) <= abs(y2 - agent_coord_y) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
+                        return 1
+            
+
+            if action == 'LEFT':
+                #both bombs above you
+                if abs(x1 - (agent_coord_x - 1)) <= abs(x1 - agent_coord_x) and abs(x2 - (agent_coord_x - 1)) <= abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                    return 1
+                #one above, one below you
+                if x1 == x2:
+                    return 0
+                #one left, one right
+                elif y1 == y2:
+                    if (x1 < (agent_coord_x - 1)) and (x2 > agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                        return 1
+                    if (x2 < (agent_coord_x - 1)) and (x1 > agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                        return 1
+
+                #one parallel, one perpendicular
+                else:
+                    #if you get closer to any of the 2 bombs agent is dumb
+                    if abs(x1 - (agent_coord_x - 1)) <= abs(x1 - agent_coord_x) or abs(x2 - (agent_coord_x - 1)) <= abs(x2 - agent_coord_x) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
+                        return 1
+
+
+    #case 3:  three bombs (hell no, I aint gonna do this ... good luck)---------------------------------------
+
+
+
+    return 0
 
 
 
 
 
+#done (added)
+#helper function
+def move_into_advanced_crate_trap_with_this_bomb(x,y, game_state, action, self):
+
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    # the next direction to be farther from the bomb
+    if action == 'UP':
+        #agent directly on bomb
+        if x == agent_coord_x and y == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_y > 2:
+                    if game_state['field'][agent_coord_x][agent_coord_y-3] != 0 :
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y-2] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y-2] != 0):
+                            return 1
+                
+                #check if agent is more than 3 fields away from edge
+                if agent_coord_y > 3:
+                    if ( game_state['field'][agent_coord_x][agent_coord_y-3] != 0 ) or ( game_state['field'][agent_coord_x][agent_coord_y-4] != 0 ):
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y-2] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y-2] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_y) % 2) == 0 :
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_y > 2:
+                    if game_state['field'][agent_coord_x][agent_coord_y-3] != 0 :
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y-1] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y-1] != 0):
+                            return 1
+        
+        #agent one above bomb
+        if x == agent_coord_x and (y-1) == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_y > 2:
+                    if game_state['field'][agent_coord_x][agent_coord_y-3] != 0 :
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y-2] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y-2] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_y) % 2) == 0 :
+                if (game_state['field'][agent_coord_x + 1][agent_coord_y-1] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y-1] != 0):
+                    if agent_coord_y > 1:
+                        if game_state['field'][agent_coord_x][agent_coord_y-2] != 0 :
+                            return 1
+                    if agent_coord_y > 2:
+                        if (game_state['field'][agent_coord_x][agent_coord_y-2] != 0) or (game_state['field'][agent_coord_x][agent_coord_y-3] != 0):
+                            return 1
+
+        if agent_coord_y == 2:    
+            if (x == agent_coord_x and y == agent_coord_y) or (x == agent_coord_x and (y-1) == agent_coord_y):
+                if (game_state['field'][agent_coord_x + 1][agent_coord_y-1] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y-1] != 0):
+                    return 1 
+
+    
+
+
+    # the next direction to be farther from the bomb
+    if action == 'RIGHT':
+        #agent directly on bomb
+        if x == agent_coord_x and y == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_x < (len(game_state['field'])-1) -2:
+                    if game_state['field'][agent_coord_x+3][agent_coord_y] != 0 :
+                        if (game_state['field'][agent_coord_x+2][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x+2][agent_coord_y - 1] != 0):
+                            return 1
+                
+                #check if agent is more than 3 fields away from edge
+                if agent_coord_x < (len(game_state['field'])-1) -3:
+                    if ( game_state['field'][agent_coord_x+3][agent_coord_y] != 0 ) or ( game_state['field'][agent_coord_x+4][agent_coord_y] != 0 ):
+                        if (game_state['field'][agent_coord_x+2][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x+2][agent_coord_y - 1] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_x) % 2) == 0 :
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_x < (len(game_state['field'])-1) -2:
+                    if game_state['field'][agent_coord_x+3][agent_coord_y] != 0 :
+                        if (game_state['field'][agent_coord_x+1][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x+1][agent_coord_y - 1] != 0):
+                            return 1
+        
+        #agent one above bomb
+        if (x+1) == agent_coord_x and y == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_x < (len(game_state['field'])-1) -2:
+                    if game_state['field'][agent_coord_x+3][agent_coord_y] != 0 :
+                        if (game_state['field'][agent_coord_x+2][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x+2][agent_coord_y - 1] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_x) % 2) == 0 :
+                if (game_state['field'][agent_coord_x+1][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x+1][agent_coord_y - 1] != 0):
+                    if agent_coord_x < (len(game_state['field'])-1) -1:
+                        if game_state['field'][agent_coord_x+2][agent_coord_y] != 0 :
+                            return 1
+                    if agent_coord_x < (len(game_state['field'])-1) -2:
+                        if (game_state['field'][agent_coord_x+2][agent_coord_y] != 0) or (game_state['field'][agent_coord_x+3][agent_coord_y] != 0):
+                            return 1
+
+        if agent_coord_x == (len(game_state['field'])-1) -2:    
+            if (x == agent_coord_x and y == agent_coord_y) or ((x+1) == agent_coord_x and y == agent_coord_y):
+                if (game_state['field'][agent_coord_x+1][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x+1][agent_coord_y - 1] != 0):
+                    return 1 
+
+
+
+
+    # the next direction to be farther from the bomb
+    if action == 'DOWN':
+        #agent directly on bomb
+        if x == agent_coord_x and y == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_y < (len(game_state['field'][:][0])-1) -2:
+                    if game_state['field'][agent_coord_x][agent_coord_y+3] != 0 :
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y+2] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y+2] != 0):
+                            return 1
+                
+                #check if agent is more than 3 fields away from edge
+                if agent_coord_y < (len(game_state['field'][:][0])-1) -3:
+                    if ( game_state['field'][agent_coord_x][agent_coord_y+3] != 0 ) or ( game_state['field'][agent_coord_x][agent_coord_y+4] != 0 ):
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y+2] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y+2] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_y) % 2) == 0 :
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_y < (len(game_state['field'][:][0])-1) -2:
+                    if game_state['field'][agent_coord_x][agent_coord_y+3] != 0 :
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y+1] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y+1] != 0):
+                            return 1
+        
+        #agent one below bomb
+        if x == agent_coord_x and (y+1) == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_y < (len(game_state['field'][:][0])-1) -2:
+                    if game_state['field'][agent_coord_x][agent_coord_y+3] != 0 :
+                        if (game_state['field'][agent_coord_x + 1][agent_coord_y+2] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y+2] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_y) % 2) == 0 :
+                if (game_state['field'][agent_coord_x + 1][agent_coord_y+1] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y+1] != 0):
+                    if agent_coord_y < (len(game_state['field'][:][0])-1) -1:
+                        if game_state['field'][agent_coord_x][agent_coord_y+2] != 0 :
+                            return 1
+                    if agent_coord_y < (len(game_state['field'][:][0])-1) -2:
+                        if (game_state['field'][agent_coord_x][agent_coord_y+2] != 0) or (game_state['field'][agent_coord_x][agent_coord_y+3] != 0):
+                            return 1
+
+        if agent_coord_y == (len(game_state['field'][:][0])-1) -2:    
+            if (x == agent_coord_x and y == agent_coord_y) or (x == agent_coord_x and (y+1) == agent_coord_y):
+                if (game_state['field'][agent_coord_x + 1][agent_coord_y+1] != 0) and (game_state['field'][agent_coord_x - 1][agent_coord_y+1] != 0):
+                    return 1 
 
 
 
 
 
+    # the next direction to be farther from the bomb
+    if action == 'LEFT':
+        #agent directly on bomb
+        if x == agent_coord_x and y == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_x > 2:
+                    if game_state['field'][agent_coord_x-3][agent_coord_y] != 0 :
+                        if (game_state['field'][agent_coord_x-2][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x-2][agent_coord_y - 1] != 0):
+                            return 1
+                
+                #check if agent is more than 3 fields away from edge
+                if agent_coord_x > 3:
+                    if ( game_state['field'][agent_coord_x-3][agent_coord_y] != 0 ) or ( game_state['field'][agent_coord_x-4][agent_coord_y] != 0 ):
+                        if (game_state['field'][agent_coord_x-2][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x-2][agent_coord_y - 1] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_x) % 2) == 0 :
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_x > 2:
+                    if game_state['field'][agent_coord_x-3][agent_coord_y] != 0 :
+                        if (game_state['field'][agent_coord_x-1][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x-1][agent_coord_y - 1] != 0):
+                            return 1
+        
+        #agent one above bomb
+        if (x-1) == agent_coord_x and y == agent_coord_y:
+            #agent on free cross
+            if ((agent_coord_x) % 2) != 0 and ((agent_coord_y) % 2) != 0:
+                #check if agent is more than 2 fields away from edge
+                if agent_coord_x > 2:
+                    if game_state['field'][agent_coord_x-3][agent_coord_y] != 0 :
+                        if (game_state['field'][agent_coord_x-2][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x-2][agent_coord_y - 1] != 0):
+                            return 1
+            
+            #agent on |_|_|x|_|_| lane
+            if ((agent_coord_x) % 2) == 0 :
+                if (game_state['field'][agent_coord_x-1][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x-1][agent_coord_y - 1] != 0):
+                    if agent_coord_x > 1:
+                        if game_state['field'][agent_coord_x-2][agent_coord_y] != 0 :
+                            return 1
+                    if agent_coord_x > 2:
+                        if (game_state['field'][agent_coord_x-2][agent_coord_y] != 0) or (game_state['field'][agent_coord_x-3][agent_coord_y] != 0):
+                            return 1
+
+        if agent_coord_x == 2:    
+            if (x == agent_coord_x and y == agent_coord_y) or ((x-1) == agent_coord_x and y == agent_coord_y):
+                if (game_state['field'][agent_coord_x-1][agent_coord_y + 1] != 0) and (game_state['field'][agent_coord_x-1][agent_coord_y - 1] != 0):
+                    return 1 
+
+
+
+    return 0
+
+
+#done (added)
+def move_into_advanced_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs, game_state, action, self):
+
+    dangerous_bombs = [item[0] for item in dangerous_bombs_and_number_of_dangerous_bombs[0]] 
+    number_of_dangerous_bombs = dangerous_bombs_and_number_of_dangerous_bombs[1]
 
 
 
 
+    #case 1:  one bomb-------------------------------------------------------
+    if number_of_dangerous_bombs == 1:
+
+        #get the bomb which is not 'None'
+        bomb_coord = dangerous_bombs[ [i for i in range(len(dangerous_bombs)) if dangerous_bombs[i] != None][0] ]
+
+        bomb_coord_x = bomb_coord[0]
+        bomb_coord_y = bomb_coord[1]
+
+        x, y = bomb_coord_x, bomb_coord_y 
+
+
+        if move_into_advanced_crate_trap_with_this_bomb(x,y, game_state, action, self) == 1:
+            return 1
+
+
+
+    #case 2:  two bombs-------------------------------------------------------
+    if number_of_dangerous_bombs == 2:
+
+        #get the bombs which are not 'None'
+        bomb_index = [i for i in range(len(dangerous_bombs)) if dangerous_bombs[i] != None]
+        bomb_coord1 = dangerous_bombs[ bomb_index[0] ]
+        bomb_coord2 = dangerous_bombs[ bomb_index[1] ]
+
+        x1 = bomb_coord1[0]
+        y1 = bomb_coord1[1]
+
+        x2 = bomb_coord2[0]
+        y2 = bomb_coord2[1]
+
+
+        if move_into_advanced_crate_trap_with_this_bomb(x1,y1, game_state, action, self) == 1:
+            return 1
+        
+        if move_into_advanced_crate_trap_with_this_bomb(x2,y2, game_state, action, self) == 1:
+            return 1
+
+
+
+    return 0
+
+
+
+
+
+#done (fixed x and y coords)
 def runs_into_explosion(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -1550,19 +2000,19 @@ def runs_into_explosion(game_state, action, self):
 
     # the next direction to be farther from the bomb
     if action == 'UP':
-        if game_state['explosion_map'][agent_coord_y-1][agent_coord_x] != 0 :
+        if game_state['explosion_map'][agent_coord_x][agent_coord_y-1] != 0 :
             return 1
 
     if action == 'RIGHT':
-        if game_state['explosion_map'][agent_coord_y][agent_coord_x+1] != 0 :
+        if game_state['explosion_map'][agent_coord_x+1][agent_coord_y] != 0 :
             return 1
 
     if action == 'DOWN':
-        if game_state['explosion_map'][agent_coord_y+1][agent_coord_x] != 0 :
+        if game_state['explosion_map'][agent_coord_x][agent_coord_y+1] != 0 :
             return 1
 
     if action == 'LEFT':
-        if game_state['explosion_map'][agent_coord_y][agent_coord_x-1] != 0 :
+        if game_state['explosion_map'][agent_coord_x-1][agent_coord_y] != 0 :
             return 1
 
 
@@ -1570,6 +2020,8 @@ def runs_into_explosion(game_state, action, self):
 
 
 
+
+#hopefully done (x and y fixed)
 def runs_into_bomb_range_without_dying(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -1586,7 +2038,7 @@ def runs_into_bomb_range_without_dying(game_state, action, self):
     closest_bomb4 = (None, 0)
 
 
-    # find the 3 closest bombs
+    # find the 4 closest bombs
     if len(bomb_locations) != 0:
         #sort 'bomb_infos' list according to cartesian distance to agent
         bomb_infos_sorted = sorted( bomb_infos, key = lambda coord: np.linalg.norm([coord[0][0] - agent_coord_x, coord[0][1] - agent_coord_y] ) )
@@ -1619,51 +2071,51 @@ def runs_into_bomb_range_without_dying(game_state, action, self):
 
     if action == 'UP':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if not (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if not (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
 
     if action == 'RIGHT':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x + 1, agent_coord_y) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if not (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if not (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
     if action == 'DOWN':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x, agent_coord_y + 1) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if not (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if not (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
     if action == 'LEFT':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x - 1, agent_coord_y) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if not (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if not (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
 
@@ -1672,7 +2124,8 @@ def runs_into_bomb_range_without_dying(game_state, action, self):
 
 
 
-#exactly the same as 'runs_into_bomb_range_without_dying', but remove the 'not' in the '1 in ...' condition
+#hopefully done (x and y fixed)
+#exactly the same as 'runs_into_bomb_range_without_dying', but remove the 'not' in the '0 in ...' condition
 def runs_into_bomb_range_with_dying(game_state, action, self):
 
     agent_coord_x = game_state['self'][3][0]
@@ -1689,7 +2142,7 @@ def runs_into_bomb_range_with_dying(game_state, action, self):
     closest_bomb4 = (None, 0)
 
 
-    # find the 3 closest bombs
+    # find the 4 closest bombs
     if len(bomb_locations) != 0:
         #sort 'bomb_infos' list according to cartesian distance to agent
         bomb_infos_sorted = sorted( bomb_infos, key = lambda coord: np.linalg.norm([coord[0][0] - agent_coord_x, coord[0][1] - agent_coord_y] ) )
@@ -1722,51 +2175,51 @@ def runs_into_bomb_range_with_dying(game_state, action, self):
 
     if action == 'UP':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x][agent_coord_y-1] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
 
     if action == 'RIGHT':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x + 1, agent_coord_y) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x+1][agent_coord_y] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
     if action == 'DOWN':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x, agent_coord_y + 1) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x][agent_coord_y+1] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
     if action == 'LEFT':
         #compact but shitty to read version of checking if there is at least one bomb into whose range agent would go that he is not currently already in
-        now_in_range = [is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y - 1) for i in closest_bombs ]
-        not_already_in_range = [not (is_bomb_dangerous(i[0], agent_coord_x, agent_coord_y)) for i in closest_bombs ]
+        now_in_range = [is_bomb_dangerous(i, agent_coord_x - 1, agent_coord_y) for i in closest_bombs ]
+        not_already_in_range = [not (is_bomb_dangerous(i, agent_coord_x, agent_coord_y)) for i in closest_bombs ]
         went_into_range = np.logical_and(now_in_range, not_already_in_range)
         condition = np.logical_or(went_into_range, went_into_range)
 
-        if any(condition) and ( game_state['field'][agent_coord_y-1][agent_coord_x] == 0 ):
+        if any(condition) and ( game_state['field'][agent_coord_x-1][agent_coord_y] == 0 ):
             #check if you would immediately die and say NOT here (the other function will do this case)
-            if (1 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
+            if (0 in [closest_bombs[i][1] for i in np.where(condition)[0]]):
                 return 1
 
 
@@ -1775,6 +2228,9 @@ def runs_into_bomb_range_with_dying(game_state, action, self):
 
 
 
+
+
+#done
 def bomb_dropped_although_not_possible(game_state, action, self):
 
     if action == 'BOMB':
@@ -1783,13 +2239,16 @@ def bomb_dropped_although_not_possible(game_state, action, self):
 
     return 0
 
-
+#done
 def waited(game_state, action, self):
 
     if action == 'WAIT':
         return 1
 
     return 0
+
+
+
 
 
 

@@ -26,9 +26,12 @@ MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB = "MOVED_ACCORDINGLY_TO_EVENT
 GOT_OUT_OF_BOMB_RANGE = "GOT_OUT_OF_BOMB_RANGE"
 GOES_INTO_CRATE_TRAP = "GOES_INTO_CRATE_TRAP"
 TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE = "TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE"
-# RAN_INTO_EXPLOSION = "RAN_INTO_EXPLOSION"
-# RAN_INTO_BOMB_RANGE_WITHOUT_DYING = "RAN_INTO_BOMB_RANGE_WITHOUT_DYING"
-# RAN_INTO_BOMB_RANGE_WITH_DYING = "RAN_INTO_BOMB_RANGE_WITH_DYING"
+RAN_INTO_EXPLOSION = "RAN_INTO_EXPLOSION"
+RAN_INTO_BOMB_RANGE_WITHOUT_DYING = "RAN_INTO_BOMB_RANGE_WITHOUT_DYING"
+RAN_INTO_BOMB_RANGE_WITH_DYING = "RAN_INTO_BOMB_RANGE_WITH_DYING"
+GOES_TOWARDS_DANGEROUS_BOMBS = "GOES_TOWARDS_DANGEROUS_BOMBS"
+MOVED_INTO_ADVANCED_CRATE_TRAP = "MOVED_INTO_ADVANCED_CRATE_TRAP"
+
 
 #done
 def setup_training(self):
@@ -92,14 +95,23 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         if event_checker_list[11] != 0:
             events.append(TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE)
 
+        #not useful here bc will never be called bc agent dies when this occures
         # if event_checker_list[12] != 0:
         #     events.append(RAN_INTO_EXPLOSION)
 
-        # if event_checker_list[13] != 0:
-        #     events.append(RAN_INTO_BOMB_RANGE_WITHOUT_DYING)
+        if event_checker_list[13] != 0:
+            events.append(RAN_INTO_BOMB_RANGE_WITHOUT_DYING)
 
-        # if event_checker_list[14] != 0:
-        #     events.append(RAN_INTO_BOMB_RANGE_WITH_DYING)
+        #not useful here bc will never be called bc agent dies when this occures
+        if event_checker_list[14] != 0:
+            events.append(RAN_INTO_BOMB_RANGE_WITH_DYING)
+
+        if event_checker_list[15] != 0:
+            events.append(GOES_TOWARDS_DANGEROUS_BOMBS)
+
+        if event_checker_list[16] != 0:
+            events.append(MOVED_INTO_ADVANCED_CRATE_TRAP)
+        
 
         if event_checker_list[-1] != 0:
             events.append(WAITED)    
@@ -191,146 +203,169 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
 #done
 def end_of_round(self, last_game_state: dict, last_action: str, events: List[str]):
 
+    self.logger.info(f"-------------------- LAST EVALUATION")
+
     # #this is true e.g.: 'last_game_state' corresponds to 'old_game_state' in  'game_events_occured' etc.
-    # old_game_state = last_game_state
-    # self_action = last_action
+    old_game_state = last_game_state
+    self_action = last_action
+
+
+    if self.action_loop_result_before_taken_action != 0:
+        self.a = 1
+    else:
+        self.a = 0
+
+    self.logger.info(f"Value of a: {self.a}")
+
+    if state_to_features(old_game_state, self_action, self) is not None:
+
+        self.former_action.appendleft(0) #CHANGING POINT FOR ACTION LOOP FUNCTION - NORMAL
+        event_checker_list = state_to_features(old_game_state, self_action, self)
+        self.former_action.append(self.taken_action) #CHANGING POINT FOR ACTION LOOP FUNCTION - FUTURE
+
+        #define events here:
+
+        if event_checker_list[1] != 0:
+            events.append(MOVED_INTO_WALL_CRATE)
+
+        if self.a != 0:
+            #self.logger.info(f"Added event 'CONTINUED_ACTION_LOOP' with a= {self.a}")
+            events.append(CONTINUED_ACTION_LOOP)
+
+        if event_checker_list[3] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_COIN)
+
+        if event_checker_list[4] != 0:
+            events.append(RAN_AWAY_FROM_CLOSEST_COIN)
+
+        if event_checker_list[5] != 0:
+            events.append(DROPPED_BOMB_IN_RANGE_OF_CRATE)
+
+        if event_checker_list[6] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_CRATE)
+
+        if event_checker_list[7] != 0:
+            events.append(RAN_AWAY_FROM_CLOSEST_CRATE)
+
+        if event_checker_list[8] != 0:
+            events.append(MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB)
+
+        if event_checker_list[9] != 0:
+            events.append(GOT_OUT_OF_BOMB_RANGE)
+
+        if event_checker_list[10] != 0:
+            events.append(GOES_INTO_CRATE_TRAP)
+
+        if event_checker_list[11] != 0:
+            events.append(TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE)
+
+        #WILL be useful here
+        if event_checker_list[12] != 0:
+            events.append(RAN_INTO_EXPLOSION)
+
+        #will probably never be called here (I think)
+        if event_checker_list[13] != 0:
+            events.append(RAN_INTO_BOMB_RANGE_WITHOUT_DYING)
+
+        #WILL be useful here
+        if event_checker_list[14] != 0:
+            events.append(RAN_INTO_BOMB_RANGE_WITH_DYING)
+
+
+        if event_checker_list[15] != 0:
+            events.append(GOES_TOWARDS_DANGEROUS_BOMBS)
+
+        if event_checker_list[15] != 0:
+            events.append(MOVED_INTO_ADVANCED_CRATE_TRAP)
+        
+        
+
+        if event_checker_list[-1] != 0:
+            events.append(WAITED)    
+
+        # #only for coin heaven stage
+        # if event_checker_list[-2] != 0:
+        #     events.append(DROPPED_BOMB)
+        # if event_checker_list[-1] != 0:
+        #     events.append(WAITED)
+
+        agent_coord_x = old_game_state['self'][3][0]
+        agent_coord_y = old_game_state['self'][3][1]
+
+        moved_up = old_game_state['field'][agent_coord_x][agent_coord_y-1] #Up
+        moved_ri = old_game_state['field'][agent_coord_x+1][agent_coord_y] #Right
+        moved_do = old_game_state['field'][agent_coord_x][agent_coord_y+1] #Down
+        moved_le = old_game_state['field'][agent_coord_x-1][agent_coord_y] #Left
+
+
+        self.logger.info(f'')
+        self.logger.info(f'Epsilon: {self.epsilon}')
+
+        self.logger.info(f'Current position:   x: {old_game_state["self"][3][0]}  y: {old_game_state["self"][3][1]}')
+        # self.logger.info(f"Field value up: {moved_up}")
+        # self.logger.info(f"Field value right: {moved_ri}")
+        # self.logger.info(f"Field value down: {moved_do}")
+        # self.logger.info(f"Field value left: {moved_le}")
+        # self.logger.info(f"Field values: \n {old_game_state['field']}")
+        
+
+        #clac R
+        R = reward_from_events(self, events)
+
+
+        #calc Q_max_of_new_s
+        weights = self.model
+        Q_max_of_new_s = 0  #<-------------------- SHOULD BE 0 !!! (he said)
 
 
 
-    # #same as 'game_events_occured'-----------------------------------
+        self.former_action.appendleft(0) #CHANGING POINT FOR ACTION LOOP FUNCTION - NORMAL
+        #calc rest for updating
+        features = event_checker_list
+        self.former_action.append(self.taken_action) #CHANGING POINT FOR ACTION LOOP FUNCTION - FUTURE
+
+        #update weights
+        for i in range(FEATURES):
+            weights[i] = weights[i] + self.alpha * features[i] * (   R + self.gamma * Q_max_of_new_s - sum(weights * features)   )
 
 
-    # if self.action_loop_result_before_taken_action != 0:
-    #     self.a = 1
-    # else:
-    #     self.a = 0
-
-    # self.logger.info(f"Value of a: {self.a}")
-
-    # if state_to_features(old_game_state, self_action, self) is not None:
-
-
-    #     #define events here:
-
-    #     if state_to_features(old_game_state, self_action, self)[1] != 0:
-    #         events.append(MOVED_INTO_WALL_CRATE)
-
-    #     # if self.a != 0:
-    #     #     #self.logger.info(f"Added event 'CONTINUED_ACTION_LOOP' with a= {self.a}")
-    #     #     events.append(CONTINUED_ACTION_LOOP)
-
-    #     # if state_to_features(old_game_state, self_action, self)[3] != 0:
-    #     #     events.append(RAN_TOWARDS_CLOSEST_COIN)
-
-    #     # if state_to_features(old_game_state, self_action, self)[4] != 0:
-    #     #     events.append(RAN_AWAY_FROM_CLOSEST_COIN)
-
-    #     # if state_to_features(old_game_state, self_action, self)[5] != 0:
-    #     #     events.append(DROPPED_BOMB_IN_RANGE_OF_CRATE)
-
-    #     # if state_to_features(old_game_state, self_action, self)[6] != 0:
-    #     #     events.append(RAN_TOWARDS_CLOSEST_CRATE)
-
-    #     # if state_to_features(old_game_state, self_action, self)[7] != 0:
-    #     #     events.append(RAN_AWAY_FROM_CLOSEST_CRATE)
-
-    #     # if state_to_features(old_game_state, self_action, self)[8] != 0:
-    #     #     events.append(MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB)
-
-    #     # if state_to_features(old_game_state, self_action, self)[9] != 0:
-    #     #     events.append(GOT_OUT_OF_BOMB_RANGE)
-
-    #     # if state_to_features(old_game_state, self_action, self)[10] != 0:
-    #     #     events.append(GOES_INTO_CRATE_TRAP)
-
-    #     # if state_to_features(old_game_state, self_action, self)[11] != 0:
-    #     #     events.append(TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE)
-
-    #     # if state_to_features(old_game_state, self_action, self)[12] != 0:
-    #     #     events.append(RAN_INTO_EXPLOSION)
-
-    #     # if state_to_features(old_game_state, self_action, self)[13] != 0:
-    #     #     events.append(RAN_INTO_BOMB_RANGE_WITHOUT_DYING)
-
-    #     # if state_to_features(old_game_state, self_action, self)[14] != 0:
-    #     #     events.append(RAN_INTO_BOMB_RANGE_WITH_DYING)
-
-    #     # if state_to_features(old_game_state, self_action, self)[-1] != 0:
-    #     #     events.append(WAITED)    
-
-    #     # #only for coin heaven stage
-    #     # if state_to_features(old_game_state, self_action, self)[-2] != 0:
-    #     #     events.append(DROPPED_BOMB)
-    #     # if state_to_features(old_game_state, self_action, self)[-1] != 0:
-    #     #     events.append(WAITED)
-
-    #     agent_coord_x = old_game_state['self'][3][0]
-    #     agent_coord_y = old_game_state['self'][3][1]
-
-    #     moved_up = old_game_state['field'][agent_coord_x][agent_coord_y-1] #Up
-    #     moved_ri = old_game_state['field'][agent_coord_x+1][agent_coord_y] #Right
-    #     moved_do = old_game_state['field'][agent_coord_x][agent_coord_y+1] #Down
-    #     moved_le = old_game_state['field'][agent_coord_x-1][agent_coord_y] #Left
-
-    #     self.logger.info(f"Field value up: {moved_up}")
-    #     self.logger.info(f"Field value right: {moved_ri}")
-    #     self.logger.info(f"Field value down: {moved_do}")
-    #     self.logger.info(f"Field value left: {moved_le}")
-    #     self.logger.info(f"Field values: \n {old_game_state['field']}")
-
-    #     #clac R
-    #     R = reward_from_events(self, events)
-
-
-
-    #     #slightly different than 'game_events_occured'-----------------------
+        #store weights
+        self.model = weights
+        #self.logger.info(f"NEW MODEL: \n {self.model}")
 
         
-    #     #get weights
-    #     weights = self.model
-
-    #     #calc rest for updating
-    #     features = state_to_features(old_game_state, last_action, self)
-
-    #     #calc Q_max_of_new_s
-    #     Q_max_of_new_s = 0 #<-------------------- SHOULD BE 0 !!! (he said)
-
-    #     #update weights
-    #     for i in range(FEATURES):
-    #         weights[i] = weights[i] + self.alpha * features[i] * (   R + self.gamma * Q_max_of_new_s - sum(weights * features)   )
-
-
-    #     #store weights
-    #     self.model = weights
-    #     self.logger.info(f"NEW MODEL: \n {self.model}")
+        self.epsilon = self.epsilon * 0.998
+        
 
         
-    #     self.epsilon = self.epsilon * 0.998
+        # self.logger.info(f'Coin map: \n {old_game_state["coins"]}')
+        # self.logger.info(f'Coin map type: \n {type(old_game_state["coins"])}')
 
-
-    #     self.logger.info(f'Current position:   x: {last_game_state["self"][3][0]}  y: {last_game_state["self"][3][1]}')
-    #     # self.logger.info(f'Coin map: \n {old_game_state["coins"]}')
-    #     # self.logger.info(f'Coin map type: \n {type(old_game_state["coins"])}')
-
-    #     #self.logger.info(f"Test stored last state, former coordinates: {self.former_state[0]['self'][3]}")  
-
-    #     self.logger.info(f"Run into explosion UP: {runs_into_explosion(old_game_state, ACTIONS[0], self)}") 
-    #     self.logger.info(f"Run into explosion RIGHT: {runs_into_explosion(old_game_state, ACTIONS[1], self)}") 
-    #     self.logger.info(f"Run into explosion DOWN: {runs_into_explosion(old_game_state, ACTIONS[2], self)}") 
-    #     self.logger.info(f"Run into explosion LEFT: {runs_into_explosion(old_game_state, ACTIONS[3], self)}") 
-
-    #     self.logger.info(f"runs_into_bomb_range_without_dying: {runs_into_bomb_range_without_dying(last_game_state, last_action, self)}")
-    #     self.logger.info(f"runs_into_bomb_range_with_dying: {runs_into_bomb_range_without_dying(last_game_state, last_action, self)}")
+        
 
 
     self.logger.info(f"Chosen wall/crate run count: {self.count_chosen_wall_crate_run} ")
     self.logger.info(f"Chosen action loop count: {self.count_chosen_action_loop} ")
     self.logger.info(f"Chosen crate trap: {self.count_crate_trap} ")
+    self.logger.info(f"Chosen suicide (run into explosion): {self.count_runs_into_explosion} ")
+    self.logger.info(f"Chosen almost suicide (run into bomb range no dying): {self.count_runs_into_bomb_range_no_dying} ")
+    self.logger.info(f"Chosen suicide (run into bomb range with dying): {self.count_runs_into_bomb_range_with_dying} ")
+    self.logger.info(f"Chosen advanced crate trap: {self.count_advanced_crate_trap} ")
+
+    
+ 
+    
     
     print()
     print(f"Chosen wall/crate run count: {self.count_chosen_wall_crate_run}")
     print(f"Chosen action loop count: {self.count_chosen_action_loop}")
     print(f"Chosen crate trap count: {self.count_crate_trap}")
+    print(f"Chosen suicide (run into explosion): {self.count_runs_into_explosion}")
+    print(f"Chosen almost suicide (run into bomb range no dying): {self.count_runs_into_bomb_range_no_dying} ")
+    print(f"Chosen suicide (run into bomb range with dying): {self.count_runs_into_bomb_range_with_dying} ")
+    print(f"Chosen advanced crate trap: {self.count_advanced_crate_trap} ")
+
+
     
 
     self.logger.info(f"END OF GAME ---------------- Step: {last_game_state['step']} ")
@@ -349,6 +384,12 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
     self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
     self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
     self.count_crate_trap = 0 #only for logger (can be deleted at end)
+    self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
+    self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
+    self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
+    self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
+    
+    
     self.taken_action = None 
 
 
@@ -379,7 +420,7 @@ def reward_from_events(self, events: List[str]) -> int:
         e.COIN_FOUND: 0,
         e.COIN_COLLECTED: 0,
 
-        MOVED_INTO_WALL_CRATE: -50, #has to be more penalty than 'continued action loop'
+        MOVED_INTO_WALL_CRATE: -60, #has to be more penalty than 'continued action loop'
         CONTINUED_ACTION_LOOP: -15,
         RAN_TOWARDS_CLOSEST_COIN: 5,
         RAN_AWAY_FROM_CLOSEST_COIN: -7, #has to be more penalty than 'RAN_TOWARDS_CLOSEST_COIN' has reward, to avoid loop (? unsure)
@@ -399,9 +440,12 @@ def reward_from_events(self, events: List[str]) -> int:
                                     #higher than reward for moving away from bomb (higher than sum of all)                                                 
         TRIED_TO_DROP_BOMB_ALTHOUGH_NOT_POSSIBLE: -20, #higher than running away from coin but not higher than 'MOVED_INTO_WALL_CRATE'
         
-        # RAN_INTO_EXPLOSION: -50, #VERY HIGH (this is equivalent to dying)
-        # RAN_INTO_BOMB_RANGE_WITHOUT_DYING: -40,
-        # RAN_INTO_BOMB_RANGE_WITHOUT_DYING: -50, #same as 'RAN_INTO_EXPLOSION' --> instant death
+        RAN_INTO_EXPLOSION: -60, #VERY HIGH (this is equivalent to dying)
+        RAN_INTO_BOMB_RANGE_WITHOUT_DYING: -50, #higher than reward for moving out of bomb range
+        RAN_INTO_BOMB_RANGE_WITH_DYING: -60, #same as 'RAN_INTO_EXPLOSION' --> instant death
+
+        GOES_TOWARDS_DANGEROUS_BOMBS: -15, #higher than running towards coin or crate and higher than their sum
+        MOVED_INTO_ADVANCED_CRATE_TRAP: -35, #maybe the same as moving into std crate trap (could be a tiny bit worse)
 
         WAITED: -2, #less punishment than running into bomb
 
@@ -438,7 +482,18 @@ def reward_from_events(self, events: List[str]) -> int:
     #for logger
     if GOES_INTO_CRATE_TRAP in events and self.random_or_choosen == 2:
         self.count_crate_trap += 1
-
+    #for logger
+    if RAN_INTO_EXPLOSION in events and self.random_or_choosen == 2:
+        self.count_runs_into_explosion += 1
+    #for logger
+    if RAN_INTO_BOMB_RANGE_WITHOUT_DYING in events and self.random_or_choosen == 2:
+        self.count_runs_into_bomb_range_no_dying += 1
+    #for logger
+    if RAN_INTO_BOMB_RANGE_WITH_DYING in events and self.random_or_choosen == 2:
+        self.count_runs_into_bomb_range_with_dying += 1
+    #for logger
+    if MOVED_INTO_ADVANCED_CRATE_TRAP in events and self.random_or_choosen == 2:
+        self.count_advanced_crate_trap += 1
     
 
     return reward_sum
