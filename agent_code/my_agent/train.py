@@ -31,6 +31,10 @@ RAN_INTO_BOMB_RANGE_WITHOUT_DYING = "RAN_INTO_BOMB_RANGE_WITHOUT_DYING"
 RAN_INTO_BOMB_RANGE_WITH_DYING = "RAN_INTO_BOMB_RANGE_WITH_DYING"
 GOES_TOWARDS_DANGEROUS_BOMBS = "GOES_TOWARDS_DANGEROUS_BOMBS"
 MOVED_INTO_ADVANCED_CRATE_TRAP = "MOVED_INTO_ADVANCED_CRATE_TRAP"
+DROP_BOMB_WITHOUT_REASON = "DROP_BOMB_WITHOUT_REASON"
+COULD_HAVE_ESCAPED_BUT_DIDNT = "COULD_HAVE_ESCAPED_BUT_DIDNT"
+SURVIVED_START = "SURVIVED_START"
+
 
 
 #done
@@ -52,6 +56,81 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         self.a = 0
 
     self.logger.info(f"Value of a: {self.a}")
+    # self.logger.info(f"------------self_action: {self_action}")
+    # self.logger.info(f"------------Old game state: {old_game_state}")
+    # self.logger.info(f"------------New game state: {new_game_state}")
+
+    
+    # so the way the game enviorment works here is the following:
+    # in the very first step: old_game_state = None and new_game_state = the already NEW game state 
+    # (e.g. if agent moved at beginning, new_game_state has its NEW position (so position (1,1) would not exist))
+    # I wrote the 'survive_start' func so it can handle the already changed position (actually the func
+    # is called with 'new_game_state' and the taken action, thats why I dont calc the other events here bc 
+    # all other feature functions would take 'old_game_state' and taken action OR 'new_game_state' and future action
+    # not like here: 'new_game_state' and taken action
+    if new_game_state["step"] == 1:
+
+        old_game_state = new_game_state
+
+        self.former_action.appendleft(0) #CHANGING POINT FOR ACTION LOOP FUNCTION - NORMAL
+        event_checker_list = state_to_features(old_game_state, self_action, self)
+        self.former_action.append(self.taken_action) #CHANGING POINT FOR ACTION LOOP FUNCTION - FUTURE
+    
+        #all the other events dont really make sense here
+        if event_checker_list[19] != 0:
+            events.append(SURVIVED_START)
+        
+        #clac R
+        R = reward_from_events(self, events)
+
+        #calc Q_max_of_new_s
+        weights = self.model
+        features_for_action_1 = state_to_features(new_game_state, ACTIONS[0], self)
+        features_for_action_2 = state_to_features(new_game_state, ACTIONS[1], self)
+        features_for_action_3 = state_to_features(new_game_state, ACTIONS[2], self)
+        features_for_action_4 = state_to_features(new_game_state, ACTIONS[3], self)
+        features_for_action_5 = state_to_features(new_game_state, ACTIONS[4], self)
+        features_for_action_6 = state_to_features(new_game_state, ACTIONS[5], self)
+
+        features_for_all_actions = np.array([
+            features_for_action_1,
+            features_for_action_2,
+            features_for_action_3,
+            features_for_action_4,
+            features_for_action_5,
+            features_for_action_6
+        ])
+
+        index_of_best_action = ((weights * features_for_all_actions).sum(axis=1)).argmax(axis=0)
+        features_for_best_action = state_to_features(new_game_state, ACTIONS[index_of_best_action], self)
+
+        Q_max_of_new_s = sum(weights * features_for_best_action)
+
+
+        self.former_action.appendleft(0) #CHANGING POINT FOR ACTION LOOP FUNCTION - NORMAL
+        #calc rest for updating
+        features = event_checker_list
+        self.former_action.append(self.taken_action) #CHANGING POINT FOR ACTION LOOP FUNCTION - FUTURE
+
+        #update weights
+        for i in range(FEATURES):
+            weights[i] = weights[i] + self.alpha * features[i] * (   R + self.gamma * Q_max_of_new_s - sum(weights * features)   )
+
+
+        #store weights
+        self.model = weights
+        # self.logger.info(f"NEW MODEL: \n {self.model}")
+
+        
+        self.epsilon = self.epsilon * 0.998
+        self.former_state.append(new_game_state)
+
+
+        #set back!!! (important)
+        old_game_state = None
+
+
+
 
     if state_to_features(old_game_state, self_action, self) is not None:
 
@@ -112,7 +191,17 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
         if event_checker_list[16] != 0:
             events.append(MOVED_INTO_ADVANCED_CRATE_TRAP)
         
+        if event_checker_list[17] != 0:
+            events.append(DROP_BOMB_WITHOUT_REASON)
+        
+        if event_checker_list[18] != 0:
+            events.append(COULD_HAVE_ESCAPED_BUT_DIDNT)
 
+        # MUST NOT BE in here (only in upper part)
+        # if event_checker_list[19] != 0:
+        #     events.append(SURVIVED_START)
+        
+        
         if event_checker_list[-1] != 0:
             events.append(WAITED)    
 
@@ -275,9 +364,19 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
         if event_checker_list[15] != 0:
             events.append(GOES_TOWARDS_DANGEROUS_BOMBS)
 
-        if event_checker_list[15] != 0:
+        if event_checker_list[16] != 0:
             events.append(MOVED_INTO_ADVANCED_CRATE_TRAP)
         
+        if event_checker_list[17] != 0:
+            events.append(DROP_BOMB_WITHOUT_REASON)
+
+        if event_checker_list[18] != 0:
+            events.append(COULD_HAVE_ESCAPED_BUT_DIDNT)
+
+        # MUST NOT BE IN HERE (only in very first part)
+        # if event_checker_list[19] != 0:
+        #     events.append(SURVIVED_START)
+
         
 
         if event_checker_list[-1] != 0:
@@ -446,6 +545,9 @@ def reward_from_events(self, events: List[str]) -> int:
 
         GOES_TOWARDS_DANGEROUS_BOMBS: -15, #higher than running towards coin or crate and higher than their sum
         MOVED_INTO_ADVANCED_CRATE_TRAP: -35, #maybe the same as moving into std crate trap (could be a tiny bit worse)
+        DROP_BOMB_WITHOUT_REASON: -60, #equal to moving into wall (just dont do it)
+        COULD_HAVE_ESCAPED_BUT_DIDNT: -35, #maybe the same as moving into std crate trap
+        SURVIVED_START: 60, #highest reward (if agent doesnt do this he will die)
 
         WAITED: -2, #less punishment than running into bomb
 

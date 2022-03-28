@@ -1,911 +1,707 @@
-2022-03-28 02:15:56,939 [my_agent_code] INFO: LOADING MODEL FROM FILE
-2022-03-28 02:15:56,939 [my_agent_code] INFO: TRAINING SETUP successful
-2022-03-28 02:15:57,648 [my_agent_code] INFO: 
+2022-03-28 04:35:59,983 [my_agent_code] INFO: LOADING MODEL FROM FILE
+2022-03-28 04:35:59,984 [my_agent_code] INFO: TRAINING SETUP successful
+2022-03-28 04:36:00,577 [my_agent_code] INFO: 
 ------------------------------------ Step: 1
-2022-03-28 02:15:57,666 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:57,668 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:57,670 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:57,746 [my_agent_code] INFO: 
+2022-03-28 04:36:00,632 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:00,637 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:00,640 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:00,646 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:00,646 [my_agent_code] INFO: Awarded 60 for events MOVED_LEFT, SURVIVED_START
+2022-03-28 04:36:00,697 [my_agent_code] INFO: 
 ------------------------------------ Step: 2
-2022-03-28 02:15:57,747 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:15:57,747 [my_agent_code] INFO: Last 4 actions with current action:  deque([0, 'BOMB', 'BOMB', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:57,750 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:57,751 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:57,759 [my_agent_code] INFO: 
-2022-03-28 02:15:57,759 [my_agent_code] INFO: Epsilon: 0.1
-2022-03-28 02:15:57,759 [my_agent_code] INFO: Current position:   x: 1  y: 15
-2022-03-28 02:15:57,760 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:15:57,760 [my_agent_code] INFO: Awarded 37 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:15:57,847 [my_agent_code] INFO: 
+2022-03-28 04:36:00,734 [my_agent_code] INFO: Last 4 actions without current action:  deque([0, 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:00,752 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:00,752 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:00,753 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:00,758 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:00,760 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:00,770 [my_agent_code] INFO: 
+2022-03-28 04:36:00,770 [my_agent_code] INFO: Epsilon: 0.0998
+2022-03-28 04:36:00,770 [my_agent_code] INFO: Current position:   x: 14  y: 15
+2022-03-28 04:36:00,770 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:00,770 [my_agent_code] INFO: Awarded 7 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:00,817 [my_agent_code] INFO: 
 ------------------------------------ Step: 3
-2022-03-28 02:15:57,863 [my_agent_code] INFO: Last 4 actions without current action:  deque([0, 'BOMB', 'BOMB', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:57,871 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:57,871 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:15:57,871 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:57,873 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:57,874 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:57,877 [my_agent_code] INFO: 
-2022-03-28 02:15:57,878 [my_agent_code] INFO: Epsilon: 0.0998
-2022-03-28 02:15:57,878 [my_agent_code] INFO: Current position:   x: 2  y: 15
-2022-03-28 02:15:57,878 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:15:57,878 [my_agent_code] INFO: Awarded 37 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:15:57,941 [my_agent_code] INFO: 
+2022-03-28 04:36:00,847 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:00,864 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:00,865 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:00,865 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:00,868 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:00,869 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:00,881 [my_agent_code] INFO: 
+2022-03-28 04:36:00,881 [my_agent_code] INFO: Epsilon: 0.0996004
+2022-03-28 04:36:00,881 [my_agent_code] INFO: Current position:   x: 13  y: 15
+2022-03-28 04:36:00,881 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:00,881 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:00,917 [my_agent_code] INFO: 
 ------------------------------------ Step: 4
-2022-03-28 02:15:57,960 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:57,969 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:57,969 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:57,969 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:15:57,971 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:57,972 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:57,976 [my_agent_code] INFO: 
-2022-03-28 02:15:57,976 [my_agent_code] INFO: Epsilon: 0.0996004
-2022-03-28 02:15:57,976 [my_agent_code] INFO: Current position:   x: 3  y: 15
-2022-03-28 02:15:57,976 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:57,976 [my_agent_code] INFO: Awarded 64 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:15:58,047 [my_agent_code] INFO: 
+2022-03-28 04:36:00,943 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:00,959 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:00,959 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:00,959 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:00,964 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:00,965 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:00,974 [my_agent_code] INFO: 
+2022-03-28 04:36:00,975 [my_agent_code] INFO: Epsilon: 0.09940119920000001
+2022-03-28 04:36:00,975 [my_agent_code] INFO: Current position:   x: 13  y: 15
+2022-03-28 04:36:00,975 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:00,975 [my_agent_code] INFO: Awarded 19 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:01,028 [my_agent_code] INFO: 
 ------------------------------------ Step: 5
-2022-03-28 02:15:58,070 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,081 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,082 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:15:58,082 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:15:58,083 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,084 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,088 [my_agent_code] INFO: 
-2022-03-28 02:15:58,088 [my_agent_code] INFO: Epsilon: 0.09940119920000001
-2022-03-28 02:15:58,088 [my_agent_code] INFO: Current position:   x: 3  y: 14
-2022-03-28 02:15:58,088 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:15:58,088 [my_agent_code] INFO: Awarded -4 for events WAITED, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, WAITED
-2022-03-28 02:15:58,150 [my_agent_code] INFO: 
+2022-03-28 04:36:01,054 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:01,070 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,070 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:01,070 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:01,075 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,076 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,083 [my_agent_code] INFO: 
+2022-03-28 04:36:01,083 [my_agent_code] INFO: Epsilon: 0.0992023968016
+2022-03-28 04:36:01,083 [my_agent_code] INFO: Current position:   x: 14  y: 15
+2022-03-28 04:36:01,083 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:01,083 [my_agent_code] INFO: Awarded 19 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:01,129 [my_agent_code] INFO: 
 ------------------------------------ Step: 6
-2022-03-28 02:15:58,163 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:15:58,169 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,170 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:58,170 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'WAIT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,173 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,174 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,179 [my_agent_code] INFO: 
-2022-03-28 02:15:58,179 [my_agent_code] INFO: Epsilon: 0.0992023968016
-2022-03-28 02:15:58,179 [my_agent_code] INFO: Current position:   x: 3  y: 14
-2022-03-28 02:15:58,179 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:58,179 [my_agent_code] INFO: Awarded 0 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:15:58,250 [my_agent_code] INFO: 
+2022-03-28 04:36:01,174 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:01,190 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,190 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:01,190 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
+2022-03-28 04:36:01,195 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,197 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,206 [my_agent_code] INFO: 
+2022-03-28 04:36:01,206 [my_agent_code] INFO: Epsilon: 0.09900399200799681
+2022-03-28 04:36:01,206 [my_agent_code] INFO: Current position:   x: 15  y: 15
+2022-03-28 04:36:01,206 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:01,207 [my_agent_code] INFO: Awarded 75 for events MOVED_UP, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:01,246 [my_agent_code] INFO: 
 ------------------------------------ Step: 7
-2022-03-28 02:15:58,264 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'WAIT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,274 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,274 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:15:58,274 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'WAIT', 'UP', 'DOWN'], maxlen=4)
-2022-03-28 02:15:58,276 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,277 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,281 [my_agent_code] INFO: 
-2022-03-28 02:15:58,281 [my_agent_code] INFO: Epsilon: 0.09900399200799681
-2022-03-28 02:15:58,281 [my_agent_code] INFO: Current position:   x: 3  y: 13
-2022-03-28 02:15:58,281 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:15:58,281 [my_agent_code] INFO: Awarded -6 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:15:58,354 [my_agent_code] INFO: 
+2022-03-28 04:36:01,290 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
+2022-03-28 04:36:01,310 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,310 [my_agent_code] INFO: CHOSEN ACTION: WAIT
+2022-03-28 04:36:01,310 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'UP', 'WAIT'], maxlen=4)
+2022-03-28 04:36:01,314 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,315 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,323 [my_agent_code] INFO: 
+2022-03-28 04:36:01,323 [my_agent_code] INFO: Epsilon: 0.09880598402398082
+2022-03-28 04:36:01,323 [my_agent_code] INFO: Current position:   x: 15  y: 14
+2022-03-28 04:36:01,323 [my_agent_code] INFO: CHOSEN ACTION: WAIT
+2022-03-28 04:36:01,323 [my_agent_code] INFO: Awarded -4 for events WAITED, BOMB_EXPLODED, CRATE_DESTROYED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, COIN_FOUND, WAITED
+2022-03-28 04:36:01,363 [my_agent_code] INFO: 
 ------------------------------------ Step: 8
-2022-03-28 02:15:58,365 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'WAIT', 'UP', 'DOWN'], maxlen=4)
-2022-03-28 02:15:58,374 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,374 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:58,374 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'UP', 'DOWN', 'BOMB'], maxlen=4)
-2022-03-28 02:15:58,378 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,379 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,386 [my_agent_code] INFO: 
-2022-03-28 02:15:58,386 [my_agent_code] INFO: Epsilon: 0.09880598402398082
-2022-03-28 02:15:58,386 [my_agent_code] INFO: Current position:   x: 3  y: 14
-2022-03-28 02:15:58,386 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:58,386 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-28 02:15:58,451 [my_agent_code] INFO: 
+2022-03-28 04:36:01,402 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'UP', 'WAIT'], maxlen=4)
+2022-03-28 04:36:01,420 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,420 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:01,420 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'WAIT', 'UP'], maxlen=4)
+2022-03-28 04:36:01,425 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,426 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,435 [my_agent_code] INFO: 
+2022-03-28 04:36:01,435 [my_agent_code] INFO: Epsilon: 0.09860837205593286
+2022-03-28 04:36:01,435 [my_agent_code] INFO: Current position:   x: 15  y: 14
+2022-03-28 04:36:01,435 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:01,435 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:01,473 [my_agent_code] INFO: 
 ------------------------------------ Step: 9
-2022-03-28 02:15:58,464 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'UP', 'DOWN', 'BOMB'], maxlen=4)
-2022-03-28 02:15:58,471 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,471 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:15:58,471 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'DOWN', 'BOMB', 'DOWN'], maxlen=4)
-2022-03-28 02:15:58,473 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,473 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,477 [my_agent_code] INFO: 
-2022-03-28 02:15:58,477 [my_agent_code] INFO: Epsilon: 0.09860837205593286
-2022-03-28 02:15:58,477 [my_agent_code] INFO: Current position:   x: 3  y: 14
-2022-03-28 02:15:58,477 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:15:58,477 [my_agent_code] INFO: Awarded 24 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:15:58,550 [my_agent_code] INFO: 
+2022-03-28 04:36:01,500 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'WAIT', 'UP'], maxlen=4)
+2022-03-28 04:36:01,519 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,519 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:01,519 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'WAIT', 'UP', 'DOWN'], maxlen=4)
+2022-03-28 04:36:01,524 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,525 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,534 [my_agent_code] INFO: 
+2022-03-28 04:36:01,534 [my_agent_code] INFO: Epsilon: 0.09841115531182099
+2022-03-28 04:36:01,534 [my_agent_code] INFO: Current position:   x: 15  y: 13
+2022-03-28 04:36:01,534 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:01,534 [my_agent_code] INFO: Awarded -18 for events MOVED_DOWN, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:01,577 [my_agent_code] INFO: 
 ------------------------------------ Step: 10
-2022-03-28 02:15:58,562 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'DOWN', 'BOMB', 'DOWN'], maxlen=4)
-2022-03-28 02:15:58,577 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,577 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:15:58,577 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'BOMB', 'DOWN', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:58,579 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,580 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,584 [my_agent_code] INFO: 
-2022-03-28 02:15:58,584 [my_agent_code] INFO: Epsilon: 0.09841115531182099
-2022-03-28 02:15:58,584 [my_agent_code] INFO: Current position:   x: 3  y: 15
-2022-03-28 02:15:58,584 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:15:58,584 [my_agent_code] INFO: Awarded 87 for events MOVED_RIGHT, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:15:58,659 [my_agent_code] INFO: 
+2022-03-28 04:36:01,620 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'WAIT', 'UP', 'DOWN'], maxlen=4)
+2022-03-28 04:36:01,641 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,641 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:01,641 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'UP', 'DOWN', 'BOMB'], maxlen=4)
+2022-03-28 04:36:01,646 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,646 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,658 [my_agent_code] INFO: 
+2022-03-28 04:36:01,658 [my_agent_code] INFO: Epsilon: 0.09821433300119735
+2022-03-28 04:36:01,659 [my_agent_code] INFO: Current position:   x: 15  y: 14
+2022-03-28 04:36:01,659 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:01,659 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:01,691 [my_agent_code] INFO: 
 ------------------------------------ Step: 11
-2022-03-28 02:15:58,659 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'BOMB', 'DOWN', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:58,667 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,667 [my_agent_code] INFO: RANDOM ACTION: UP
-2022-03-28 02:15:58,667 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'DOWN', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,669 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,671 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,678 [my_agent_code] INFO: 
-2022-03-28 02:15:58,678 [my_agent_code] INFO: Epsilon: 0.09821433300119735
-2022-03-28 02:15:58,678 [my_agent_code] INFO: Current position:   x: 4  y: 15
-2022-03-28 02:15:58,678 [my_agent_code] INFO: RANDOM ACTION: UP
-2022-03-28 02:15:58,679 [my_agent_code] INFO: Awarded -60 for events INVALID_ACTION, MOVED_INTO_WALL_CRATE
-2022-03-28 02:15:58,753 [my_agent_code] INFO: 
+2022-03-28 04:36:01,714 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'UP', 'DOWN', 'BOMB'], maxlen=4)
+2022-03-28 04:36:01,725 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,725 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:01,725 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'DOWN', 'BOMB', 'DOWN'], maxlen=4)
+2022-03-28 04:36:01,728 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,729 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,736 [my_agent_code] INFO: 
+2022-03-28 04:36:01,736 [my_agent_code] INFO: Epsilon: 0.09801790433519496
+2022-03-28 04:36:01,736 [my_agent_code] INFO: Current position:   x: 15  y: 14
+2022-03-28 04:36:01,736 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:01,736 [my_agent_code] INFO: Awarded 12 for events MOVED_DOWN, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:01,788 [my_agent_code] INFO: 
 ------------------------------------ Step: 12
-2022-03-28 02:15:58,777 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'DOWN', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,790 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,791 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:15:58,791 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'RIGHT', 'UP', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:58,794 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,796 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,803 [my_agent_code] INFO: 
-2022-03-28 02:15:58,804 [my_agent_code] INFO: Epsilon: 0.09801790433519496
-2022-03-28 02:15:58,804 [my_agent_code] INFO: Current position:   x: 4  y: 15
-2022-03-28 02:15:58,804 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:15:58,804 [my_agent_code] INFO: Awarded 7 for events MOVED_RIGHT, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:15:58,862 [my_agent_code] INFO: 
+2022-03-28 04:36:01,815 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'DOWN', 'BOMB', 'DOWN'], maxlen=4)
+2022-03-28 04:36:01,832 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,832 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:01,832 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'BOMB', 'DOWN', 'LEFT'], maxlen=4)
+2022-03-28 04:36:01,837 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,838 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,843 [my_agent_code] INFO: 
+2022-03-28 04:36:01,843 [my_agent_code] INFO: Epsilon: 0.09782186852652457
+2022-03-28 04:36:01,843 [my_agent_code] INFO: Current position:   x: 15  y: 15
+2022-03-28 04:36:01,843 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:01,843 [my_agent_code] INFO: Awarded 69 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:01,894 [my_agent_code] INFO: 
 ------------------------------------ Step: 13
-2022-03-28 02:15:58,877 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'RIGHT', 'UP', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:58,888 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,889 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:58,889 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,890 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,891 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,893 [my_agent_code] INFO: 
-2022-03-28 02:15:58,894 [my_agent_code] INFO: Epsilon: 0.09782186852652457
-2022-03-28 02:15:58,894 [my_agent_code] INFO: Current position:   x: 5  y: 15
-2022-03-28 02:15:58,894 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:58,894 [my_agent_code] INFO: Awarded -6 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:15:58,962 [my_agent_code] INFO: 
+2022-03-28 04:36:01,925 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'BOMB', 'DOWN', 'LEFT'], maxlen=4)
+2022-03-28 04:36:01,963 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:01,963 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:01,963 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:01,968 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:01,970 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:01,982 [my_agent_code] INFO: 
+2022-03-28 04:36:01,982 [my_agent_code] INFO: Epsilon: 0.09762622478947151
+2022-03-28 04:36:01,982 [my_agent_code] INFO: Current position:   x: 14  y: 15
+2022-03-28 04:36:01,982 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:01,982 [my_agent_code] INFO: Awarded 12 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:02,030 [my_agent_code] INFO: 
 ------------------------------------ Step: 14
-2022-03-28 02:15:58,970 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:15:58,978 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:58,978 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:15:58,978 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'RIGHT', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:15:58,980 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:58,980 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:58,983 [my_agent_code] INFO: 
-2022-03-28 02:15:58,983 [my_agent_code] INFO: Epsilon: 0.09762622478947151
-2022-03-28 02:15:58,983 [my_agent_code] INFO: Current position:   x: 5  y: 14
-2022-03-28 02:15:58,983 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:15:58,983 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:15:59,059 [my_agent_code] INFO: 
+2022-03-28 04:36:02,083 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,102 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,102 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,102 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,107 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,107 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,122 [my_agent_code] INFO: 
+2022-03-28 04:36:02,122 [my_agent_code] INFO: Epsilon: 0.09743097233989258
+2022-03-28 04:36:02,122 [my_agent_code] INFO: Current position:   x: 13  y: 15
+2022-03-28 04:36:02,122 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,122 [my_agent_code] INFO: Awarded 0 for events MOVED_LEFT, BOMB_EXPLODED, CRATE_DESTROYED, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:02,169 [my_agent_code] INFO: 
 ------------------------------------ Step: 15
-2022-03-28 02:15:59,068 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'RIGHT', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:15:59,077 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,077 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:59,077 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'WAIT', 'BOMB'], maxlen=4)
-2022-03-28 02:15:59,079 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,080 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,082 [my_agent_code] INFO: 
-2022-03-28 02:15:59,082 [my_agent_code] INFO: Epsilon: 0.09743097233989258
-2022-03-28 02:15:59,082 [my_agent_code] INFO: Current position:   x: 5  y: 14
-2022-03-28 02:15:59,082 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:59,082 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-28 02:15:59,160 [my_agent_code] INFO: 
+2022-03-28 04:36:02,210 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,235 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,235 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,235 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,241 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,242 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,252 [my_agent_code] INFO: 
+2022-03-28 04:36:02,252 [my_agent_code] INFO: Epsilon: 0.0972361103952128
+2022-03-28 04:36:02,252 [my_agent_code] INFO: Current position:   x: 12  y: 15
+2022-03-28 04:36:02,252 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,252 [my_agent_code] INFO: Awarded 12 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:02,316 [my_agent_code] INFO: 
 ------------------------------------ Step: 16
-2022-03-28 02:15:59,169 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'WAIT', 'BOMB'], maxlen=4)
-2022-03-28 02:15:59,183 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,183 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:15:59,183 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'WAIT', 'BOMB', 'DOWN'], maxlen=4)
-2022-03-28 02:15:59,187 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,188 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,193 [my_agent_code] INFO: 
-2022-03-28 02:15:59,193 [my_agent_code] INFO: Epsilon: 0.0972361103952128
-2022-03-28 02:15:59,193 [my_agent_code] INFO: Current position:   x: 5  y: 14
-2022-03-28 02:15:59,193 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:15:59,193 [my_agent_code] INFO: Awarded 12 for events MOVED_DOWN, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:15:59,267 [my_agent_code] INFO: 
+2022-03-28 04:36:02,351 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,381 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,381 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:02,381 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:02,387 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,388 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,399 [my_agent_code] INFO: 
+2022-03-28 04:36:02,400 [my_agent_code] INFO: Epsilon: 0.09704163817442236
+2022-03-28 04:36:02,400 [my_agent_code] INFO: Current position:   x: 11  y: 15
+2022-03-28 04:36:02,400 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:02,400 [my_agent_code] INFO: Awarded -18 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:02,459 [my_agent_code] INFO: 
 ------------------------------------ Step: 17
-2022-03-28 02:15:59,282 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'WAIT', 'BOMB', 'DOWN'], maxlen=4)
-2022-03-28 02:15:59,288 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,288 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:15:59,289 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'BOMB', 'DOWN', 'LEFT'], maxlen=4)
-2022-03-28 02:15:59,291 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,292 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,296 [my_agent_code] INFO: 
-2022-03-28 02:15:59,296 [my_agent_code] INFO: Epsilon: 0.09704163817442236
-2022-03-28 02:15:59,296 [my_agent_code] INFO: Current position:   x: 5  y: 15
-2022-03-28 02:15:59,296 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:15:59,297 [my_agent_code] INFO: Awarded 69 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:15:59,368 [my_agent_code] INFO: 
+2022-03-28 04:36:02,504 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:02,531 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,531 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,532 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,539 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,541 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,551 [my_agent_code] INFO: 
+2022-03-28 04:36:02,551 [my_agent_code] INFO: Epsilon: 0.09684755489807352
+2022-03-28 04:36:02,551 [my_agent_code] INFO: Current position:   x: 12  y: 15
+2022-03-28 04:36:02,551 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,552 [my_agent_code] INFO: Awarded 12 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:02,601 [my_agent_code] INFO: 
 ------------------------------------ Step: 18
-2022-03-28 02:15:59,381 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'BOMB', 'DOWN', 'LEFT'], maxlen=4)
-2022-03-28 02:15:59,388 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,388 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:15:59,388 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
-2022-03-28 02:15:59,390 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,391 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,396 [my_agent_code] INFO: 
-2022-03-28 02:15:59,396 [my_agent_code] INFO: Epsilon: 0.09684755489807352
-2022-03-28 02:15:59,396 [my_agent_code] INFO: Current position:   x: 4  y: 15
-2022-03-28 02:15:59,396 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:15:59,396 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:15:59,465 [my_agent_code] INFO: 
+2022-03-28 04:36:02,602 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,623 [my_agent_code] INFO: UP: 0, RIGHT: -1, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,624 [my_agent_code] INFO: RANDOM ACTION: LEFT
+2022-03-28 04:36:02,624 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'RIGHT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,631 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,632 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,644 [my_agent_code] INFO: 
+2022-03-28 04:36:02,644 [my_agent_code] INFO: Epsilon: 0.09665385978827737
+2022-03-28 04:36:02,644 [my_agent_code] INFO: Current position:   x: 11  y: 15
+2022-03-28 04:36:02,644 [my_agent_code] INFO: RANDOM ACTION: LEFT
+2022-03-28 04:36:02,644 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:02,701 [my_agent_code] INFO: 
 ------------------------------------ Step: 19
-2022-03-28 02:15:59,465 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
-2022-03-28 02:15:59,472 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,472 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:15:59,472 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:59,474 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,477 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,480 [my_agent_code] INFO: 
-2022-03-28 02:15:59,480 [my_agent_code] INFO: Epsilon: 0.09665385978827737
-2022-03-28 02:15:59,480 [my_agent_code] INFO: Current position:   x: 3  y: 15
-2022-03-28 02:15:59,480 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:15:59,480 [my_agent_code] INFO: Awarded 0 for events MOVED_RIGHT, BOMB_EXPLODED, CRATE_DESTROYED, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:15:59,567 [my_agent_code] INFO: 
+2022-03-28 04:36:02,734 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'RIGHT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,750 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,751 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,751 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,754 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,754 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,766 [my_agent_code] INFO: 
+2022-03-28 04:36:02,766 [my_agent_code] INFO: Epsilon: 0.09646055206870081
+2022-03-28 04:36:02,767 [my_agent_code] INFO: Current position:   x: 10  y: 15
+2022-03-28 04:36:02,767 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:02,767 [my_agent_code] INFO: Awarded 0 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:02,827 [my_agent_code] INFO: 
 ------------------------------------ Step: 20
-2022-03-28 02:15:59,577 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
-2022-03-28 02:15:59,584 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,584 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:15:59,584 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'LEFT'], maxlen=4)
-2022-03-28 02:15:59,586 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,586 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,589 [my_agent_code] INFO: 
-2022-03-28 02:15:59,590 [my_agent_code] INFO: Epsilon: 0.09646055206870081
-2022-03-28 02:15:59,590 [my_agent_code] INFO: Current position:   x: 4  y: 15
-2022-03-28 02:15:59,590 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:15:59,590 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:15:59,676 [my_agent_code] INFO: 
+2022-03-28 04:36:02,862 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:02,878 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,879 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:02,879 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:02,884 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,885 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:02,902 [my_agent_code] INFO: 
+2022-03-28 04:36:02,902 [my_agent_code] INFO: Epsilon: 0.09626763096456341
+2022-03-28 04:36:02,902 [my_agent_code] INFO: Current position:   x: 9  y: 15
+2022-03-28 04:36:02,902 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:02,902 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:02,944 [my_agent_code] INFO: 
 ------------------------------------ Step: 21
-2022-03-28 02:15:59,684 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'LEFT'], maxlen=4)
-2022-03-28 02:15:59,694 [my_agent_code] INFO: UP: 0, RIGHT: -1, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,694 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:15:59,694 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'RIGHT', 'LEFT', 'WAIT'], maxlen=4)
-2022-03-28 02:15:59,695 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,696 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,699 [my_agent_code] INFO: 
-2022-03-28 02:15:59,699 [my_agent_code] INFO: Epsilon: 0.09626763096456341
-2022-03-28 02:15:59,699 [my_agent_code] INFO: Current position:   x: 3  y: 15
-2022-03-28 02:15:59,699 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:15:59,699 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:15:59,770 [my_agent_code] INFO: 
+2022-03-28 04:36:02,973 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:02,993 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:02,993 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:02,993 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:02,997 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:02,998 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:03,004 [my_agent_code] INFO: 
+2022-03-28 04:36:03,004 [my_agent_code] INFO: Epsilon: 0.09607509570263428
+2022-03-28 04:36:03,004 [my_agent_code] INFO: Current position:   x: 9  y: 15
+2022-03-28 04:36:03,004 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:03,004 [my_agent_code] INFO: Awarded 24 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:03,061 [my_agent_code] INFO: 
 ------------------------------------ Step: 22
-2022-03-28 02:15:59,783 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'RIGHT', 'LEFT', 'WAIT'], maxlen=4)
-2022-03-28 02:15:59,788 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,789 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:59,789 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'LEFT', 'WAIT', 'BOMB'], maxlen=4)
-2022-03-28 02:15:59,790 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,791 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,794 [my_agent_code] INFO: 
-2022-03-28 02:15:59,794 [my_agent_code] INFO: Epsilon: 0.09607509570263428
-2022-03-28 02:15:59,794 [my_agent_code] INFO: Current position:   x: 3  y: 15
-2022-03-28 02:15:59,794 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:15:59,794 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-28 02:15:59,874 [my_agent_code] INFO: 
+2022-03-28 04:36:03,121 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,144 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:03,145 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:03,145 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,153 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:03,154 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:03,170 [my_agent_code] INFO: 
+2022-03-28 04:36:03,170 [my_agent_code] INFO: Epsilon: 0.09588294551122901
+2022-03-28 04:36:03,170 [my_agent_code] INFO: Current position:   x: 10  y: 15
+2022-03-28 04:36:03,170 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:03,170 [my_agent_code] INFO: Awarded 24 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:03,234 [my_agent_code] INFO: 
 ------------------------------------ Step: 23
-2022-03-28 02:15:59,886 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'LEFT', 'WAIT', 'BOMB'], maxlen=4)
-2022-03-28 02:15:59,899 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,899 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:59,899 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'WAIT', 'BOMB', 'UP'], maxlen=4)
-2022-03-28 02:15:59,900 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:15:59,901 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:15:59,904 [my_agent_code] INFO: 
-2022-03-28 02:15:59,905 [my_agent_code] INFO: Epsilon: 0.09588294551122901
-2022-03-28 02:15:59,905 [my_agent_code] INFO: Current position:   x: 3  y: 15
-2022-03-28 02:15:59,905 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:59,905 [my_agent_code] INFO: Awarded 24 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:15:59,976 [my_agent_code] INFO: 
+2022-03-28 04:36:03,234 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,272 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:03,272 [my_agent_code] INFO: RANDOM ACTION: RIGHT
+2022-03-28 04:36:03,272 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,281 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:03,282 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:03,314 [my_agent_code] INFO: 
+2022-03-28 04:36:03,314 [my_agent_code] INFO: Epsilon: 0.09569117962020655
+2022-03-28 04:36:03,314 [my_agent_code] INFO: Current position:   x: 11  y: 15
+2022-03-28 04:36:03,314 [my_agent_code] INFO: RANDOM ACTION: RIGHT
+2022-03-28 04:36:03,315 [my_agent_code] INFO: Awarded 24 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:03,393 [my_agent_code] INFO: 
 ------------------------------------ Step: 24
-2022-03-28 02:15:59,987 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'WAIT', 'BOMB', 'UP'], maxlen=4)
-2022-03-28 02:15:59,997 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:15:59,997 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:15:59,997 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'BOMB', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:15:59,999 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,000 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,003 [my_agent_code] INFO: 
-2022-03-28 02:16:00,003 [my_agent_code] INFO: Epsilon: 0.09569117962020655
-2022-03-28 02:16:00,003 [my_agent_code] INFO: Current position:   x: 3  y: 14
-2022-03-28 02:16:00,003 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:00,003 [my_agent_code] INFO: Awarded 42 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:00,076 [my_agent_code] INFO: 
+2022-03-28 04:36:03,470 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,503 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:03,503 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:03,503 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,522 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:03,528 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:03,549 [my_agent_code] INFO: 
+2022-03-28 04:36:03,549 [my_agent_code] INFO: Epsilon: 0.09549979726096613
+2022-03-28 04:36:03,549 [my_agent_code] INFO: Current position:   x: 12  y: 15
+2022-03-28 04:36:03,550 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:03,550 [my_agent_code] INFO: Awarded 69 for events MOVED_RIGHT, BOMB_EXPLODED, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, CRATE_DESTROYED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:03,622 [my_agent_code] INFO: 
 ------------------------------------ Step: 25
-2022-03-28 02:16:00,085 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'BOMB', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:00,094 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,094 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:00,094 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:00,096 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,097 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,099 [my_agent_code] INFO: 
-2022-03-28 02:16:00,099 [my_agent_code] INFO: Epsilon: 0.09549979726096613
-2022-03-28 02:16:00,099 [my_agent_code] INFO: Current position:   x: 3  y: 13
-2022-03-28 02:16:00,099 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:00,100 [my_agent_code] INFO: Awarded 42 for events MOVED_UP, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:00,184 [my_agent_code] INFO: 
+2022-03-28 04:36:03,700 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:03,728 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:03,728 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:03,729 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
+2022-03-28 04:36:03,737 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:03,738 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:03,757 [my_agent_code] INFO: 
+2022-03-28 04:36:03,757 [my_agent_code] INFO: Epsilon: 0.0953087976664442
+2022-03-28 04:36:03,757 [my_agent_code] INFO: Current position:   x: 13  y: 15
+2022-03-28 04:36:03,758 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:03,758 [my_agent_code] INFO: Awarded 5 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN
+2022-03-28 04:36:03,851 [my_agent_code] INFO: 
 ------------------------------------ Step: 26
-2022-03-28 02:16:00,198 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:00,203 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,203 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:00,203 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:00,205 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,206 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,214 [my_agent_code] INFO: 
-2022-03-28 02:16:00,214 [my_agent_code] INFO: Epsilon: 0.0953087976664442
-2022-03-28 02:16:00,214 [my_agent_code] INFO: Current position:   x: 3  y: 12
-2022-03-28 02:16:00,214 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:00,214 [my_agent_code] INFO: Awarded 82 for events MOVED_UP, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:16:00,279 [my_agent_code] INFO: 
+2022-03-28 04:36:03,930 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
+2022-03-28 04:36:03,960 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:03,960 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:03,961 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:03,968 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:03,969 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:03,985 [my_agent_code] INFO: 
+2022-03-28 04:36:03,985 [my_agent_code] INFO: Epsilon: 0.09511818007111132
+2022-03-28 04:36:03,985 [my_agent_code] INFO: Current position:   x: 13  y: 14
+2022-03-28 04:36:03,985 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:03,986 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:04,088 [my_agent_code] INFO: 
 ------------------------------------ Step: 27
-2022-03-28 02:16:00,286 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:00,296 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,296 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:00,296 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:16:00,298 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,299 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,302 [my_agent_code] INFO: 
-2022-03-28 02:16:00,302 [my_agent_code] INFO: Epsilon: 0.09511818007111132
-2022-03-28 02:16:00,302 [my_agent_code] INFO: Current position:   x: 3  y: 11
-2022-03-28 02:16:00,302 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:00,302 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:00,386 [my_agent_code] INFO: 
+2022-03-28 04:36:04,154 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:04,180 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:04,180 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:04,180 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'UP', 'BOMB'], maxlen=4)
+2022-03-28 04:36:04,190 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:04,192 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:04,215 [my_agent_code] INFO: 
+2022-03-28 04:36:04,215 [my_agent_code] INFO: Epsilon: 0.0949279437109691
+2022-03-28 04:36:04,215 [my_agent_code] INFO: Current position:   x: 13  y: 13
+2022-03-28 04:36:04,215 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:04,215 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:04,317 [my_agent_code] INFO: 
 ------------------------------------ Step: 28
-2022-03-28 02:16:00,398 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:16:00,403 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,403 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:00,403 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'WAIT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:00,404 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,405 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,409 [my_agent_code] INFO: 
-2022-03-28 02:16:00,409 [my_agent_code] INFO: Epsilon: 0.0949279437109691
-2022-03-28 02:16:00,409 [my_agent_code] INFO: Current position:   x: 3  y: 11
-2022-03-28 02:16:00,409 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:00,409 [my_agent_code] INFO: Awarded -6 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:00,482 [my_agent_code] INFO: 
+2022-03-28 04:36:04,394 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'UP', 'BOMB'], maxlen=4)
+2022-03-28 04:36:04,426 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:04,427 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:04,427 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:04,436 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:04,438 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:04,456 [my_agent_code] INFO: 
+2022-03-28 04:36:04,456 [my_agent_code] INFO: Epsilon: 0.09473808782354716
+2022-03-28 04:36:04,457 [my_agent_code] INFO: Current position:   x: 13  y: 13
+2022-03-28 04:36:04,457 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:04,457 [my_agent_code] INFO: Awarded 12 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:04,549 [my_agent_code] INFO: 
 ------------------------------------ Step: 29
-2022-03-28 02:16:00,492 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'WAIT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:00,498 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,498 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:00,498 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'WAIT', 'RIGHT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:00,500 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,500 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,503 [my_agent_code] INFO: 
-2022-03-28 02:16:00,503 [my_agent_code] INFO: Epsilon: 0.09473808782354716
-2022-03-28 02:16:00,503 [my_agent_code] INFO: Current position:   x: 4  y: 11
-2022-03-28 02:16:00,503 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:00,503 [my_agent_code] INFO: Awarded 12 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:00,590 [my_agent_code] INFO: 
+2022-03-28 04:36:04,612 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:04,645 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:04,646 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:04,646 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:04,653 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:04,655 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:04,673 [my_agent_code] INFO: 
+2022-03-28 04:36:04,673 [my_agent_code] INFO: Epsilon: 0.09454861164790007
+2022-03-28 04:36:04,673 [my_agent_code] INFO: Current position:   x: 14  y: 13
+2022-03-28 04:36:04,674 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:04,674 [my_agent_code] INFO: Awarded 12 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:04,766 [my_agent_code] INFO: 
 ------------------------------------ Step: 30
-2022-03-28 02:16:00,604 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'WAIT', 'RIGHT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:00,611 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,611 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:16:00,611 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'RIGHT', 'RIGHT', 'BOMB'], maxlen=4)
-2022-03-28 02:16:00,613 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,613 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,617 [my_agent_code] INFO: 
-2022-03-28 02:16:00,617 [my_agent_code] INFO: Epsilon: 0.09454861164790007
-2022-03-28 02:16:00,617 [my_agent_code] INFO: Current position:   x: 5  y: 11
-2022-03-28 02:16:00,617 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:16:00,617 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-28 02:16:00,685 [my_agent_code] INFO: 
+2022-03-28 04:36:04,818 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:04,854 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:04,854 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:04,854 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
+2022-03-28 04:36:04,863 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:04,864 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:04,882 [my_agent_code] INFO: 
+2022-03-28 04:36:04,882 [my_agent_code] INFO: Epsilon: 0.09435951442460427
+2022-03-28 04:36:04,883 [my_agent_code] INFO: Current position:   x: 15  y: 13
+2022-03-28 04:36:04,883 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:04,883 [my_agent_code] INFO: Awarded 82 for events MOVED_UP, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:04,974 [my_agent_code] INFO: 
 ------------------------------------ Step: 31
-2022-03-28 02:16:00,700 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'RIGHT', 'RIGHT', 'BOMB'], maxlen=4)
-2022-03-28 02:16:00,706 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,706 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:00,706 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'BOMB', 'DOWN'], maxlen=4)
-2022-03-28 02:16:00,710 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,711 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,717 [my_agent_code] INFO: 
-2022-03-28 02:16:00,718 [my_agent_code] INFO: Epsilon: 0.09435951442460427
-2022-03-28 02:16:00,718 [my_agent_code] INFO: Current position:   x: 5  y: 11
-2022-03-28 02:16:00,718 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:00,718 [my_agent_code] INFO: Awarded 24 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:00,785 [my_agent_code] INFO: 
+2022-03-28 04:36:05,035 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
+2022-03-28 04:36:05,070 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,070 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,070 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:05,079 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,081 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,095 [my_agent_code] INFO: 
+2022-03-28 04:36:05,095 [my_agent_code] INFO: Epsilon: 0.09417079539575507
+2022-03-28 04:36:05,095 [my_agent_code] INFO: Current position:   x: 15  y: 12
+2022-03-28 04:36:05,095 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,095 [my_agent_code] INFO: Awarded 0 for events MOVED_UP, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:05,156 [my_agent_code] INFO: 
 ------------------------------------ Step: 32
-2022-03-28 02:16:00,796 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'BOMB', 'DOWN'], maxlen=4)
-2022-03-28 02:16:00,802 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,802 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:00,802 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'BOMB', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-28 02:16:00,804 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,805 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,810 [my_agent_code] INFO: 
-2022-03-28 02:16:00,810 [my_agent_code] INFO: Epsilon: 0.09417079539575507
-2022-03-28 02:16:00,810 [my_agent_code] INFO: Current position:   x: 5  y: 12
-2022-03-28 02:16:00,810 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:00,810 [my_agent_code] INFO: Awarded 24 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:00,894 [my_agent_code] INFO: 
+2022-03-28 04:36:05,198 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:05,230 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,230 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,231 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:05,236 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,238 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,249 [my_agent_code] INFO: 
+2022-03-28 04:36:05,250 [my_agent_code] INFO: Epsilon: 0.09398245380496356
+2022-03-28 04:36:05,250 [my_agent_code] INFO: Current position:   x: 15  y: 11
+2022-03-28 04:36:05,250 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,250 [my_agent_code] INFO: Awarded -18 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:05,309 [my_agent_code] INFO: 
 ------------------------------------ Step: 33
-2022-03-28 02:16:00,907 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'BOMB', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-28 02:16:00,918 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:00,918 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:00,918 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'DOWN', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-28 02:16:00,920 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:00,920 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:00,924 [my_agent_code] INFO: 
-2022-03-28 02:16:00,925 [my_agent_code] INFO: Epsilon: 0.09398245380496356
-2022-03-28 02:16:00,925 [my_agent_code] INFO: Current position:   x: 5  y: 13
-2022-03-28 02:16:00,925 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:00,925 [my_agent_code] INFO: Awarded 24 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:00,992 [my_agent_code] INFO: 
+2022-03-28 04:36:05,361 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:05,381 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,381 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:05,381 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'UP', 'DOWN'], maxlen=4)
+2022-03-28 04:36:05,389 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,390 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,401 [my_agent_code] INFO: 
+2022-03-28 04:36:05,401 [my_agent_code] INFO: Epsilon: 0.09379448889735363
+2022-03-28 04:36:05,401 [my_agent_code] INFO: Current position:   x: 15  y: 10
+2022-03-28 04:36:05,401 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:05,401 [my_agent_code] INFO: Awarded 12 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:05,473 [my_agent_code] INFO: 
 ------------------------------------ Step: 34
-2022-03-28 02:16:01,003 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'DOWN', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-28 02:16:01,011 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,011 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:01,012 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'DOWN', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-28 02:16:01,013 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,014 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,017 [my_agent_code] INFO: 
-2022-03-28 02:16:01,017 [my_agent_code] INFO: Epsilon: 0.09379448889735363
-2022-03-28 02:16:01,017 [my_agent_code] INFO: Current position:   x: 5  y: 14
-2022-03-28 02:16:01,017 [my_agent_code] INFO: CHOSEN ACTION: DOWN
-2022-03-28 02:16:01,017 [my_agent_code] INFO: Awarded 69 for events MOVED_DOWN, BOMB_EXPLODED, CRATE_DESTROYED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:16:01,094 [my_agent_code] INFO: 
+2022-03-28 04:36:05,518 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'UP', 'DOWN'], maxlen=4)
+2022-03-28 04:36:05,542 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,542 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:05,542 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'DOWN', 'BOMB'], maxlen=4)
+2022-03-28 04:36:05,546 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,548 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,555 [my_agent_code] INFO: 
+2022-03-28 04:36:05,555 [my_agent_code] INFO: Epsilon: 0.09360689991955892
+2022-03-28 04:36:05,555 [my_agent_code] INFO: Current position:   x: 15  y: 11
+2022-03-28 04:36:05,555 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:05,555 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:05,622 [my_agent_code] INFO: 
 ------------------------------------ Step: 35
-2022-03-28 02:16:01,110 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'DOWN', 'DOWN', 'DOWN'], maxlen=4)
-2022-03-28 02:16:01,121 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,121 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:01,122 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'DOWN', 'DOWN', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:01,125 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,127 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,132 [my_agent_code] INFO: 
-2022-03-28 02:16:01,132 [my_agent_code] INFO: Epsilon: 0.09360689991955892
-2022-03-28 02:16:01,133 [my_agent_code] INFO: Current position:   x: 5  y: 15
-2022-03-28 02:16:01,133 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:01,133 [my_agent_code] INFO: Awarded 12 for events MOVED_RIGHT, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:01,196 [my_agent_code] INFO: 
+2022-03-28 04:36:05,650 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'DOWN', 'BOMB'], maxlen=4)
+2022-03-28 04:36:05,675 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,675 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,676 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'DOWN', 'BOMB', 'UP'], maxlen=4)
+2022-03-28 04:36:05,679 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,680 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,688 [my_agent_code] INFO: 
+2022-03-28 04:36:05,688 [my_agent_code] INFO: Epsilon: 0.0934196861197198
+2022-03-28 04:36:05,689 [my_agent_code] INFO: Current position:   x: 15  y: 11
+2022-03-28 04:36:05,689 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,689 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:05,756 [my_agent_code] INFO: 
 ------------------------------------ Step: 36
-2022-03-28 02:16:01,208 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'DOWN', 'DOWN', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:01,212 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,212 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:01,212 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'DOWN', 'RIGHT', 'LEFT'], maxlen=4)
-2022-03-28 02:16:01,213 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,214 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,217 [my_agent_code] INFO: 
-2022-03-28 02:16:01,217 [my_agent_code] INFO: Epsilon: 0.0934196861197198
-2022-03-28 02:16:01,217 [my_agent_code] INFO: Current position:   x: 6  y: 15
-2022-03-28 02:16:01,217 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:01,217 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:01,293 [my_agent_code] INFO: 
+2022-03-28 04:36:05,805 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'DOWN', 'BOMB', 'UP'], maxlen=4)
+2022-03-28 04:36:05,831 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,831 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,831 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'BOMB', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:05,835 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,836 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,845 [my_agent_code] INFO: 
+2022-03-28 04:36:05,846 [my_agent_code] INFO: Epsilon: 0.09323284674748036
+2022-03-28 04:36:05,846 [my_agent_code] INFO: Current position:   x: 15  y: 10
+2022-03-28 04:36:05,846 [my_agent_code] INFO: CHOSEN ACTION: UP
+2022-03-28 04:36:05,846 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:05,896 [my_agent_code] INFO: 
 ------------------------------------ Step: 37
-2022-03-28 02:16:01,300 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'DOWN', 'RIGHT', 'LEFT'], maxlen=4)
-2022-03-28 02:16:01,304 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,305 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:01,305 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'RIGHT', 'LEFT', 'UP'], maxlen=4)
-2022-03-28 02:16:01,307 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,308 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,311 [my_agent_code] INFO: 
-2022-03-28 02:16:01,311 [my_agent_code] INFO: Epsilon: 0.09323284674748036
-2022-03-28 02:16:01,311 [my_agent_code] INFO: Current position:   x: 5  y: 15
-2022-03-28 02:16:01,311 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:01,312 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:01,395 [my_agent_code] INFO: 
+2022-03-28 04:36:05,921 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'BOMB', 'UP', 'UP'], maxlen=4)
+2022-03-28 04:36:05,939 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:05,939 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:05,939 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'UP', 'UP', 'LEFT'], maxlen=4)
+2022-03-28 04:36:05,945 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:05,946 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:05,955 [my_agent_code] INFO: 
+2022-03-28 04:36:05,955 [my_agent_code] INFO: Epsilon: 0.0930463810539854
+2022-03-28 04:36:05,955 [my_agent_code] INFO: Current position:   x: 15  y: 9
+2022-03-28 04:36:05,955 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:05,955 [my_agent_code] INFO: Awarded 69 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:06,013 [my_agent_code] INFO: 
 ------------------------------------ Step: 38
-2022-03-28 02:16:01,404 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'RIGHT', 'LEFT', 'UP'], maxlen=4)
-2022-03-28 02:16:01,411 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,412 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:01,412 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'LEFT', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:01,413 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,414 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,416 [my_agent_code] INFO: 
-2022-03-28 02:16:01,416 [my_agent_code] INFO: Epsilon: 0.0930463810539854
-2022-03-28 02:16:01,416 [my_agent_code] INFO: Current position:   x: 5  y: 14
-2022-03-28 02:16:01,416 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:01,416 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:01,496 [my_agent_code] INFO: 
+2022-03-28 04:36:06,046 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'UP', 'UP', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,064 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,065 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,065 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,068 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,069 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,075 [my_agent_code] INFO: 
+2022-03-28 04:36:06,075 [my_agent_code] INFO: Epsilon: 0.09286028829187742
+2022-03-28 04:36:06,075 [my_agent_code] INFO: Current position:   x: 14  y: 9
+2022-03-28 04:36:06,075 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,076 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:06,115 [my_agent_code] INFO: 
 ------------------------------------ Step: 39
-2022-03-28 02:16:01,511 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'LEFT', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:01,516 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,516 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:01,516 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'UP', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:16:01,517 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,518 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,520 [my_agent_code] INFO: 
-2022-03-28 02:16:01,520 [my_agent_code] INFO: Epsilon: 0.09286028829187742
-2022-03-28 02:16:01,520 [my_agent_code] INFO: Current position:   x: 5  y: 13
-2022-03-28 02:16:01,520 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:01,520 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:01,603 [my_agent_code] INFO: 
+2022-03-28 04:36:06,139 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,159 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,159 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,160 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,163 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,164 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,178 [my_agent_code] INFO: 
+2022-03-28 04:36:06,178 [my_agent_code] INFO: Epsilon: 0.09267456771529367
+2022-03-28 04:36:06,178 [my_agent_code] INFO: Current position:   x: 13  y: 9
+2022-03-28 04:36:06,179 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,179 [my_agent_code] INFO: Awarded 0 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:06,219 [my_agent_code] INFO: 
 ------------------------------------ Step: 40
-2022-03-28 02:16:01,614 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'UP', 'UP', 'WAIT'], maxlen=4)
-2022-03-28 02:16:01,619 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,619 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:01,619 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'WAIT', 'LEFT'], maxlen=4)
-2022-03-28 02:16:01,620 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,621 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,624 [my_agent_code] INFO: 
-2022-03-28 02:16:01,625 [my_agent_code] INFO: Epsilon: 0.09267456771529367
-2022-03-28 02:16:01,625 [my_agent_code] INFO: Current position:   x: 5  y: 13
-2022-03-28 02:16:01,625 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:01,625 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:01,700 [my_agent_code] INFO: 
+2022-03-28 04:36:06,242 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'LEFT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,259 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,259 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:06,260 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:06,263 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,263 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,269 [my_agent_code] INFO: 
+2022-03-28 04:36:06,269 [my_agent_code] INFO: Epsilon: 0.09248921857986309
+2022-03-28 04:36:06,269 [my_agent_code] INFO: Current position:   x: 12  y: 9
+2022-03-28 04:36:06,269 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:06,269 [my_agent_code] INFO: Awarded -18 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:06,324 [my_agent_code] INFO: 
 ------------------------------------ Step: 41
-2022-03-28 02:16:01,715 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'WAIT', 'LEFT'], maxlen=4)
-2022-03-28 02:16:01,721 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,722 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:01,722 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'WAIT', 'LEFT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:01,726 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,727 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,732 [my_agent_code] INFO: 
-2022-03-28 02:16:01,732 [my_agent_code] INFO: Epsilon: 0.09248921857986309
-2022-03-28 02:16:01,732 [my_agent_code] INFO: Current position:   x: 4  y: 13
-2022-03-28 02:16:01,733 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:01,733 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:01,802 [my_agent_code] INFO: 
+2022-03-28 04:36:06,358 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:06,376 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,377 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:06,377 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:06,381 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,382 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,390 [my_agent_code] INFO: 
+2022-03-28 04:36:06,390 [my_agent_code] INFO: Epsilon: 0.09230424014270336
+2022-03-28 04:36:06,391 [my_agent_code] INFO: Current position:   x: 13  y: 9
+2022-03-28 04:36:06,391 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:06,391 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:06,433 [my_agent_code] INFO: 
 ------------------------------------ Step: 42
-2022-03-28 02:16:01,812 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'WAIT', 'LEFT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:01,819 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,819 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:01,819 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'LEFT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:01,821 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,822 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,828 [my_agent_code] INFO: 
-2022-03-28 02:16:01,828 [my_agent_code] INFO: Epsilon: 0.09230424014270336
-2022-03-28 02:16:01,828 [my_agent_code] INFO: Current position:   x: 4  y: 13
-2022-03-28 02:16:01,828 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:01,828 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:01,904 [my_agent_code] INFO: 
+2022-03-28 04:36:06,457 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:06,477 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,477 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:06,478 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'RIGHT', 'BOMB', 'DOWN'], maxlen=4)
+2022-03-28 04:36:06,482 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,484 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,491 [my_agent_code] INFO: 
+2022-03-28 04:36:06,491 [my_agent_code] INFO: Epsilon: 0.09211963166241795
+2022-03-28 04:36:06,491 [my_agent_code] INFO: Current position:   x: 13  y: 9
+2022-03-28 04:36:06,491 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:06,491 [my_agent_code] INFO: Awarded 24 for events MOVED_DOWN, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:06,550 [my_agent_code] INFO: 
 ------------------------------------ Step: 43
-2022-03-28 02:16:01,915 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'LEFT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:01,919 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:01,919 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:01,919 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'WAIT', 'WAIT', 'LEFT'], maxlen=4)
-2022-03-28 02:16:01,921 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:01,921 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:01,928 [my_agent_code] INFO: 
-2022-03-28 02:16:01,928 [my_agent_code] INFO: Epsilon: 0.09211963166241795
-2022-03-28 02:16:01,928 [my_agent_code] INFO: Current position:   x: 4  y: 13
-2022-03-28 02:16:01,928 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:01,928 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:02,006 [my_agent_code] INFO: 
+2022-03-28 04:36:06,582 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'RIGHT', 'BOMB', 'DOWN'], maxlen=4)
+2022-03-28 04:36:06,601 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,601 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:06,601 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'BOMB', 'DOWN', 'DOWN'], maxlen=4)
+2022-03-28 04:36:06,609 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,611 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,621 [my_agent_code] INFO: 
+2022-03-28 04:36:06,621 [my_agent_code] INFO: Epsilon: 0.09193539239909311
+2022-03-28 04:36:06,622 [my_agent_code] INFO: Current position:   x: 13  y: 10
+2022-03-28 04:36:06,622 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:06,622 [my_agent_code] INFO: Awarded 24 for events MOVED_DOWN, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:06,662 [my_agent_code] INFO: 
 ------------------------------------ Step: 44
-2022-03-28 02:16:02,017 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'WAIT', 'WAIT', 'LEFT'], maxlen=4)
-2022-03-28 02:16:02,022 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,022 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:02,022 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'WAIT', 'LEFT', 'UP'], maxlen=4)
-2022-03-28 02:16:02,026 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,027 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,033 [my_agent_code] INFO: 
-2022-03-28 02:16:02,033 [my_agent_code] INFO: Epsilon: 0.09193539239909311
-2022-03-28 02:16:02,033 [my_agent_code] INFO: Current position:   x: 3  y: 13
-2022-03-28 02:16:02,033 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:02,033 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:02,112 [my_agent_code] INFO: 
+2022-03-28 04:36:06,697 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'BOMB', 'DOWN', 'DOWN'], maxlen=4)
+2022-03-28 04:36:06,711 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,711 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,711 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'DOWN', 'DOWN', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,715 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,716 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,726 [my_agent_code] INFO: 
+2022-03-28 04:36:06,726 [my_agent_code] INFO: Epsilon: 0.09175152161429492
+2022-03-28 04:36:06,726 [my_agent_code] INFO: Current position:   x: 13  y: 11
+2022-03-28 04:36:06,726 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,726 [my_agent_code] INFO: Awarded 75 for events MOVED_LEFT, COIN_COLLECTED, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:06,765 [my_agent_code] INFO: 
 ------------------------------------ Step: 45
-2022-03-28 02:16:02,123 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'WAIT', 'LEFT', 'UP'], maxlen=4)
-2022-03-28 02:16:02,133 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,133 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:16:02,133 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'LEFT', 'UP', 'BOMB'], maxlen=4)
-2022-03-28 02:16:02,137 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,138 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,144 [my_agent_code] INFO: 
-2022-03-28 02:16:02,144 [my_agent_code] INFO: Epsilon: 0.09175152161429492
-2022-03-28 02:16:02,144 [my_agent_code] INFO: Current position:   x: 3  y: 12
-2022-03-28 02:16:02,144 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:16:02,144 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-28 02:16:02,212 [my_agent_code] INFO: 
+2022-03-28 04:36:06,791 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'DOWN', 'DOWN', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,811 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,811 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,811 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,819 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,820 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,834 [my_agent_code] INFO: 
+2022-03-28 04:36:06,834 [my_agent_code] INFO: Epsilon: 0.09156801857106633
+2022-03-28 04:36:06,835 [my_agent_code] INFO: Current position:   x: 12  y: 11
+2022-03-28 04:36:06,835 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:06,835 [my_agent_code] INFO: Awarded 0 for events MOVED_LEFT, BOMB_EXPLODED, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:06,881 [my_agent_code] INFO: 
 ------------------------------------ Step: 46
-2022-03-28 02:16:02,221 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'LEFT', 'UP', 'BOMB'], maxlen=4)
-2022-03-28 02:16:02,229 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,230 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:02,230 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'UP', 'BOMB', 'UP'], maxlen=4)
-2022-03-28 02:16:02,231 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,232 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,235 [my_agent_code] INFO: 
-2022-03-28 02:16:02,235 [my_agent_code] INFO: Epsilon: 0.09156801857106633
-2022-03-28 02:16:02,235 [my_agent_code] INFO: Current position:   x: 3  y: 12
-2022-03-28 02:16:02,235 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:02,235 [my_agent_code] INFO: Awarded 42 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:02,315 [my_agent_code] INFO: 
+2022-03-28 04:36:06,915 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'DOWN', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:06,937 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:06,937 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:06,937 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:06,943 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:06,945 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:06,957 [my_agent_code] INFO: 
+2022-03-28 04:36:06,958 [my_agent_code] INFO: Epsilon: 0.0913848825339242
+2022-03-28 04:36:06,958 [my_agent_code] INFO: Current position:   x: 11  y: 11
+2022-03-28 04:36:06,958 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:06,959 [my_agent_code] INFO: Awarded -6 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:07,010 [my_agent_code] INFO: 
 ------------------------------------ Step: 47
-2022-03-28 02:16:02,327 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'UP', 'BOMB', 'UP'], maxlen=4)
-2022-03-28 02:16:02,333 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,334 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:02,334 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'BOMB', 'UP', 'LEFT'], maxlen=4)
-2022-03-28 02:16:02,335 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,336 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,339 [my_agent_code] INFO: 
-2022-03-28 02:16:02,339 [my_agent_code] INFO: Epsilon: 0.0913848825339242
-2022-03-28 02:16:02,340 [my_agent_code] INFO: Current position:   x: 3  y: 11
-2022-03-28 02:16:02,340 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:02,340 [my_agent_code] INFO: Awarded 69 for events MOVED_LEFT, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:16:02,410 [my_agent_code] INFO: 
+2022-03-28 04:36:07,047 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'LEFT', 'LEFT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,073 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,074 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:07,074 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,080 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,081 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,092 [my_agent_code] INFO: 
+2022-03-28 04:36:07,093 [my_agent_code] INFO: Epsilon: 0.09120211276885636
+2022-03-28 04:36:07,093 [my_agent_code] INFO: Current position:   x: 12  y: 11
+2022-03-28 04:36:07,093 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:07,093 [my_agent_code] INFO: Awarded -6 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
+2022-03-28 04:36:07,156 [my_agent_code] INFO: 
 ------------------------------------ Step: 48
-2022-03-28 02:16:02,417 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'BOMB', 'UP', 'LEFT'], maxlen=4)
-2022-03-28 02:16:02,426 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,426 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:02,426 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'UP', 'LEFT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:02,430 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,431 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,437 [my_agent_code] INFO: 
-2022-03-28 02:16:02,437 [my_agent_code] INFO: Epsilon: 0.09120211276885636
-2022-03-28 02:16:02,437 [my_agent_code] INFO: Current position:   x: 2  y: 11
-2022-03-28 02:16:02,437 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:02,437 [my_agent_code] INFO: Awarded -43 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_CRATE, RAN_INTO_BOMB_RANGE_WITHOUT_DYING
-2022-03-28 02:16:02,517 [my_agent_code] INFO: 
+2022-03-28 04:36:07,190 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,206 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,207 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:07,207 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'RIGHT', 'RIGHT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:07,212 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,212 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,217 [my_agent_code] INFO: 
+2022-03-28 04:36:07,218 [my_agent_code] INFO: Epsilon: 0.09101970854331864
+2022-03-28 04:36:07,218 [my_agent_code] INFO: Current position:   x: 13  y: 11
+2022-03-28 04:36:07,218 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:07,218 [my_agent_code] INFO: Awarded 0 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:07,263 [my_agent_code] INFO: 
 ------------------------------------ Step: 49
-2022-03-28 02:16:02,532 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'UP', 'LEFT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:02,537 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,537 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:02,537 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'LEFT', 'RIGHT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:02,538 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,539 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,543 [my_agent_code] INFO: 
-2022-03-28 02:16:02,543 [my_agent_code] INFO: Epsilon: 0.09101970854331864
-2022-03-28 02:16:02,543 [my_agent_code] INFO: Current position:   x: 3  y: 11
-2022-03-28 02:16:02,543 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
-2022-03-28 02:16:02,543 [my_agent_code] INFO: Awarded 64 for events MOVED_RIGHT, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
-2022-03-28 02:16:02,614 [my_agent_code] INFO: 
+2022-03-28 04:36:07,290 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'RIGHT', 'RIGHT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:07,307 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,307 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:07,307 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:07,311 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,312 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,317 [my_agent_code] INFO: 
+2022-03-28 04:36:07,317 [my_agent_code] INFO: Epsilon: 0.090837669126232
+2022-03-28 04:36:07,317 [my_agent_code] INFO: Current position:   x: 12  y: 11
+2022-03-28 04:36:07,317 [my_agent_code] INFO: CHOSEN ACTION: LEFT
+2022-03-28 04:36:07,317 [my_agent_code] INFO: Awarded 0 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
+2022-03-28 04:36:07,364 [my_agent_code] INFO: 
 ------------------------------------ Step: 50
-2022-03-28 02:16:02,615 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'LEFT', 'RIGHT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:02,624 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,624 [my_agent_code] INFO: RANDOM ACTION: UP
-2022-03-28 02:16:02,624 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:16:02,627 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,629 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,631 [my_agent_code] INFO: 
-2022-03-28 02:16:02,632 [my_agent_code] INFO: Epsilon: 0.090837669126232
-2022-03-28 02:16:02,632 [my_agent_code] INFO: Current position:   x: 4  y: 11
-2022-03-28 02:16:02,632 [my_agent_code] INFO: RANDOM ACTION: UP
-2022-03-28 02:16:02,632 [my_agent_code] INFO: Awarded -60 for events INVALID_ACTION, MOVED_INTO_WALL_CRATE
-2022-03-28 02:16:02,720 [my_agent_code] INFO: 
+2022-03-28 04:36:07,390 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'LEFT', 'LEFT'], maxlen=4)
+2022-03-28 04:36:07,411 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,411 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:07,411 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:07,418 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,418 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,431 [my_agent_code] INFO: 
+2022-03-28 04:36:07,431 [my_agent_code] INFO: Epsilon: 0.09065599378797955
+2022-03-28 04:36:07,431 [my_agent_code] INFO: Current position:   x: 11  y: 11
+2022-03-28 04:36:07,431 [my_agent_code] INFO: CHOSEN ACTION: BOMB
+2022-03-28 04:36:07,431 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
+2022-03-28 04:36:07,477 [my_agent_code] INFO: 
 ------------------------------------ Step: 51
-2022-03-28 02:16:02,732 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'RIGHT', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:16:02,737 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,738 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:02,738 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'UP', 'LEFT'], maxlen=4)
-2022-03-28 02:16:02,740 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,741 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,744 [my_agent_code] INFO: 
-2022-03-28 02:16:02,744 [my_agent_code] INFO: Epsilon: 0.09065599378797955
-2022-03-28 02:16:02,744 [my_agent_code] INFO: Current position:   x: 4  y: 11
-2022-03-28 02:16:02,745 [my_agent_code] INFO: CHOSEN ACTION: LEFT
-2022-03-28 02:16:02,745 [my_agent_code] INFO: Awarded -6 for events MOVED_LEFT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:02,818 [my_agent_code] INFO: 
+2022-03-28 04:36:07,503 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'LEFT', 'LEFT', 'BOMB'], maxlen=4)
+2022-03-28 04:36:07,526 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,526 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:07,526 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,530 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,531 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,537 [my_agent_code] INFO: 
+2022-03-28 04:36:07,537 [my_agent_code] INFO: Epsilon: 0.09047468180040359
+2022-03-28 04:36:07,537 [my_agent_code] INFO: Current position:   x: 11  y: 11
+2022-03-28 04:36:07,537 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:07,537 [my_agent_code] INFO: Awarded 24 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:07,581 [my_agent_code] INFO: 
 ------------------------------------ Step: 52
-2022-03-28 02:16:02,826 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'RIGHT', 'UP', 'LEFT'], maxlen=4)
-2022-03-28 02:16:02,832 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,832 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:02,832 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'LEFT', 'UP'], maxlen=4)
-2022-03-28 02:16:02,833 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,834 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,836 [my_agent_code] INFO: 
-2022-03-28 02:16:02,837 [my_agent_code] INFO: Epsilon: 0.09047468180040359
-2022-03-28 02:16:02,837 [my_agent_code] INFO: Current position:   x: 3  y: 11
-2022-03-28 02:16:02,837 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:02,837 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:02,917 [my_agent_code] INFO: 
+2022-03-28 04:36:07,604 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'LEFT', 'BOMB', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,620 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,620 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:07,620 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,623 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,624 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,634 [my_agent_code] INFO: 
+2022-03-28 04:36:07,634 [my_agent_code] INFO: Epsilon: 0.09029373243680279
+2022-03-28 04:36:07,634 [my_agent_code] INFO: Current position:   x: 12  y: 11
+2022-03-28 04:36:07,634 [my_agent_code] INFO: CHOSEN ACTION: RIGHT
+2022-03-28 04:36:07,634 [my_agent_code] INFO: Awarded 24 for events MOVED_RIGHT, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
+2022-03-28 04:36:07,677 [my_agent_code] INFO: 
 ------------------------------------ Step: 53
-2022-03-28 02:16:02,917 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'UP', 'LEFT', 'UP'], maxlen=4)
-2022-03-28 02:16:02,922 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:02,923 [my_agent_code] INFO: RANDOM ACTION: UP
-2022-03-28 02:16:02,923 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'LEFT', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:02,924 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:02,925 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:02,929 [my_agent_code] INFO: 
-2022-03-28 02:16:02,929 [my_agent_code] INFO: Epsilon: 0.09029373243680279
-2022-03-28 02:16:02,929 [my_agent_code] INFO: Current position:   x: 3  y: 10
-2022-03-28 02:16:02,929 [my_agent_code] INFO: RANDOM ACTION: UP
-2022-03-28 02:16:02,929 [my_agent_code] INFO: Awarded 12 for events MOVED_UP, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:03,018 [my_agent_code] INFO: 
+2022-03-28 04:36:07,718 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'BOMB', 'RIGHT', 'RIGHT'], maxlen=4)
+2022-03-28 04:36:07,747 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,747 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:07,747 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'DOWN'], maxlen=4)
+2022-03-28 04:36:07,758 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,760 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,774 [my_agent_code] INFO: 
+2022-03-28 04:36:07,774 [my_agent_code] INFO: Epsilon: 0.09011314497192918
+2022-03-28 04:36:07,775 [my_agent_code] INFO: Current position:   x: 13  y: 11
+2022-03-28 04:36:07,775 [my_agent_code] INFO: CHOSEN ACTION: DOWN
+2022-03-28 04:36:07,775 [my_agent_code] INFO: Awarded 69 for events MOVED_DOWN, COIN_COLLECTED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB, GOT_OUT_OF_BOMB_RANGE
+2022-03-28 04:36:07,827 [my_agent_code] INFO: 
 ------------------------------------ Step: 54
-2022-03-28 02:16:03,029 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'LEFT', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:03,033 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,033 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:03,033 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:03,034 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,035 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,037 [my_agent_code] INFO: 
-2022-03-28 02:16:03,038 [my_agent_code] INFO: Epsilon: 0.09011314497192918
-2022-03-28 02:16:03,038 [my_agent_code] INFO: Current position:   x: 3  y: 9
-2022-03-28 02:16:03,038 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:03,038 [my_agent_code] INFO: Awarded 7 for events MOVED_UP, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:03,124 [my_agent_code] INFO: 
------------------------------------- Step: 55
-2022-03-28 02:16:03,137 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:03,143 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,143 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:03,143 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:03,144 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,144 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,147 [my_agent_code] INFO: 
-2022-03-28 02:16:03,147 [my_agent_code] INFO: Epsilon: 0.08993291868198533
-2022-03-28 02:16:03,147 [my_agent_code] INFO: Current position:   x: 3  y: 8
-2022-03-28 02:16:03,147 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:03,147 [my_agent_code] INFO: Awarded 7 for events MOVED_UP, RAN_TOWARDS_CLOSEST_CRATE
-2022-03-28 02:16:03,221 [my_agent_code] INFO: 
------------------------------------- Step: 56
-2022-03-28 02:16:03,221 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:03,230 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,230 [my_agent_code] INFO: RANDOM ACTION: LEFT
-2022-03-28 02:16:03,230 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'UP', 'LEFT'], maxlen=4)
-2022-03-28 02:16:03,231 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,232 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,234 [my_agent_code] INFO: 
-2022-03-28 02:16:03,234 [my_agent_code] INFO: Epsilon: 0.08975305284462136
-2022-03-28 02:16:03,234 [my_agent_code] INFO: Current position:   x: 3  y: 7
-2022-03-28 02:16:03,234 [my_agent_code] INFO: RANDOM ACTION: LEFT
-2022-03-28 02:16:03,235 [my_agent_code] INFO: Awarded -11 for events MOVED_LEFT, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:03,323 [my_agent_code] INFO: 
------------------------------------- Step: 57
-2022-03-28 02:16:03,335 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'UP', 'LEFT'], maxlen=4)
-2022-03-28 02:16:03,341 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,342 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,342 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'UP', 'LEFT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,343 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,343 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,346 [my_agent_code] INFO: 
-2022-03-28 02:16:03,346 [my_agent_code] INFO: Epsilon: 0.08957354673893211
-2022-03-28 02:16:03,346 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,346 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,346 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:03,430 [my_agent_code] INFO: 
------------------------------------- Step: 58
-2022-03-28 02:16:03,438 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'UP', 'LEFT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,446 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,446 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,446 [my_agent_code] INFO: Last 4 actions with current action:  deque(['UP', 'LEFT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,447 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,448 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,450 [my_agent_code] INFO: 
-2022-03-28 02:16:03,450 [my_agent_code] INFO: Epsilon: 0.08939439964545424
-2022-03-28 02:16:03,450 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,450 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,450 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:03,529 [my_agent_code] INFO: 
------------------------------------- Step: 59
-2022-03-28 02:16:03,540 [my_agent_code] INFO: Last 4 actions without current action:  deque(['UP', 'LEFT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,545 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,545 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,545 [my_agent_code] INFO: Last 4 actions with current action:  deque(['LEFT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,547 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,547 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,550 [my_agent_code] INFO: 
-2022-03-28 02:16:03,550 [my_agent_code] INFO: Epsilon: 0.08921561084616333
-2022-03-28 02:16:03,550 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,550 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,550 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:03,633 [my_agent_code] INFO: 
------------------------------------- Step: 60
-2022-03-28 02:16:03,648 [my_agent_code] INFO: Last 4 actions without current action:  deque(['LEFT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,652 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,652 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,652 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,653 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,654 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,656 [my_agent_code] INFO: 
-2022-03-28 02:16:03,656 [my_agent_code] INFO: Epsilon: 0.08903717962447101
-2022-03-28 02:16:03,656 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,656 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,656 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:03,735 [my_agent_code] INFO: 
------------------------------------- Step: 61
-2022-03-28 02:16:03,745 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,750 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,750 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,750 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,752 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,752 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,754 [my_agent_code] INFO: 
-2022-03-28 02:16:03,754 [my_agent_code] INFO: Epsilon: 0.08885910526522207
-2022-03-28 02:16:03,754 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,754 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,754 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:03,834 [my_agent_code] INFO: 
------------------------------------- Step: 62
-2022-03-28 02:16:03,845 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,850 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,850 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,851 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,852 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,852 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,854 [my_agent_code] INFO: 
-2022-03-28 02:16:03,854 [my_agent_code] INFO: Epsilon: 0.08868138705469163
-2022-03-28 02:16:03,854 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,854 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:03,854 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:03,938 [my_agent_code] INFO: 
------------------------------------- Step: 63
-2022-03-28 02:16:03,939 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'WAIT', 'WAIT', 'WAIT'], maxlen=4)
-2022-03-28 02:16:03,947 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:03,947 [my_agent_code] INFO: RANDOM ACTION: DOWN
-2022-03-28 02:16:03,947 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'WAIT', 'WAIT', 'DOWN'], maxlen=4)
-2022-03-28 02:16:03,948 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:03,949 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:03,951 [my_agent_code] INFO: 
-2022-03-28 02:16:03,951 [my_agent_code] INFO: Epsilon: 0.08850402428058224
-2022-03-28 02:16:03,951 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:03,952 [my_agent_code] INFO: RANDOM ACTION: DOWN
-2022-03-28 02:16:03,952 [my_agent_code] INFO: Awarded -60 for events INVALID_ACTION, MOVED_INTO_WALL_CRATE
-2022-03-28 02:16:04,035 [my_agent_code] INFO: 
------------------------------------- Step: 64
-2022-03-28 02:16:04,048 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'WAIT', 'WAIT', 'DOWN'], maxlen=4)
-2022-03-28 02:16:04,052 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,053 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:04,053 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'WAIT', 'DOWN', 'WAIT'], maxlen=4)
-2022-03-28 02:16:04,054 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,055 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,057 [my_agent_code] INFO: 
-2022-03-28 02:16:04,057 [my_agent_code] INFO: Epsilon: 0.08832701623202108
-2022-03-28 02:16:04,057 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:04,057 [my_agent_code] INFO: CHOSEN ACTION: WAIT
-2022-03-28 02:16:04,058 [my_agent_code] INFO: Awarded -4 for events WAITED, WAITED
-2022-03-28 02:16:04,139 [my_agent_code] INFO: 
------------------------------------- Step: 65
-2022-03-28 02:16:04,139 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'WAIT', 'DOWN', 'WAIT'], maxlen=4)
-2022-03-28 02:16:04,148 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,148 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:16:04,149 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'DOWN', 'WAIT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:04,151 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,152 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,157 [my_agent_code] INFO: 
-2022-03-28 02:16:04,157 [my_agent_code] INFO: Epsilon: 0.08815036219955703
-2022-03-28 02:16:04,157 [my_agent_code] INFO: Current position:   x: 2  y: 7
-2022-03-28 02:16:04,158 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:16:04,158 [my_agent_code] INFO: Awarded -11 for events MOVED_RIGHT, RAN_AWAY_FROM_CLOSEST_CRATE
-2022-03-28 02:16:04,238 [my_agent_code] INFO: 
------------------------------------- Step: 66
-2022-03-28 02:16:04,249 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'DOWN', 'WAIT', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:04,253 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,253 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:16:04,253 [my_agent_code] INFO: Last 4 actions with current action:  deque(['DOWN', 'WAIT', 'RIGHT', 'BOMB'], maxlen=4)
-2022-03-28 02:16:04,254 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,255 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,257 [my_agent_code] INFO: 
-2022-03-28 02:16:04,258 [my_agent_code] INFO: Epsilon: 0.08797406147515792
-2022-03-28 02:16:04,258 [my_agent_code] INFO: Current position:   x: 3  y: 7
-2022-03-28 02:16:04,258 [my_agent_code] INFO: CHOSEN ACTION: BOMB
-2022-03-28 02:16:04,258 [my_agent_code] INFO: Awarded 20 for events BOMB_DROPPED, DROPPED_BOMB_IN_RANGE_OF_CRATE
-2022-03-28 02:16:04,340 [my_agent_code] INFO: 
------------------------------------- Step: 67
-2022-03-28 02:16:04,340 [my_agent_code] INFO: Last 4 actions without current action:  deque(['DOWN', 'WAIT', 'RIGHT', 'BOMB'], maxlen=4)
-2022-03-28 02:16:04,349 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,349 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:16:04,349 [my_agent_code] INFO: Last 4 actions with current action:  deque(['WAIT', 'RIGHT', 'BOMB', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:04,350 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,351 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,353 [my_agent_code] INFO: 
-2022-03-28 02:16:04,354 [my_agent_code] INFO: Epsilon: 0.08779811335220761
-2022-03-28 02:16:04,354 [my_agent_code] INFO: Current position:   x: 3  y: 7
-2022-03-28 02:16:04,354 [my_agent_code] INFO: RANDOM ACTION: RIGHT
-2022-03-28 02:16:04,354 [my_agent_code] INFO: Awarded -60 for events INVALID_ACTION, MOVED_INTO_WALL_CRATE
-2022-03-28 02:16:04,442 [my_agent_code] INFO: 
------------------------------------- Step: 68
-2022-03-28 02:16:04,453 [my_agent_code] INFO: Last 4 actions without current action:  deque(['WAIT', 'RIGHT', 'BOMB', 'RIGHT'], maxlen=4)
-2022-03-28 02:16:04,461 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,461 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:04,461 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'BOMB', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:16:04,464 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,465 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,467 [my_agent_code] INFO: 
-2022-03-28 02:16:04,467 [my_agent_code] INFO: Epsilon: 0.08762251712550319
-2022-03-28 02:16:04,467 [my_agent_code] INFO: Current position:   x: 3  y: 7
-2022-03-28 02:16:04,467 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:04,467 [my_agent_code] INFO: Awarded 19 for events MOVED_UP, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:04,547 [my_agent_code] INFO: 
------------------------------------- Step: 69
-2022-03-28 02:16:04,556 [my_agent_code] INFO: Last 4 actions without current action:  deque(['RIGHT', 'BOMB', 'RIGHT', 'UP'], maxlen=4)
-2022-03-28 02:16:04,561 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,562 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:04,562 [my_agent_code] INFO: Last 4 actions with current action:  deque(['BOMB', 'RIGHT', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:04,563 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,563 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,566 [my_agent_code] INFO: 
-2022-03-28 02:16:04,566 [my_agent_code] INFO: Epsilon: 0.08744727209125218
-2022-03-28 02:16:04,566 [my_agent_code] INFO: Current position:   x: 3  y: 6
-2022-03-28 02:16:04,566 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:04,566 [my_agent_code] INFO: Awarded 37 for events MOVED_UP, RAN_TOWARDS_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:04,645 [my_agent_code] INFO: 
------------------------------------- Step: 70
-2022-03-28 02:16:04,653 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'RIGHT', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:04,664 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
-2022-03-28 02:16:04,664 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:04,664 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'UP', 'UP', 'UP'], maxlen=4)
-2022-03-28 02:16:04,666 [my_agent_code] INFO: Var is_loop in func: 0
-2022-03-28 02:16:04,667 [my_agent_code] INFO: -------------------- LAST EVALUATION
-2022-03-28 02:16:04,667 [my_agent_code] INFO: Value of a: 0
-2022-03-28 02:16:04,671 [my_agent_code] INFO: 
-2022-03-28 02:16:04,671 [my_agent_code] INFO: Epsilon: 0.08727237754706968
-2022-03-28 02:16:04,671 [my_agent_code] INFO: Current position:   x: 3  y: 5
-2022-03-28 02:16:04,671 [my_agent_code] INFO: CHOSEN ACTION: UP
-2022-03-28 02:16:04,671 [my_agent_code] INFO: Awarded 19 for events MOVED_UP, BOMB_EXPLODED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, COIN_FOUND, KILLED_SELF, GOT_KILLED, RAN_AWAY_FROM_CLOSEST_CRATE, MOVED_ACCORDINGLY_TO_EVENTUALLY_GET_AWAY_FROM_BOMB
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen wall/crate run count: 0 
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen action loop count: 0 
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen crate trap: 0 
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen suicide (run into explosion): 0 
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen almost suicide (run into bomb range no dying): 1 
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen suicide (run into bomb range with dying): 0 
-2022-03-28 02:16:04,672 [my_agent_code] INFO: Chosen advanced crate trap: 0 
-2022-03-28 02:16:04,681 [my_agent_code] INFO: END OF GAME ---------------- Step: 69 
+2022-03-28 04:36:07,827 [my_agent_code] INFO: Last 4 actions without current action:  deque(['BOMB', 'RIGHT', 'RIGHT', 'DOWN'], maxlen=4)
+2022-03-28 04:36:07,849 [my_agent_code] INFO: UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0
+2022-03-28 04:36:07,849 [my_agent_code] INFO: RANDOM ACTION: UP
+2022-03-28 04:36:07,849 [my_agent_code] INFO: Last 4 actions with current action:  deque(['RIGHT', 'RIGHT', 'DOWN', 'UP'], maxlen=4)
+2022-03-28 04:36:07,854 [my_agent_code] INFO: Var is_loop in func: 0
+2022-03-28 04:36:07,856 [my_agent_code] INFO: -------------------- LAST EVALUATION
+2022-03-28 04:36:07,856 [my_agent_code] INFO: Value of a: 0
+2022-03-28 04:36:07,869 [my_agent_code] INFO: 
+2022-03-28 04:36:07,869 [my_agent_code] INFO: Epsilon: 0.08993291868198533
+2022-03-28 04:36:07,869 [my_agent_code] INFO: Current position:   x: 13  y: 12
+2022-03-28 04:36:07,869 [my_agent_code] INFO: RANDOM ACTION: UP
+2022-03-28 04:36:07,869 [my_agent_code] INFO: Awarded -66 for events MOVED_UP, BOMB_EXPLODED, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, COIN_FOUND, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, CRATE_DESTROYED, KILLED_SELF, GOT_KILLED, RAN_TOWARDS_CLOSEST_COIN, RAN_AWAY_FROM_CLOSEST_CRATE, RAN_INTO_BOMB_RANGE_WITH_DYING
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen wall/crate run count: 0 
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen action loop count: 0 
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen crate trap: 0 
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen suicide (run into explosion): 0 
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen almost suicide (run into bomb range no dying): 0 
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen suicide (run into bomb range with dying): 0 
+2022-03-28 04:36:07,870 [my_agent_code] INFO: Chosen advanced crate trap: 0 
+2022-03-28 04:36:07,876 [my_agent_code] INFO: END OF GAME ---------------- Step: 53 

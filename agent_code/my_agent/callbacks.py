@@ -8,7 +8,7 @@ from itertools import compress #for 'find_planted_bombs_in_dangerous_range' func
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
-FEATURES = 18
+FEATURES = 21
 ACTION_HISTORY_SIZE = 4
 STATE_HISTORY_SIZE = 2
 
@@ -169,6 +169,7 @@ def act(self, game_state: dict) -> str:
 
 
 def state_to_features(game_state: dict, action, self) -> np.array:
+    # self.logger.info(f"------------Game state: {game_state}")
 
     if game_state is None:
         return None
@@ -193,6 +194,10 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     p = goes_towards_dangerous_bomb(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
     q = move_into_advanced_crate_trap(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self)
 
+    r = drop_bomb_without_reason(game_state, action, self)
+    s = could_have_escaped_but_didnt(game_state, action, self)
+    t = survive_start(game_state, action, self)
+
     at_end2 = waited(game_state, action, self)
 
 
@@ -203,7 +208,7 @@ def state_to_features(game_state: dict, action, self) -> np.array:
     # at_end2 = waited(game_state, action, self)
 
 
-    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, at_end2]) 
+    return np.array([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, at_end2]) 
 
 
 #done
@@ -1533,6 +1538,17 @@ def get_out_of_bomb_range(dangerous_bombs_and_number_of_dangerous_bombs, game_st
 
 
 
+#done (added)
+def could_have_escaped_but_didnt(game_state, action, self):
+
+    #agent did not move out of bomb range
+    if get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, action, self)   ,    game_state, action, self) == 0:
+        #although there is an action that would have done it
+        if ( get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, "UP", self)   ,    game_state, "UP", self) == 1) or ( get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, "RIGHT", self)   ,    game_state, "RIGHT", self) == 1) or ( get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, "DOWN", self)   ,    game_state, "DOWN", self) == 1) or ( get_out_of_bomb_range(   find_planted_bombs_in_dangerous_range(game_state, "LEFT", self)   ,    game_state, "LEFT", self) == 1):
+            return 1
+    
+    return 0
+
 
 
 
@@ -1987,6 +2003,48 @@ def move_into_advanced_crate_trap(dangerous_bombs_and_number_of_dangerous_bombs,
 
     return 0
 
+
+
+
+#done (added)
+def drop_bomb_without_reason(game_state, action, self): # closest_crate = return of 'find_closest_crates(game_state, action, self)'
+
+    if action == "BOMB":
+        if drop_bomb_if_in_range_of_crate(  find_closest_crates(game_state, action, self)  , game_state, action, self) == 0:
+            return 1
+
+    return 0
+
+
+
+#done (added)
+def survive_start(game_state, action, self):
+    agent_coord_x = game_state['self'][3][0]
+    agent_coord_y = game_state['self'][3][1]
+
+    #upper left corner
+    if (agent_coord_x <= 2) and (agent_coord_y <= 2):
+        if game_state["step"] == 1:
+            if action in ["RIGHT", "DOWN"]:
+                return 1
+    #upper right corner
+    if (agent_coord_x >= len(game_state['field'])-2 -1) and (agent_coord_y <= 2):
+        if game_state["step"] == 1:
+            if action in ["LEFT", "DOWN"]:
+                return 1
+    #bottom left corner
+    if (agent_coord_x <= 2) and (agent_coord_y >= len(game_state['field'][:][0])-2 -1):
+        if game_state["step"] == 1:
+            if action in ["RIGHT", "UP"]:
+                return 1
+    #bottom right corner
+    if (agent_coord_x >= len(game_state['field'])-2 -1) and (agent_coord_y >= len(game_state['field'][:][0])-2 -1):
+        if game_state["step"] == 1:
+            if action in ["LEFT", "UP"]:
+                return 1
+    
+    return 0
+    
 
 
 
