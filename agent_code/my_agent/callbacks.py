@@ -7,7 +7,7 @@ from collections import deque
 
 
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT'] #action space reduced for first stage
-FEATURES = 13
+FEATURES = (2**4) * 5
 
 #done
 def setup(self):
@@ -26,7 +26,7 @@ def setup(self):
 
     #hyper params
     self.epsilon = 0.10
-
+    
     #useful tracking
     self.random_or_choosen = 0 #only for logger
 
@@ -66,7 +66,7 @@ def act(self, game_state: dict) -> str:
         q_table = self.model
         
         state_index = get_state_index_from_game_state(game_state, self)
-        action = np.argmax(q_table[state_index])
+        action = ACTIONS[np.argmax(q_table[state_index])]
        
         
         self.random_or_choosen = 2
@@ -124,13 +124,13 @@ def feature_to_index(features):
         index +=8
 
     if features[4] == 1: 
-        index += 2 * 16
+        index += 1 * 16
     if features[4] == 2: 
         index += 2 * 16
     if features[4] == 3: 
-        index += 4 * 16
+        index += 3 * 16
     if features[4] == 4: 
-        index += 5 * 16
+        index += 4 * 16
 
     return index
 
