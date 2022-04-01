@@ -55,6 +55,11 @@ def setup_training(self):
 #done
 def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_state: dict, events: List[str]):
 
+    #due to shitty '--n-rounds' flag command the setup_training has to be repeated here
+    if old_game_state is not None:
+        if old_game_state["step"] == 1:
+            setup_training(self)
+
     if self.action_loop_result_before_taken_action != 0:
         self.a = 1
     else:
@@ -532,37 +537,8 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
         pickle.dump(self.model, file)
 
 
-    #delete later (and fix)--------------------------------------------------
-    self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
-    self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
-    self.action_loop_result_before_taken_action = 0
-    self.a = 0 #for action loop
-    self.random_or_choosen = 0 #only for logger (can be deleted at end)
-    self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
-    self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
-    self.count_crate_trap = 0 #only for logger (can be deleted at end)
-    self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
-    self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
-    self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
-    self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
-    
-    
-    self.taken_action = None 
-
-
-    #hyper_params
-    self.epsilon = 0.00 #0.02 #0.95   EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
-    self.alpha = 0.2 #0.8
-    self.gamma = 0.9 #0.5
-    #--------------------------------------------------------------------------
 
 def reward_from_events(self, events: List[str]) -> int:
-    """
-    *This is not a required function, but an idea to structure your code.*
-
-    Here you can modify the rewards your agent get so as to en/discourage
-    certain behavior.
-    """
     game_rewards = {
         e.MOVED_LEFT: 0,
         e.MOVED_RIGHT: 0,

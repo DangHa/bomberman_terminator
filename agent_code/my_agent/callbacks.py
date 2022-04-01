@@ -19,47 +19,28 @@ def setup(self):
     if not os.path.isfile("my-saved-model.pt"):
         self.logger.info("SETTING UP MODEL FROM SCRATCH")
         weights = np.random.rand(FEATURES)
-
-    
-        self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
-        self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
-        self.action_loop_result_before_taken_action = 0
-        self.a = 0 #for action loop
-        self.random_or_choosen = 0 #only for logger (can be deleted at end)
-        self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
-        self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
-        self.count_crate_trap = 0 #only for logger (can be deleted at end)
-        self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
-        self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
-        self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
-        self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
-
-
-        self.taken_action = None 
-
-
         self.model = weights
+    #if model exists
     else:
-        self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
-        self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
-        self.action_loop_result_before_taken_action = 0
-        self.a = 0 #for action loop
-        self.random_or_choosen = 0 #only for logger (can be deleted at end)
-        self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
-        self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
-        self.count_crate_trap = 0 #only for logger (can be deleted at end)
-        self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
-        self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
-        self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
-        self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
-
-        
-        self.taken_action = None 
-
-
         self.logger.info("LOADING MODEL FROM FILE")
         with open("my-saved-model.pt", "rb") as file:
             self.model = pickle.load(file)
+
+
+    #initialize necessary vars
+    self.former_action = deque(maxlen=ACTION_HISTORY_SIZE)
+    self.former_state = deque(maxlen=STATE_HISTORY_SIZE)
+    self.action_loop_result_before_taken_action = 0
+    self.a = 0 #for action loop
+    self.random_or_choosen = 0 #only for logger (can be deleted at end)
+    self.count_chosen_wall_crate_run = 0 #only for logger (can be deleted at end)
+    self.count_chosen_action_loop = 0 #only for logger (can be deleted at end)
+    self.count_crate_trap = 0 #only for logger (can be deleted at end)
+    self.count_runs_into_explosion = 0 #only for logger (can be deleted at end)
+    self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
+    self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
+    self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
+    self.taken_action = None 
 
 
     #hyper params
@@ -70,6 +51,11 @@ def setup(self):
 
 #done
 def act(self, game_state: dict) -> str:
+
+    #due to shitty '--n-rounds' flag command the setup has to be repeated here
+    if game_state is not None:
+        if game_state["step"] == 1:
+            setup(self)
 
     #for logger
     self.logger.info(f'\n------------------------------------ Step: {game_state["step"]}')
