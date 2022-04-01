@@ -6,7 +6,7 @@ import numpy as np
 from collections import deque
 from itertools import compress #for 'find_planted_bombs_in_dangerous_range' function
 
-
+#bluuuuub
 ACTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT', 'WAIT', 'BOMB']
 FEATURES = 26
 ACTION_HISTORY_SIZE = 4
@@ -33,7 +33,7 @@ def setup(self):
         self.count_runs_into_bomb_range_no_dying = 0 #only for logger (can be deleted at end)
         self.count_runs_into_bomb_range_with_dying = 0 #only for logger (can be deleted at end)
         self.count_advanced_crate_trap = 0 #only for logger (can be deleted at end)
-
+    
 
         self.taken_action = None 
 
