@@ -1,0 +1,21 @@
+{
+    "by_agent": {
+        "my_agent": {
+            "coins": 2,
+            "invalid": 14,
+            "moves": 386,
+            "rounds": 1,
+            "score": 2,
+            "steps": 400,
+            "time": 0.061807870864868164
+        }
+    },
+    "by_round": {
+        "Round 01 (2022-03-26 16-36-12)": {
+            "coins": 2,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        }
+    }
+}

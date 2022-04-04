@@ -1,0 +1,75 @@
+{
+    "by_agent": {
+        "my_agent": {
+            "coins": 6,
+            "invalid": 120,
+            "moves": 3880,
+            "rounds": 10,
+            "score": 6,
+            "steps": 4000,
+            "time": 0.509702205657959
+        }
+    },
+    "by_round": {
+        "Round 01 (2022-03-26 17-10-16)": {
+            "coins": 2,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 02 (2022-03-26 17-10-17)": {
+            "coins": 0,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 03 (2022-03-26 17-10-19)": {
+            "coins": 0,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 04 (2022-03-26 17-10-21)": {
+            "coins": 1,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 05 (2022-03-26 17-10-22)": {
+            "coins": 0,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 06 (2022-03-26 17-10-24)": {
+            "coins": 0,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 07 (2022-03-26 17-10-26)": {
+            "coins": 2,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 08 (2022-03-26 17-10-27)": {
+            "coins": 0,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 09 (2022-03-26 17-10-29)": {
+            "coins": 0,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        },
+        "Round 10 (2022-03-26 17-10-30)": {
+            "coins": 1,
+            "kills": 0,
+            "steps": 400,
+            "suicides": 0
+        }
+    }
+}
