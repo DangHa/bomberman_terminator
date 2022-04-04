@@ -4,12 +4,19 @@ import pickle
 from typing import List
 
 import events as e
-from .callbacks import ACTIONS, FEATURES, act, state_to_features
+from .callbacks import ACTIONS, FEATURES, act, state_to_features, feature_for_all_action
 
 import numpy as np
 
 # Events
-PLACEHOLDER_EVENT = "PLACEHOLDER"
+MOVED_INTO_WALL_CRATE = "MOVED_INTO_WALL_CRATE"
+DROPPED_BOMB = "DROPPED_BOMB"
+WAITED = "WAITED"
+CONTINUED_ACTION_LOOP = "CONTINUED_ACTION_LOOP"
+RAN_TOWARDS_CLOSEST_COIN = "RAN_TOWARDS_CLOSEST_COIN"
+RAN_AWAY_FROM_CLOSEST_COIN = "RAN_AWAY_FROM_CLOSEST_COIN"
+DROPPED_BOMB_IN_RANGE_OF_CRATE = "DROPPED_BOMB_IN_RANGE_OF_CRATE"
+RAN_TOWARDS_CLOSEST_CRATE = "RAN_TOWARDS_CLOSEST_CRATE"
 
 
 def setup_training(self):
@@ -20,10 +27,18 @@ def setup_training(self):
 
     :param self: This object is passed to all callbacks and you can set arbitrary values.
     """
+
+    #hyper_params
+    self.epsilon = 0.1 #0.95   EPSILON must be defined in callbacks.py bc in tournament train.py is not called? (do later) 
+    self.alpha = 0.2 #0.8
+    self.gamma = 0.9 #0.5
+
+    self.logger.info("TRAINING SETUP successful")
+
     self.batch_size = 10
     self.batch_content = np.zeros(len(ACTIONS), dtype=int)
-    self.s_batch = np.zeros([len(ACTIONS),self.batch_size,len(FEATURES)])
-    self.y_batch = np.zeros([len(ACTIONS),self.batch_size])
+    self.s_batch = np.zeros([len(ACTIONS), self.batch_size, FEATURES])
+    self.y_batch = np.zeros([len(ACTIONS), self.batch_size])
     self.gamma = 0.05
     self.logger.info("Training setup.")
 
@@ -46,11 +61,47 @@ def game_events_occurred(self, old_game_state: dict, self_action: str, new_game_
     self.logger.debug(f'Encountered game event(s) {", ".join(map(repr, events))} in step {new_game_state["step"]}')
     self.logger.debug("Attempted action: {}".format(self_action))
 
-    if old_game_state is None:
-        self.logger.debug("Model was not updated, because old_game_state is None.")
+    if state_to_features(old_game_state, self_action, self) is not None:
 
-    else:
-        add_to_batch(self,old_game_state,self_action,new_game_state,events)
+        if self.action_loop_result_before_taken_action != 0:
+            self.a = 1
+        else:
+            self.a = 0
+
+        self.logger.info(f"Value of a: {self.a}")
+
+        #define events here:
+        if state_to_features(old_game_state, self_action, self)[1] != 0:
+            events.append(MOVED_INTO_WALL_CRATE)
+
+        if self.a != 0:
+            self.logger.info(f"Added event 'CONTINUED_ACTION_LOOP' with a= {self.a}")
+            events.append(CONTINUED_ACTION_LOOP)
+
+        if state_to_features(old_game_state, self_action, self)[3] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_COIN)
+
+        if state_to_features(old_game_state, self_action, self)[4] != 0:
+            events.append(RAN_AWAY_FROM_CLOSEST_COIN)
+
+        if state_to_features(old_game_state, self_action, self)[5] != 0:
+            events.append(DROPPED_BOMB_IN_RANGE_OF_CRATE)
+
+        if state_to_features(old_game_state, self_action, self)[6] != 0:
+            events.append(RAN_TOWARDS_CLOSEST_CRATE)
+
+        #only for coin heaven stage
+        if state_to_features(old_game_state, self_action, self)[-2] != 0:
+            events.append(DROPPED_BOMB)
+        if state_to_features(old_game_state, self_action, self)[-1] != 0:
+            events.append(WAITED)
+
+        print("EVENT: ", events)
+
+        #clac R
+        R = reward_from_events(self, events)
+
+        add_to_batch(self, old_game_state, self_action, new_game_state,events, R)
 
     train_forest(self)
 
@@ -76,7 +127,7 @@ def end_of_round(self, last_game_state: dict, last_action: str, events: List[str
             self.forests[i].n_estimators += 1
             self.forests[i].fit(self.s_batch[i][:self.batch_content[i]],self.y_batch[i][:self.batch_content[i]])
             self.logger.debug("Forest {} was trained.".format(i))
-            self.s_batch[i] = np.zeros([self.batch_size,len(FEATURES)])
+            self.s_batch[i] = np.zeros([self.batch_size, FEATURES])
             self.y_batch[i] = np.zeros(self.batch_size)
             self.batch_content[i] = 0
 
@@ -93,30 +144,32 @@ def reward_from_events(self, events: List[str]) -> int:
     """
     #MODIFY THE FOLLOWING REWARDS
     game_rewards = {
-        e.MOVED_LEFT: 5,
-        e.MOVED_RIGHT: 5,
-        e.MOVED_UP: 5,
-        e.MOVED_DOWN: 5,
+        e.MOVED_LEFT: 0,
+        e.MOVED_RIGHT: 0,
+        e.MOVED_UP: 0,
+        e.MOVED_DOWN: 0,
 
-        e.WAITED: -3,
-        e.INVALID_ACTION: -5,
-
-        e.BOMB_DROPPED: -10,
-        e.BOMB_EXPLODED: 0,
+        e.WAITED: -5,
+        e.INVALID_ACTION: 0,
+        e.BOMB_DROPPED: 0,
 
         e.CRATE_DESTROYED: 0,
         e.COIN_FOUND: 0,
-        e.COIN_COLLECTED:0,
+        e.COIN_COLLECTED: 5,
 
-        e.KILLED_OPPONENT: 0,
-        e.OPPONENT_ELIMINATED: 0,
+        MOVED_INTO_WALL_CRATE: -50, #has to be more penalty than 'continued action loop'
+        CONTINUED_ACTION_LOOP: -15,
+        RAN_TOWARDS_CLOSEST_COIN: 5,
+        RAN_AWAY_FROM_CLOSEST_COIN: -7, #has to be more penalty than 'RAN_TOWARDS_CLOSEST_COIN' has reward, to avoid loop (? unsure)
+                                        #but not so much penalty bc sometimes agent needs to go around wall
 
-        e.KILLED_SELF: 0,
-        e.GOT_KILLED: 0,
+        #what values should the rewards of coins vs crates have???
+        DROPPED_BOMB_IN_RANGE_OF_CRATE: 30, #higher than running towards crate
+        RAN_TOWARDS_CLOSEST_CRATE:  10, #higher than running towards coin ???? (for 2nd stage only)
 
-        e.SURVIVED_ROUND: 0,
-
-        PLACEHOLDER_EVENT: 0  
+        # #only needed for coin heaven stage
+        DROPPED_BOMB: -20,
+        WAITED: -5,
     }
     reward_sum = 0
     for event in events:
@@ -129,19 +182,21 @@ def action_to_index(action: str):
     return ACTIONS.index(action)
 
 def y_function(self, R, new_game_state):
-    s_new = state_to_features(self,new_game_state)
-    Y = np.array([self.forests[i].predict(s_new.reshape(1, -1))[0] for i in range(len(ACTIONS))])
+    features_for_all_actions = feature_for_all_action(new_game_state, self)
+
+    Y = np.array([self.forests[i].predict(features_for_all_actions.reshape(1, -1))[0] for i in range(len(ACTIONS))])
     self.logger.debug("Training: New target value Y was calculated to {}".format(R+self.gamma*np.max(Y)))
     return R+self.gamma*np.max(Y)
 
-def add_to_batch(self, old_game_state: dict, self_action: str, new_game_state: dict, events: List[str]):
+def add_to_batch(self, old_game_state: dict, self_action: str, new_game_state: dict, events: List[str], R):
     action_index = action_to_index(self_action)
-    R = reward_from_events(self,events)
-    s = state_to_features(self,old_game_state)
+    s = feature_for_all_action(old_game_state, self)
     Y = y_function(self, R, new_game_state) 
+
     self.s_batch[action_index][self.batch_content[action_index]] = s
     self.y_batch[action_index][self.batch_content[action_index]] = Y
     self.batch_content[action_index] += 1
+
     self.logger.debug("New state s and target Y added to batch")
 
 def train_forest(self):
@@ -149,11 +204,8 @@ def train_forest(self):
         action_index = np.where(self.batch_content==self.batch_size)[0][0]
         self.logger.debug("Maximum batch size reached for action {}".format(action_index))
         self.forests[action_index].n_estimators += 1
-        self.forests[action_index].fit(self.s_batch[action_index],self.y_batch[action_index])
+        self.forests[action_index].fit(self.s_batch[action_index], self.y_batch[action_index])
         self.logger.debug("Forest {} was trained.".format(action_index))
-        self.s_batch[action_index] = np.zeros([self.batch_size,len(FEATURES)])
+        self.s_batch[action_index] = np.zeros([self.batch_size, FEATURES])
         self.y_batch[action_index] = np.zeros(self.batch_size)
         self.batch_content[action_index] = 0
-
-
-
